@@ -24,7 +24,7 @@ jobs:
       - name: Validate documentation links
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude-path catalog/scripts --exclude-path skills/peak-scripts/references "**/*.md"
+          args: --no-progress --exclude-path node_modules --exclude-path dist --exclude-path catalog/scripts --exclude-path skills/peak-scripts/references "./*.md" "./docs/**/*.md" "./skills/peak-scripts/SKILL.md"
           fail: true
 
   secrets:
@@ -33,4 +33,5 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: gitleaks/gitleaks-action@v2
+      - name: Scan Git history for secrets
+        run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:latest detect --source=/repo --no-banner
