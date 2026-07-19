@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "toolkitVersion": "1.0.0",
-  "generatedAt": "2026-07-19T01:44:54Z",
+  "toolkitVersion": "1.1.0",
+  "generatedAt": "2026-07-19T02:50:10Z",
   "organization": "Peak-Studios",
   "scripts": [
     {
@@ -75,6 +75,193 @@
           "title": "Requirements",
           "content": "## Requirements\n\n- FiveM artifact with Lua 5.4 enabled.\n- `ox_lib` started before `peak-bridge`.\n- A supported framework/inventory/SQL resource only if the matching feature is used.",
           "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        }
+      ]
+    },
+    {
+      "id": "peak-barbers",
+      "name": "peak-barbers",
+      "description": "Peak Barbers FiveM barbershop resource",
+      "repository": "https://github.com/Peak-Studios/peak-barbers",
+      "license": "MIT",
+      "defaultBranch": "main",
+      "sourceCommit": "8e7a96923e36752e03b003e2b58de0d00f85512b",
+      "updatedAt": "2026-07-19T02:50:10Z",
+      "frameworks": [],
+      "dependencies": [
+        "ox_target",
+        "qb-target",
+        "peak-bridge"
+      ],
+      "capabilities": [],
+      "sections": [
+        {
+          "id": "peak-barbers-1",
+          "title": "Peak Barbers",
+          "content": "# Peak Barbers\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://dsc.gg/peakstudios)\n\nPeak Barbers is a FiveM barbershop resource with GTA chair scenario seating, barber NPC animations, live appearance preview, `peak-bridge` integration, and a React + TypeScript NUI.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "features-2",
+          "title": "Features",
+          "content": "## Features\n\n- Native GTA chair scenario seating with camera setup and cleanup\n- Temporary barber NPC and scissors prop during sessions\n- Hair, beard, eyebrow, eye color, and makeup controls\n- Live preview with save on payment or rollback on cancel\n- ESX, QBCore, and Qbox support through `peak-bridge`\n- Appearance save/reload support through `peak-bridge`\n- `ox_target`, `qb-target`, `qtarget`, or marker interaction modes\n- Localized UI strings in English, French, Spanish, and Arabic\n- Built NUI included in `ui/dist`\n- Configurable side-docked NUI offsets, chair placement, and camera framing\n- Server-authoritative chair IDs, single-chair reservations, and proximity validation",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "dependencies-3",
+          "title": "Dependencies",
+          "content": "## Dependencies\n\nRequired:\n\n- A supported framework: `es_extended`, `qb-core`, or `qbx_core`\n- `peak-bridge`\n- A supported appearance resource configured in `peak-bridge`: `illenium-appearance`, `fivem-appearance`, `qb-clothing`, `rcore_clothing`, or `skinchanger`\n\nOptional, based on configuration:\n\n- `ox_target`, `qb-target`, or `qtarget`",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "installation-4",
+          "title": "Installation",
+          "content": "## Installation\n\nFor a step-by-step beginner setup, read [INSTALL.md](INSTALL.md).",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "ai-first-setup-5",
+          "title": "AI-First Setup",
+          "content": "### AI-First Setup\n\n1. Open [PROMPT.md](PROMPT.md).\n2. Paste it into your AI coding assistant.\n3. Let it inspect your server resources and update [shared/config.lua](shared/config.lua).",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "manual-setup-6",
+          "title": "Manual Setup",
+          "content": "### Manual Setup\n\n1. Place this folder in your resources directory as `peak-barbers`.\n2. Ensure `peak-bridge` is installed and configured for your framework and appearance resource.\n3. Open [shared/config.lua](shared/config.lua) and set `Config.InteractionType`.\n4. Ensure dependencies before this resource:\n\n```cfg\nensure es_extended\nensure illenium-appearance\nensure ox_target\nensure peak-bridge\nensure peak-barbers\n```\n\nUse your own framework, appearance, and target resource names if different.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "configuration-7",
+          "title": "Configuration",
+          "content": "## Configuration\n\n- [INSTALL.md](INSTALL.md): beginner setup guide with framework examples and common fixes.\n- [docs/documentation.md](docs/documentation.md): full configuration and release notes.\n- [shared/config.lua](shared/config.lua): main beginner-friendly config, pricing, target mode, UI placement, chair placement, camera framing, and shop locations.\n- [locales](locales): language files used by the UI and notifications.\n- [client/bridge.lua](client/bridge.lua): thin client-side wrapper around `peak-bridge`.\n- [server/bridge.lua](server/bridge.lua): thin server-side wrapper around `peak-bridge`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "ui-development-8",
+          "title": "UI Development",
+          "content": "## UI Development\n\nThe source NUI is in [ui](ui). Rebuild it after frontend changes:\n\n```powershell\ncd ui\nnpm install\nnpm run build\n```\n\nThe manifest loads `ui/dist/index.html`. Keep `ui/dist` in release archives and do not include `ui/node_modules`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "publishing-notes-9",
+          "title": "Publishing Notes",
+          "content": "## Publishing Notes\n\n- Do not publish `ui/node_modules`.\n- Keep `ui/dist` packaged so server owners can drag and drop the resource.\n- Include [INSTALL.md](INSTALL.md), [CHANGELOG.md](CHANGELOG.md), [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).\n- Review default shop coordinates and price before releasing a server-specific fork.\n- Keep framework-specific customizations inside the bridge files where possible.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "contributing-10",
+          "title": "Contributing",
+          "content": "## Contributing\n\nContributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/README.md"
+        },
+        {
+          "id": "peak-barbers-installation-1",
+          "title": "Peak Barbers Installation",
+          "content": "# Peak Barbers Installation\n\nThis guide is for server owners who want the fastest safe setup.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "1-copy-the-resource-2",
+          "title": "1. Copy the Resource",
+          "content": "## 1. Copy the Resource\n\nPut the folder in your FiveM resources directory:\n\n```text\nresources/[peak]/peak-barbers\n```\n\nThe folder name must stay `peak-barbers` unless you also update references and rebuild the release.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "2-confirm-dependencies-3",
+          "title": "2. Confirm Dependencies",
+          "content": "## 2. Confirm Dependencies\n\nYou need one framework:\n\n- `es_extended`\n- `qb-core`\n- `qbx_core`\n\nYou need one appearance resource:\n\n- `illenium-appearance`\n- `fivem-appearance`\n- `qb-clothing`\n\nYou also need:\n\n- `peak-bridge`\n\nOptional target resources:\n\n- `ox_target`\n- `qb-target`\n- `qtarget`\n\nIf you do not use a target resource, set `Config.InteractionType = \"marker\"`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "3-edit-config-4",
+          "title": "3. Edit Config",
+          "content": "## 3. Edit Config\n\nOpen `shared/config.lua` and set:\n\n```lua\nConfig.InteractionType = \"ox_target\"\nConfig.Price = 75\nConfig.Locale = \"en\"\n```\n\nConfigure your framework and appearance resource in `peak-bridge/shared/config.lua`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "4-add-to-server-cfg-5",
+          "title": "4. Add to server.cfg",
+          "content": "## 4. Add to server.cfg\n\nExample ESX setup:\n\n```cfg\nensure es_extended\nensure illenium-appearance\nensure ox_target\nensure peak-bridge\nensure peak-barbers\n```\n\nExample QBCore setup:\n\n```cfg\nensure qb-core\nensure qb-clothing\nensure qb-target\nensure peak-bridge\nensure peak-barbers\n```\n\nExample Qbox setup:\n\n```cfg\nensure qbx_core\nensure illenium-appearance\nensure ox_target\nensure peak-bridge\nensure peak-barbers\n```",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "5-test-in-game-6",
+          "title": "5. Test In Game",
+          "content": "## 5. Test In Game\n\n1. Restart your server.\n2. Go to a configured barber shop blip.\n3. Use a chair.\n4. Change hair or overlays.\n5. Press Confirm & Pay.\n6. Relog or reload skin to confirm the saved appearance persists.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "common-fixes-7",
+          "title": "Common Fixes",
+          "content": "## Common Fixes\n\n| Problem | Fix |\n| ------- | --- |\n| No interaction appears | Check `Config.InteractionType` and make sure the target resource is ensured before `peak-barbers`. |\n| UI opens but changes do not save | Check the appearance setting in `peak-bridge/shared/config.lua`. |\n| Player cannot pay | Make sure `peak-bridge` detects your framework cash account and `Config.Price` is not higher than the player's cash. |\n| No target dependency installed | Set `Config.InteractionType = \"marker\"`. |\n| Missing text | Check `Config.Locale` and add any custom keys to the matching file in `locales/`. |\n| Menu overlaps your HUD | Adjust `Config.MenuOffset.right`, `Config.MenuOffset.left`, or `Config.MenuOffset.top`. |\n| Player sits too high or low | Tune the chair vector's `z` value or `Config.ChairPlacement.standZOffset`, then restart the resource. |",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "updating-the-ui-8",
+          "title": "Updating the UI",
+          "content": "## Updating the UI\n\nOnly needed if you edit files in `ui/src`:\n\n```powershell\ncd ui\nnpm install\nnpm run build\n```\n\nKeep `ui/dist` in your release. Do not ship `ui/node_modules`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/INSTALL.md"
+        },
+        {
+          "id": "peak-barbers-documentation-1",
+          "title": "Peak Barbers Documentation",
+          "content": "# Peak Barbers Documentation\n\nPeak Barbers is a FiveM barbershop resource built for easy server installation and straightforward customization.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "quick-start-2",
+          "title": "Quick Start",
+          "content": "## Quick Start\n\n1. Put `peak-barbers` in your resources folder.\n2. Follow [../INSTALL.md](../INSTALL.md) for the beginner setup path.\n3. Configure [../shared/config.lua](../shared/config.lua).\n4. Ensure your framework, appearance resource, optional target resource, `peak-bridge`, then `peak-barbers`.\n\nExample:\n\n```cfg\nensure es_extended\nensure illenium-appearance\nensure ox_target\nensure peak-bridge\nensure peak-barbers\n```",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "main-config-3",
+          "title": "Main Config",
+          "content": "## Main Config\n\nEdit [../shared/config.lua](../shared/config.lua).\n\n| Setting | Description |\n| ------- | ----------- |\n| `Config.Locale` | Active locale from the `locales` folder |\n| `Config.InteractionType` | `ox_target`, `qb-target`, `qtarget`, or `marker` |\n| `Config.Price` | Cash price charged when a player confirms changes |\n| `Config.BarberModel` | NPC model spawned during a session |\n| `Config.MenuPosition` | `left` or `right` |\n| `Config.MenuOffset` | Pixel offsets used to dock the NUI away from the screen edge |\n| `Config.ShowKeyHints` | Shows or hides the bottom keyboard hint bar |\n| `Config.UIColors` | Accent colors for the NUI |\n| `Config.ChairPlacement` | Scenario seating, camera, and exit placement tuning |\n| `Config.Positions` | Shop blips and chair coordinates |",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "chair-and-ui-placement-4",
+          "title": "Chair And UI Placement",
+          "content": "## Chair And UI Placement\n\n`Config.ChairPlacement` controls how the player enters the GTA seated chair scenario. The default placement follows the foltone barbershop approach: each chair is a `vector4`, the seated scenario starts at `z + standZOffset`, and the scenario heading is the chair heading minus 180 degrees. Use `forwardOffset`, `rightOffset`, `standZOffset`, and `headingOffset` only when a map/interior needs small corrections. Camera values in the same table control how the face and hair are framed while the NUI is open.\n\n`Config.MenuPosition = \"right\"` docks the NUI on the right side by default. Adjust `Config.MenuOffset.right`, `Config.MenuOffset.left`, or `Config.MenuOffset.top` if your server HUD overlaps the barber menu.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "interaction-modes-5",
+          "title": "Interaction Modes",
+          "content": "## Interaction Modes\n\nUse `ox_target`, `qb-target`, or `qtarget` if your server already runs a target system.\n\nUse `marker` for a dependency-light setup. Marker mode draws a marker at each configured chair and uses the normal interact key.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "framework-bridge-6",
+          "title": "Framework Bridge",
+          "content": "## Framework Bridge\n\nFramework-specific behavior is handled by `peak-bridge`. `peak-barbers` keeps thin compatibility wrappers in:\n\n- [../client/bridge.lua](../client/bridge.lua)\n- [../server/bridge.lua](../server/bridge.lua)\n\nCustomize `peak-bridge` for non-standard frameworks, custom notification systems, or custom money handling.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "appearance-saving-7",
+          "title": "Appearance Saving",
+          "content": "## Appearance Saving\n\nOn confirm, the script charges the configured price and saves the current appearance through `peak-bridge`.\n\nOn cancel or close, the script reloads the previous skin and releases the chair.\n\nIf `Config.Price` is `0`, the confirmation flow saves for free.\n\nChair reservations and payment eligibility are validated server-side. A player can reserve only one configured chair and must be within 5 meters of it when starting a session.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "adding-shops-8",
+          "title": "Adding Shops",
+          "content": "## Adding Shops\n\nAdd a new entry to `Config.Positions`:\n\n```lua\n{\n    pos = vector3(0.0, 0.0, 0.0),\n    blip = { sprite = 71, color = 47, scale = 0.8, name = \"Barber Shop\" },\n    chairs = {\n        vector4(0.0, 0.0, 0.0, 0.0),\n    },\n}\n```\n\n`pos` controls the map blip. `chairs` controls where players can sit. A chair can be a simple `vector4` matching the in-world chair position and heading, or a table with `target`, `stand`, `exit`, and optional `camera`, `barberSpawn`, and `barberWork` values for fully custom seating.\n\nSimple `vector4` chairs are the default path and should match the chair coordinates directly. For custom interiors, tune `target`, `stand`, and `exit` values only when the vector4 placement is not enough. Set `Config.Debug = true` to print which chairs are using custom table placement versus the default vector4 approach.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "ui-development-9",
+          "title": "UI Development",
+          "content": "## UI Development\n\nThe UI source is React + TypeScript in [../ui](../ui).\n\n```powershell\ncd ui\nnpm install\nnpm run build\n```\n\nKeep `ui/dist` in releases. Do not publish `ui/node_modules`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
+        },
+        {
+          "id": "release-checklist-10",
+          "title": "Release Checklist",
+          "content": "## Release Checklist\n\n- `fxmanifest.lua` loads the correct files.\n- `ui/dist` exists after running `npm run build`.\n- `README.md`, `INSTALL.md`, `CHANGELOG.md`, `LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, and `version.json` are included.\n- No private credentials, webhook URLs, or server-specific secrets are included.\n- Default config values are documented and beginner friendly.\n- `ui/node_modules` is excluded from the release archive.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-barbers/blob/8e7a96923e36752e03b003e2b58de0d00f85512b/docs/documentation.md"
         }
       ]
     },

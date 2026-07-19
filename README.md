@@ -18,6 +18,7 @@ The production URL may change to a Peak-controlled domain. The Vercel URL remain
 | Script | Public repository |
 | --- | --- |
 | peak-bridge | https://github.com/Peak-Studios/peak-bridge |
+| peak-barbers | https://github.com/Peak-Studios/peak-barbers |
 | peak-chess | https://github.com/Peak-Studios/peak-chess |
 | peak-clothingitems | https://github.com/Peak-Studios/peak-clothingitems |
 | peak-sprays | https://github.com/Peak-Studios/peak-sprays |
