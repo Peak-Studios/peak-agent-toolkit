@@ -4,6 +4,7 @@
   "description": "Public MCP server and agent skills for Peak Studios FiveM scripts",
   "license": "MIT",
   "type": "module",
+  "main": "server.ts",
   "files": ["dist", "catalog", "skills", "adapters"],
   "scripts": {
     "build": "npm run generate && tsc -p tsconfig.json",

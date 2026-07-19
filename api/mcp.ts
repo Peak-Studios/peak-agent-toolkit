@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { NodeStreamableHTTPServerTransport } from "@modelcontextprotocol/node";
-import { createPeakServer } from "../src/server.js";
+import { createPeakServer } from "../src/mcp-server.js";
 import { allowRequest } from "../src/rate-limit.js";
 
 const allowedOrigins = new Set((process.env.ALLOWED_ORIGINS ?? "https://peakrp.net").split(",").map((value) => value.trim()).filter(Boolean));

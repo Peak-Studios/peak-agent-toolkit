@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { catalog, filterScripts, findScript, searchCatalog } from "../src/catalog.js";
-import { createPeakServer } from "../src/server.js";
+import { createPeakServer } from "../src/mcp-server.js";
 
 describe("public catalog", () => {
   it("contains exactly the approved scripts", () => {
