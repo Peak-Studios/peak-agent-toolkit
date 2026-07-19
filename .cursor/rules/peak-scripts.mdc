@@ -1,0 +1,8 @@
+---
+description: Use public Peak Studios documentation when modifying Peak FiveM scripts
+globs: "**/{peak-bridge,peak-chess,peak-clothingitems,peak-sprays,peak-trucking}/**/*"
+alwaysApply: false
+---
+
+Use the Peak Studios MCP server at https://peak-agent-toolkit.vercel.app/mcp or catalog/catalog.json.
+Inspect the installed version before editing. Cite indexed public documentation, label inference, preserve optional dependencies, and never invent exports, events, configuration keys, or private implementation details.

@@ -1,0 +1,19 @@
+{
+  "organization": "Peak-Studios",
+  "repositories": [
+    "peak-bridge",
+    "peak-chess",
+    "peak-clothingitems",
+    "peak-sprays",
+    "peak-trucking"
+  ],
+  "approvedFiles": [
+    "README.md",
+    "INSTALL.md",
+    "INSTALLATION.md",
+    "CONFIGURATION.md",
+    "API.md",
+    "TROUBLESHOOTING.md",
+    "docs/documentation.md"
+  ]
+}

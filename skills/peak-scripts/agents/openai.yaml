@@ -1,0 +1,11 @@
+interface:
+  display_name: "Peak Scripts"
+  short_description: "Configure Peak Studios FiveM scripts"
+  default_prompt: "Use $peak-scripts to configure this Peak Studios resource for my server using cited public documentation."
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "peak-studios"
+      description: "Public Peak Studios script documentation"
+      transport: "streamable_http"
+      url: "https://peak-agent-toolkit.vercel.app/mcp"

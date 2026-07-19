@@ -1,0 +1,900 @@
+[
+  {
+    "id": "peak-bridge",
+    "name": "peak-bridge",
+    "description": "Shared FiveM bridge for Peak resources",
+    "repository": "https://github.com/Peak-Studios/peak-bridge",
+    "license": "MIT",
+    "defaultBranch": "main",
+    "sourceCommit": "f581b7a1f8e55678d19025d346627f71aa79764c",
+    "updatedAt": "2026-05-24T01:00:24Z",
+    "frameworks": [
+      "ESX",
+      "QBCore",
+      "Qbox",
+      "standalone"
+    ],
+    "dependencies": [
+      "ox_lib",
+      "ox_target",
+      "qb-target",
+      "ox_inventory",
+      "oxmysql",
+      "peak-bridge"
+    ],
+    "capabilities": [
+      "framework bridge",
+      "notifications",
+      "identity",
+      "economy"
+    ],
+    "sections": [
+      {
+        "id": "peak-bridge-1",
+        "title": "peak-bridge",
+        "content": "# peak-bridge\n\n`peak-bridge` is the shared integration layer for future Peak resources. It centralizes framework, inventory, SQL, callback, money, notification, progress, text UI, and appearance bridge logic so new scripts do not copy the same code.\n\n`peak-barbers` now depends on this bridge, and new Peak resources should use it instead of copying local framework bridge logic.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      },
+      {
+        "id": "load-order-2",
+        "title": "Load Order",
+        "content": "## Load Order\n\n```cfg\nensure ox_lib       # required by peak-bridge for lib.notify/progress/text UI support\nensure oxmysql      # optional, needed only when SQL is oxmysql\nensure peak-bridge\nensure peak-your-resource\n```\n\nFuture Peak resources should add:\n\n```lua\ndependency 'peak-bridge'\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      },
+      {
+        "id": "configuration-3",
+        "title": "Configuration",
+        "content": "## Configuration\n\nEdit `shared/config.lua`.\n\n- `PeakBridgeConfig.Framework`: `auto`, `qbox`, `qbx`, `qbcore`, `esx`, `ox`, `vrp`, `standalone`\n- `PeakBridgeConfig.Inventory`: `auto`, `ox_inventory`, `qb-inventory`, `qb_inventory`, `ps-inventory`, `qs-inventory`, `qs_inventory`, `codem-inventory`, `gfx-inventory`, `esx_inventory`, `none`\n- `PeakBridgeConfig.SQL`: `auto`, `oxmysql`, `ghmattimysql`, `mysql-async`, `none`\n- `PeakBridgeConfig.Notify`: `auto`, `ox_lib`, `qb-core`, `esx`, `native`\n- `PeakBridgeConfig.Target`: `auto`, `ox_target`, `qb-target`, `none`\n- `PeakBridgeConfig.Progress`: `auto`, `ox_lib`, `progressbar`, `wait`\n- `PeakBridgeConfig.Appearance`: `auto`, `illenium-appearance`, `fivem-appearance`, `qb-clothing`, `rcore_clothing`, `rcore_clothes`, `skinchanger`, `none`\n\nAliases are normalized internally, so `qbx` becomes `qbox`, `qb_inventory` becomes `qb-inventory`, `qs_inventory` becomes `qs-inventory`, and `rcore_clothes` becomes `rcore_clothing`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      },
+      {
+        "id": "server-exports-4",
+        "title": "Server Exports",
+        "content": "## Server Exports\n\n```lua\nlocal bridge = exports['peak-bridge']\n\nlocal ready = bridge:IsReady()\nlocal frameworkName = bridge:GetFrameworkName()\nlocal framework = bridge:GetFramework()\nlocal inventoryName = bridge:GetInventoryName()\nlocal sqlDriver = bridge:GetSQLDriver()\n\nlocal player = bridge:GetPlayer(source)\nlocal identifier = bridge:GetIdentifier(source)\nlocal name = bridge:GetPlayerName(source)\n\nbridge:AddMoney(source, 500, 'cash', 'job payout')\nbridge:RemoveMoney(source, 75, 'cash', 'purchase')\nlocal cash = bridge:GetMoney(source, 'cash')\n\nbridge:AddItem(source, 'water', 1, { quality = 100 })\nbridge:RemoveItem(source, 'water', 1)\nlocal count = bridge:GetItemCount(source, 'water')\nlocal hasItem = bridge:HasItem(source, 'water', 1)\n\nbridge:RegisterUsableItem('water', function(source, item, itemData)\n    -- handle item use\nend)\n\nbridge:RegisterCallback('my-resource:getData', function(source, id)\n    return { id = id }\nend)\n\nlocal isAdmin = bridge:IsAdmin(source, {\n    ace = 'command.myadmin',\n    groups = { 'admin', 'god' },\n})\n\nlocal rows = bridge:ExecuteSql('SELECT * FROM users WHERE identifier = ?', { identifier })\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      },
+      {
+        "id": "client-exports-5",
+        "title": "Client Exports",
+        "content": "## Client Exports\n\n```lua\nlocal bridge = exports['peak-bridge']\n\nlocal ready = bridge:IsReady()\nlocal frameworkName = bridge:GetFrameworkName()\nlocal framework = bridge:GetFramework()\n\nlocal data = bridge:GetPlayerData()\nlocal job = bridge:GetPlayerJob()\n\nlocal result = bridge:TriggerCallback('my-resource:getData', 123)\n\nbridge:Notify('Saved', 'success', 5000, 'Peak')\nlocal completed = bridge:ProgressBar('Working...', 5000, {\n    dict = 'amb@world_human_hammering@male@base',\n    anim = 'base',\n    disableMove = true,\n    disableCombat = true,\n})\n\nbridge:ShowTextUI('[E] Interact', 'right-center')\nbridge:HideTextUI()\n\nlocal appearance = bridge:GetAppearance()\nbridge:SaveAppearance()\nbridge:ReloadAppearance()\n\nlocal model = bridge:LoadModel('s_m_m_trucker_01')\nbridge:LoadAnimDict('missheistdockssetup1clipboard@base')\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      },
+      {
+        "id": "callback-transport-6",
+        "title": "Callback Transport",
+        "content": "## Callback Transport\n\nCallbacks use `peak-bridge` events:\n\n- `peak-bridge:server:triggerCallback`\n- `peak-bridge:client:callbackResponse`\n\nNew scripts only need `RegisterCallback` on the server and `TriggerCallback` on the client.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      },
+      {
+        "id": "requirements-7",
+        "title": "Requirements",
+        "content": "## Requirements\n\n- FiveM artifact with Lua 5.4 enabled.\n- `ox_lib` started before `peak-bridge`.\n- A supported framework/inventory/SQL resource only if the matching feature is used.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+      }
+    ]
+  },
+  {
+    "id": "peak-chess",
+    "name": "peak-chess",
+    "description": "# Peak Chess  ![Peak Chess — 3D Multiplayer Chess, Open Source](docs/images/peak-chess-thumbnail.png)",
+    "repository": "https://github.com/Peak-Studios/peak-chess",
+    "license": "MIT",
+    "defaultBranch": "main",
+    "sourceCommit": "2e2378d97f1ea9099494045ca98c849f1a4c333e",
+    "updatedAt": "2026-07-19T01:44:54Z",
+    "frameworks": [
+      "ESX",
+      "QBCore",
+      "Qbox",
+      "standalone"
+    ],
+    "dependencies": [
+      "ox_lib",
+      "ox_target",
+      "qb-target",
+      "bzzz_chess",
+      "peak-bridge"
+    ],
+    "capabilities": [
+      "PvP chess",
+      "AI chess",
+      "spectating",
+      "wagers"
+    ],
+    "sections": [
+      {
+        "id": "peak-chess-1",
+        "title": "Peak Chess",
+        "content": "# Peak Chess\n\n![Peak Chess — 3D Multiplayer Chess, Open Source](docs/images/peak-chess-thumbnail.png)\n\n<p align=\"center\">\n  <strong>Playable 3D chess tables for FiveM — PvP, AI, spectators, wagers, and a fully open-source NUI.</strong>\n</p>\n\n<p align=\"center\">\n  <a href=\"LICENSE\"><img alt=\"MIT license\" src=\"https://img.shields.io/badge/license-MIT-f0b35a.svg\"></a>\n  <a href=\"version.json\"><img alt=\"Version 1.1.0\" src=\"https://img.shields.io/badge/version-1.1.0-171923.svg\"></a>\n  <a href=\"https://github.com/Peak-Studios/peak-chess\"><img alt=\"GitHub\" src=\"https://img.shields.io/badge/source-GitHub-f4f0e6.svg\"></a>\n  <a href=\"https://dsc.gg/peakstudios\"><img alt=\"Peak Studios Discord\" src=\"https://img.shields.io/badge/Discord-Peak%20Studios-5865F2.svg\"></a>\n</p>\n\nPeak Chess is a standalone-first FiveM chess resource built for real in-world matches. Players can sit at a 3D table, challenge another player or an AI opponent, spectate active games, wager through an optional framework integration, and play a fully validated game of chess without leaving the world.\n\nThe complete Lua, chess engine, integration layer, and React/Vite interface are released under the MIT license. No escrow. No required framework. No database.\n\nFull hosted documentation is available at [peakrp.net/docs/peak-chess](https://peakrp.net/docs/peak-chess).\n\n![Peak Chess gameplay and in-match HUD](docs/images/peak-chess-gameplay.png)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "features-2",
+        "title": "Features",
+        "content": "## Features\n\n- Complete chess rules: legal move validation, check, checkmate, stalemate, castling, en passant, promotion, resignation, and draw handling\n- Player-versus-player tables with seat selection and ready states\n- Configurable AI matches with easy, medium, and hard engine profiles\n- Spectator support for active tables\n- Optional cash wagers with server-side validation, payout, refund, and house-cut handling\n- Modern React/Vite NUI for the lobby, match HUD, promotion picker, and result state\n- Standalone operation with no mandatory framework, target system, database, or bridge\n- Optional `peak-bridge`, ESX, QBCore, and Qbox integrations\n- Optional `ox_target` and `qb-target` support\n- Dependency-free draw-text interaction available by default\n- Configurable tables, camera, seating, models, controls, sounds, markers, spotlights, AI profiles, and locale\n- English and French locales included\n- Server and client exports for integration with other resources\n- Restart-safe cleanup for spawned tables, chairs, pieces, cameras, peds, and NUI state",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "requirements-3",
+        "title": "Requirements",
+        "content": "## Requirements\n\n- A FiveM server using the `cerulean` FXv2 runtime\n- The `bzzz_chess` prop pack containing the configured table, board, chair, piece, and animation assets\n\nEverything else is optional. Peak Chess does not require SQL, `ox_lib`, a framework, a target resource, or `peak-bridge`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "installation-4",
+        "title": "Installation",
+        "content": "## Installation\n\n1. Download or clone this repository into your server resources as `peak-chess`.\n2. Install the `bzzz_chess` prop pack.\n3. Ensure the prop pack before Peak Chess in `server.cfg`:\n\n```cfg\nensure your_bzzz_chess_prop_pack\nensure peak-chess\n```\n\n4. Open [`shared/sh.lua`](shared/sh.lua) and configure your tables, framework mode, interaction system, wagers, and AI settings.\n5. Restart the server and approach a configured chess table.\n\nIf you use `peak-bridge`, load it first:\n\n```cfg\nensure peak-bridge\nensure your_bzzz_chess_prop_pack\nensure peak-chess\n```\n\nSee [INSTALL.md](INSTALL.md) for the complete setup walkthrough.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "configuration-5",
+        "title": "Configuration",
+        "content": "## Configuration\n\nThe main configuration lives in [`shared/sh.lua`](shared/sh.lua).\n\n```lua\nConfig.Locations = {\n    { coords = vec3(-1319.881348, -925.411011, 10.19995), heading = 104.881889, blip = true },\n}\n\nConfig.Target.system = 'drawtext' -- auto, ox_target, or qb-target\n\nConfig.Betting = {\n    enabled  = true,\n    account  = 'cash',\n    min      = 0,\n    max      = 50000,\n    presets  = { 0, 100, 500, 1000, 5000 },\n    houseCut = 0.0,\n    drawRefund = true,\n}\n```\n\nStandalone servers can always play zero-wager chess. Non-zero wagers are exposed only when a supported money provider is available.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "supported-integrations-6",
+        "title": "Supported Integrations",
+        "content": "## Supported Integrations\n\n| Category | Supported options |\n| --- | --- |\n| Framework / money | Standalone, `peak-bridge`, ESX, QBCore, Qbox |\n| Interaction | Draw text, `ox_target`, `qb-target` |\n| UI | React 19 + Vite, bundled locally for FiveM NUI |\n| Persistence | None required; matches are live server state |\n\nAutomatic framework detection prefers `peak-bridge`, then ESX, QBCore/Qbox, and finally standalone mode. Every gameplay payload is validated by the server; the browser UI is never treated as authoritative.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "controls-7",
+        "title": "Controls",
+        "content": "## Controls\n\n| Control | Action |\n| --- | --- |\n| `E` | Open or interact with a chess table |\n| Mouse | Aim at and select board squares |\n| Left click | Select a piece or legal destination |\n| Right click | Cancel the current selection |\n| `X` | Stand up / leave the table |\n| `Esc` | Close the lobby |\n\nControls are configurable in `Config.Target` and `Config.Interact`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "ui-development-8",
+        "title": "UI Development",
+        "content": "## UI Development\n\nThe editable NUI source is in [`web/src`](web/src). FiveM loads the compiled bundle from `web/build`.\n\n```powershell\ncd web\nnpm install\nnpm run build\n```\n\nBrowser-safe preview states are available during development:\n\n```text\nhttp://localhost:5173/?debug=lobby\nhttp://localhost:5173/?debug=hud\nhttp://localhost:5173/?debug=promotion\nhttp://localhost:5173/?debug=result\nhttp://localhost:5173/?debug=all\n```\n\nWhile any debug preview is open, press `1` for the lobby, `2` for the HUD, `3` for promotion, `4` for the result banner, or `5` for the combined state.\n\nKeep `web/build` in release archives and do not distribute `web/node_modules`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "documentation-9",
+        "title": "Documentation",
+        "content": "## Documentation\n\n- [Hosted Peak Chess documentation](https://peakrp.net/docs/peak-chess)\n- [Installation guide](INSTALL.md)\n- [Full configuration and API reference](docs/documentation.md)\n- [AI-assisted server setup prompt](PROMPT.md)\n- [Changelog](CHANGELOG.md)\n- [Security policy](SECURITY.md)\n- [Contributing guide](CONTRIBUTING.md)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "open-source-10",
+        "title": "Open Source",
+        "content": "## Open Source\n\nPeak Chess is licensed under the [MIT License](LICENSE). You can use it, inspect it, modify it, and submit improvements. Pull requests and reproducible bug reports are welcome.\n\nBuilt by [Peak Studios](https://github.com/Peak-Studios).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/README.md"
+      },
+      {
+        "id": "peak-chess-installation-1",
+        "title": "Peak Chess Installation",
+        "content": "# Peak Chess Installation\n\nThis guide installs `peak-chess` as a standalone FiveM resource. Framework, target, and bridge integrations are optional.\n\nThe latest hosted documentation is also available at [peakrp.net/docs/peak-chess](https://peakrp.net/docs/peak-chess).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "1-install-files-2",
+        "title": "1. Install Files",
+        "content": "## 1. Install Files\n\nPlace the resource at:\n\n```text\nresources/[peak]/peak-chess\n```\n\nThe folder name should remain `peak-chess` unless you also update every resource reference and NUI callback expectation.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "2-install-assets-3",
+        "title": "2. Install Assets",
+        "content": "## 2. Install Assets\n\nInstall the `bzzz_chess` prop pack and ensure it before `peak-chess`. The full 3D table experience expects these models and animations:\n\n- `bzzz_chess_table_a`\n- `bzzz_chess_board_a`\n- `bzzz_chess_chair_a`\n- `bzzz_chess_color_a1` through `bzzz_chess_color_a6`\n- `bzzz_chess_color_b1` through `bzzz_chess_color_b6`\n- `bzzz_chess_animations`",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "3-add-server-ensures-4",
+        "title": "3. Add Server Ensures",
+        "content": "## 3. Add Server Ensures\n\nStandalone server:\n\n```cfg\nensure your_bzzz_chess_prop_pack\nensure peak-chess\n```\n\nServer using `peak-bridge`:\n\n```cfg\nensure peak-bridge\nensure your_bzzz_chess_prop_pack\nensure peak-chess\n```\n\nOptional target resources such as `ox_target` and `qb-target` should start before `peak-chess` when used.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "4-configure-framework-mode-5",
+        "title": "4. Configure Framework Mode",
+        "content": "## 4. Configure Framework Mode\n\nOpen [shared/sh.lua](shared/sh.lua).\n\nBy default, `Shared.Framework.autoDetect = true`:\n\n1. Uses `peak-bridge` when the resource is started.\n2. Falls back to ESX when `es_extended` is started.\n3. Falls back to QBCore when `qb-core` is started.\n4. Falls back to Qbox when `qbx_core` is started.\n5. Uses standalone mode otherwise.\n\nManual framework selection is also supported:\n\n```lua\nShared.Framework = {\n    autoDetect = false,\n    PeakBridge = false,\n    ESX        = false,\n    QBCore     = false,\n    Qbox       = false,\n    Standalone = true,\n}\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "5-configure-tables-6",
+        "title": "5. Configure Tables",
+        "content": "## 5. Configure Tables\n\nEdit `Config.Locations` in [shared/sh.lua](shared/sh.lua):\n\n```lua\nConfig.Locations = {\n    { coords = vec3(-1319.881348, -925.411011, 10.19995), heading = 104.881889, blip = true },\n}\n```\n\nEach entry becomes a chess table. Table IDs are the array index, starting at `1`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "6-configure-interaction-7",
+        "title": "6. Configure Interaction",
+        "content": "## 6. Configure Interaction\n\n`drawtext` is the default and has no dependency:\n\n```lua\nConfig.Target.system = 'drawtext'\n```\n\nOptional values:\n\n- `auto`\n- `ox_target`\n- `qb-target`\n\nIf the configured target resource is missing, use `drawtext` or `auto`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "7-configure-wagers-8",
+        "title": "7. Configure Wagers",
+        "content": "## 7. Configure Wagers\n\nWagers are optional. Standalone mode always supports playable no-wager chess.\n\n```lua\nConfig.Betting = {\n    enabled  = true,\n    account  = 'cash',\n    min      = 0,\n    max      = 50000,\n    presets  = { 0, 100, 500, 1000, 5000 },\n    houseCut = 0.0,\n    drawRefund = true,\n}\n```\n\nNon-zero wagers require a money provider through `peak-bridge`, ESX, QBCore, or Qbox. Without a provider, the UI hides wager controls and the server sanitizes wager values to `0`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "8-configure-ai-9",
+        "title": "8. Configure AI",
+        "content": "## 8. Configure AI\n\nAI play is enabled by default:\n\n```lua\nConfig.AI.enabled = true\n```\n\nEach AI level has a search depth, randomness value, and move delay. Keep `Config.AI.maxThinkMs` conservative on busy servers.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "9-build-the-ui-10",
+        "title": "9. Build The UI",
+        "content": "## 9. Build The UI\n\nThe repository includes `web/build`, but run a fresh build after UI changes:\n\n```powershell\ncd web\nnpm install\nnpm run build\n```\n\nThe generated bundle must remain at `web/build/index.html` because `fxmanifest.lua` points there.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "10-validate-in-game-11",
+        "title": "10. Validate In Game",
+        "content": "## 10. Validate In Game\n\nCheck these flows after installation:\n\n- Start with no framework and no `peak-bridge`; confirm a zero-wager PvP game can be played.\n- Start with `peak-bridge`; confirm identity, notifications, and optional money integration work.\n- Start an AI game from the lobby.\n- Run a PvP ready flow from both seats.\n- Attempt an illegal move and confirm it is rejected.\n- Promote a pawn and confirm the promotion modal appears.\n- Test resignation, checkmate, stalemate, spectator mode, and resource restart cleanup.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/INSTALL.md"
+      },
+      {
+        "id": "peak-chess-documentation-1",
+        "title": "Peak Chess Documentation",
+        "content": "# Peak Chess Documentation\n\nThe hosted documentation is available at [peakrp.net/docs/peak-chess](https://peakrp.net/docs/peak-chess).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "overview-2",
+        "title": "Overview",
+        "content": "## Overview\n\n`peak-chess` provides playable chess tables for FiveM. It supports PvP, AI matches, spectators, optional wagers, and a React/Vite NUI. The runtime is standalone by default and does not require a framework, target system, database, or `peak-bridge`.\n\nThe full 3D chess table experience requires the `bzzz_chess` prop pack.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "screenshots-and-publication-assets-3",
+        "title": "Screenshots And Publication Assets",
+        "content": "## Screenshots And Publication Assets\n\nRelease-ready images live in `docs/images/`:\n\n- `peak-chess-thumbnail.png`: primary GitHub and Cfx.re forum thumbnail\n- `peak-chess-gameplay.png`: in-game board and active HUD screenshot\n\nThe repository README references both files. Keep the filenames stable so GitHub image links continue to work.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "resource-layout-4",
+        "title": "Resource Layout",
+        "content": "## Resource Layout\n\n```text\nclient/             Client gameplay, rendering, NUI, exports, framework wrappers\nserver/             Match lifecycle, validation, AI, betting, exports\nshared/             Config, locale, chess engine\nweb/src/            React + Vite NUI source\nweb/build/          Compiled NUI loaded by fxmanifest.lua\ndocs/               Long-form documentation\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "required-asset-5",
+        "title": "Required Asset",
+        "content": "## Required Asset\n\nInstall and ensure the `bzzz_chess` prop pack before `peak-chess`. The config expects table, board, chair, piece, and animation assets from that pack.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "optional-integrations-6",
+        "title": "Optional Integrations",
+        "content": "## Optional Integrations",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "framework-and-bridge-7",
+        "title": "Framework And Bridge",
+        "content": "### Framework And Bridge\n\n`Shared.Framework.autoDetect = true` checks resources in this order:\n\n1. `peak-bridge`\n2. `es_extended`\n3. `qb-core`\n4. `qbx_core`\n5. Standalone\n\n`peak-bridge` is optional. When it is started and ready, `peak-chess` uses it for framework detection, identity, money, and notifications. If it is absent, the resource falls back to local ESX/QBCore/Qbox wrappers or standalone behavior.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "target-system-8",
+        "title": "Target System",
+        "content": "### Target System\n\n`Config.Target.system` supports:\n\n- `drawtext`: default, no dependency\n- `auto`: detect a supported optional target\n- `ox_target`\n- `qb-target`\n\nUse `drawtext` for the most portable setup.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "betting-9",
+        "title": "Betting",
+        "content": "### Betting\n\nStandalone play works with wagers set to `0`. Non-zero wagers require a money provider through `peak-bridge`, ESX, QBCore, or Qbox.\n\nThe server sanitizes wagers and refuses economy movement without a money provider.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "core-config-10",
+        "title": "Core Config",
+        "content": "## Core Config",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "tables-11",
+        "title": "Tables",
+        "content": "### Tables\n\n```lua\nConfig.Locations = {\n    { coords = vec3(-1319.881348, -925.411011, 10.19995), heading = 104.881889, blip = true },\n}\n```\n\nEach entry creates one table. Table IDs are the array indexes.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "ai-12",
+        "title": "AI",
+        "content": "### AI\n\n```lua\nConfig.AI = {\n    enabled = true,\n    levels = {\n        { id = 'easy', depth = 2, randomness = 0.35, moveDelay = { 1800, 3500 } },\n        { id = 'medium', depth = 3, randomness = 0.12, moveDelay = { 2200, 4500 } },\n        { id = 'hard', depth = 4, randomness = 0.0, moveDelay = { 2800, 6000 } },\n    },\n    maxThinkMs = 1500,\n}\n```\n\nOnly configured AI level IDs are accepted by the server.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "server-events-13",
+        "title": "Server Events",
+        "content": "## Server Events\n\nThese are internal gameplay events. Payloads are validated server-side.\n\n```lua\nTriggerServerEvent('peak-chess:sit', tableId, 'white' or 'black')\nTriggerServerEvent('peak-chess:spectate', tableId)\nTriggerServerEvent('peak-chess:requestState', tableId)\nTriggerServerEvent('peak-chess:leave', tableId)\nTriggerServerEvent('peak-chess:startAI', tableId, 'white' or 'black', 'easy' or 'medium' or 'hard', bet)\nTriggerServerEvent('peak-chess:setReady', tableId, ready, bet)\nTriggerServerEvent('peak-chess:move', tableId, fromSquare, toSquare, promotionPiece)\nTriggerServerEvent('peak-chess:resign', tableId)\n```\n\nValid squares use chess notation from `a1` through `h8`. Valid promotion pieces are `q`, `r`, `b`, and `n`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "client-events-14",
+        "title": "Client Events",
+        "content": "## Client Events\n\n```lua\nRegisterNetEvent('peak-chess:self', function(data) end)\nRegisterNetEvent('peak-chess:sync', function(snapshot) end)\nRegisterNetEvent('peak-chess:gameover', function(data) end)\nRegisterNetEvent('peak-chess:lobbyState', function(snapshot) end)\nRegisterNetEvent('peak-chess:notify', function(message, kind) end)\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "server-exports-15",
+        "title": "Server Exports",
+        "content": "## Server Exports",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "getmatch-16",
+        "title": "GetMatch",
+        "content": "### GetMatch\n\n```lua\nlocal match = exports['peak-chess']:GetMatch(1)\n```\n\nReturns a sanitized match object or `nil`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "getplayermatch-17",
+        "title": "GetPlayerMatch",
+        "content": "### GetPlayerMatch\n\n```lua\nlocal data = exports['peak-chess']:GetPlayerMatch(source)\n```\n\nReturns `{ tableId, color, status }` when the player is seated, otherwise `nil`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "isplayeringame-18",
+        "title": "IsPlayerInGame",
+        "content": "### IsPlayerInGame\n\n```lua\nlocal inGame = exports['peak-chess']:IsPlayerInGame(source)\n```\n\nReturns `true` when the player is seated in a playing match.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "getactivematches-19",
+        "title": "GetActiveMatches",
+        "content": "### GetActiveMatches\n\n```lua\nlocal active = exports['peak-chess']:GetActiveMatches()\n```\n\nReturns an array of active playing matches.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "startaigame-20",
+        "title": "StartAIGame",
+        "content": "### StartAIGame\n\n```lua\nlocal ok = exports['peak-chess']:StartAIGame(source, 1, 'white', 'medium', 0)\n```\n\nStarts an AI game when the table, side, level, and wager are valid.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "forceendmatch-21",
+        "title": "ForceEndMatch",
+        "content": "### ForceEndMatch\n\n```lua\nlocal ok = exports['peak-chess']:ForceEndMatch(1, 'white')\n```\n\nForce-ends a playing match. `winnerColor` may be `white`, `black`, or `nil` for no winner.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "client-exports-22",
+        "title": "Client Exports",
+        "content": "## Client Exports",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "isseated-23",
+        "title": "IsSeated",
+        "content": "### IsSeated\n\n```lua\nlocal seated = exports['peak-chess']:IsSeated()\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "isingame-24",
+        "title": "IsInGame",
+        "content": "### IsInGame\n\n```lua\nlocal playing = exports['peak-chess']:IsInGame()\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "getcurrenttable-25",
+        "title": "GetCurrentTable",
+        "content": "### GetCurrentTable\n\n```lua\nlocal tableId = exports['peak-chess']:GetCurrentTable()\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "getcolor-26",
+        "title": "GetColor",
+        "content": "### GetColor\n\n```lua\nlocal color = exports['peak-chess']:GetColor()\n```\n\nReturns `white`, `black`, or `nil`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "openlobby-27",
+        "title": "OpenLobby",
+        "content": "### OpenLobby\n\n```lua\nlocal opened = exports['peak-chess']:OpenLobby(1)\n```\n\nOpens the NUI lobby for a valid table.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "nui-messages-28",
+        "title": "NUI Messages",
+        "content": "## NUI Messages\n\nThe client sends these messages into the React app:\n\n- `lobby`: show or update the lobby\n- `hud`: show or update the active HUD\n- `promotion`: show or hide promotion selection\n- `gameover`: show the result banner\n- `closeAll`: close all UI states",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "nui-callbacks-29",
+        "title": "NUI Callbacks",
+        "content": "## NUI Callbacks\n\nThe React app posts these callbacks back to FiveM:\n\n- `sit`\n- `spectate`\n- `startAI`\n- `setReady`\n- `resign`\n- `promote`\n- `leave`\n- `closeLobby`",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "ui-development-30",
+        "title": "UI Development",
+        "content": "## UI Development\n\nInstall dependencies and build:\n\n```powershell\ncd web\nnpm install\nnpm run build\n```\n\nDebug views are available in a browser preview:\n\n```text\n?debug=lobby\n?debug=hud\n?debug=promotion\n?debug=result\n?debug=all\n```\n\nDebug pages also support state shortcuts without navigation: `1` lobby, `2` HUD, `3` promotion, `4` result, and `5` combined.\n\nThe UI uses plain CSS tokens and components. It intentionally avoids Tailwind output, `backdrop-filter`, `backdrop-blur`, and blur overlay utilities.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "visual-system-31",
+        "title": "Visual System",
+        "content": "### Visual System\n\nThe interface uses a transparent FiveM document with an ink-and-brass visual system:\n\n- `BBH Sans Bartle` is the display face for the product name, result state, and pot value.\n- `Poppins` is the utility face for controls and match information.\n- Warm brass is the single primary action and selection color.\n- Lobby, HUD, promotion, and result states share the same surface, border, spacing, and motion tokens.\n- Motion is limited to panel entry, state entry, hover feedback, and the active-turn pulse.\n- `prefers-reduced-motion` collapses animation and transition durations for accessibility.\n\nDo not add an opaque background to `html`, `body`, or `#root`; hidden NUI transparency is required to prevent the interface from covering gameplay.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "validation-checklist-32",
+        "title": "Validation Checklist",
+        "content": "## Validation Checklist\n\n- Start without `peak-bridge`; play a zero-wager PvP game.\n- Start with `peak-bridge`; confirm money, identity, and notifications.\n- Start an AI game.\n- Complete a PvP ready flow.\n- Attempt legal and illegal moves.\n- Promote a pawn.\n- Resign.\n- Reach checkmate and stalemate.\n- Open spectator HUD.\n- Restart the resource during and after a match.\n- Run the UI build and audit for forbidden backdrop CSS.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "troubleshooting-33",
+        "title": "Troubleshooting",
+        "content": "## Troubleshooting",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "props-do-not-spawn-34",
+        "title": "Props Do Not Spawn",
+        "content": "### Props Do Not Spawn\n\nConfirm the `bzzz_chess` prop pack is installed, started before `peak-chess`, and uses the model names configured in `Config.Models`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "wagers-do-not-appear-35",
+        "title": "Wagers Do Not Appear",
+        "content": "### Wagers Do Not Appear\n\nWagers are hidden when no money provider is available. Start `peak-bridge`, ESX, QBCore, or Qbox before `peak-chess`, or keep wagers at `0`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "target-interaction-does-not-appear-36",
+        "title": "Target Interaction Does Not Appear",
+        "content": "### Target Interaction Does Not Appear\n\nUse `Config.Target.system = 'drawtext'` first. Once drawtext works, switch to an optional target system if desired.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      },
+      {
+        "id": "ui-does-not-load-37",
+        "title": "UI Does Not Load",
+        "content": "### UI Does Not Load\n\nRun `npm run build` from `web` and confirm `web/build/index.html` exists. The manifest must continue to load `web/build/index.html`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-chess/blob/2e2378d97f1ea9099494045ca98c849f1a4c333e/docs/documentation.md"
+      }
+    ]
+  },
+  {
+    "id": "peak-clothingitems",
+    "name": "peak-clothingitems",
+    "description": "FiveM resource that turns worn clothing into metadata-backed inventory items.",
+    "repository": "https://github.com/Peak-Studios/peak-clothingitems",
+    "license": "MIT",
+    "defaultBranch": "main",
+    "sourceCommit": "71c0bf8f8cf4597a267d8e02dacf024386607fe2",
+    "updatedAt": "2026-06-23T06:57:28Z",
+    "frameworks": [
+      "ESX",
+      "QBCore",
+      "Qbox"
+    ],
+    "dependencies": [
+      "ox_lib",
+      "ox_inventory"
+    ],
+    "capabilities": [
+      "clothing items",
+      "inventory metadata"
+    ],
+    "sections": [
+      {
+        "id": "peak-clothingitems-1",
+        "title": "peak-clothingitems",
+        "content": "# peak-clothingitems\n\nTurn worn GTA V clothing into inventory items for FiveM servers. Players can remove clothing, store it, trade it, and wear it again while preserving drawable, texture, model, and sex metadata.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "features-2",
+        "title": "Features",
+        "content": "## Features\n\n- 15 supported clothing slots: masks, torso, pants, bags, shoes, accessories, undershirts, vests, decals, tops, hats, glasses, earrings, watches, and bracelets.\n- Framework auto-detection for QBCore, QBox, ESX, and standalone mode.\n- Inventory support for `ox_inventory`, `qb-inventory`, `ps-inventory`, `qs-inventory`, and `codem-inventory`.\n- Appearance persistence through `illenium-appearance`, `rcore_clothing`, `fivem-appearance`, or `skinchanger`.\n- Command flow with `/clothing remove <slot|all>` and `/clothing list`.\n- Optional radial menu integration through `ox_lib` or `qb-radialmenu`.\n- Admin item grant command with ACE/framework permission checks.\n- Server-side item-use confirmation tracking to prevent forged refund events.\n- Localized strings for English, French, Spanish, and Arabic.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "requirements-3",
+        "title": "Requirements",
+        "content": "## Requirements\n\n- FiveM artifact with `lua54` support.\n- One supported framework, or standalone mode.\n- One supported inventory system for item storage.\n- Optional but recommended: one supported appearance resource for persistence.\n- Optional: `ox_lib` for notifications/radial menu.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "quick-start-4",
+        "title": "Quick Start",
+        "content": "## Quick Start\n\n1. Place `peak-clothingitems` in your server `resources` folder.\n2. Add the inventory item definitions from `install/` to your inventory.\n3. Copy the transparent item icons from `images/` into your inventory image folder.\n4. Add this to `server.cfg` after your framework, inventory, and appearance resources:\n\n```cfg\nensure peak-clothingitems\n```\n\n5. Leave `shared/config.lua` on `auto` or set your exact systems.\n6. Restart the server and test `/clothing list`, `/clothing remove hat`, and using the generated clothing item.\n\nFor a full setup guide, see [INSTALLATION.md](INSTALLATION.md).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "commands-5",
+        "title": "Commands",
+        "content": "## Commands\n\n| Command | Description |\n| :--- | :--- |\n| `/clothing remove <slot>` | Removes one worn clothing slot and converts it into an inventory item. |\n| `/clothing remove all` | Converts all currently worn non-default supported slots into inventory items. |\n| `/clothing list` | Lists currently worn removable slots. |\n| `/clothingadmin give <player_id> <slot> <drawable> <texture>` | Gives a metadata-backed clothing item to a player. |\n\nAvailable slots:\n\n```text\nmask, torso, pants, bag, shoes, accessory, undershirt, vest, decal, top,\nhat, glasses, earring, watch, bracelet\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "documentation-6",
+        "title": "Documentation",
+        "content": "## Documentation\n\n- [Installation](INSTALLATION.md)\n- [Configuration](CONFIGURATION.md)\n- [API Reference](API.md)\n- [Troubleshooting](TROUBLESHOOTING.md)\n- [Security](SECURITY.md)\n- [Contributing](CONTRIBUTING.md)\n- [Changelog](CHANGELOG.md)\n\n`PROMPT.md` is included for AI-assisted installation in customer servers.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "included-item-images-7",
+        "title": "Included Item Images",
+        "content": "## Included Item Images\n\nThe `images/` folder contains one 256x256 transparent PNG for each clothing item. Copy these files into your inventory image directory, such as `qb-inventory/html/images/`, `ps-inventory/html/images/`, or the equivalent folder for your inventory resource.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "security-notes-8",
+        "title": "Security Notes",
+        "content": "## Security Notes\n\nThe server validates slot payloads, rate-limits clothing conversion, and only refunds worn items when a matching server-created pending wear action exists. Client ped state still originates from the player client because FiveM clothing drawable reads are client-side in this resource flow. Do not expose additional server events that grant clothing items without similar validation.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "license-9",
+        "title": "License",
+        "content": "## License\n\nMIT. See [LICENSE](LICENSE).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/README.md"
+      },
+      {
+        "id": "installation-1",
+        "title": "Installation",
+        "content": "# Installation",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "1-install-the-resource-2",
+        "title": "1. Install The Resource",
+        "content": "## 1. Install The Resource\n\nPlace the folder in your FiveM server resources directory:\n\n```text\nresources/[peak]/peak-clothingitems\n```\n\nStart it after your framework, inventory, and appearance resources:\n\n```cfg\nensure ox_lib\nensure qb-core\nensure ox_inventory\nensure illenium-appearance\nensure peak-clothingitems\n```\n\nAdjust the example for your actual stack.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "2-register-inventory-items-3",
+        "title": "2. Register Inventory Items",
+        "content": "## 2. Register Inventory Items\n\nEvery clothing item must be unique or non-stacking because metadata stores the exact drawable, texture, model, and sex.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "ox-inventory-4",
+        "title": "ox_inventory",
+        "content": "### ox_inventory\n\nCopy the entries from `install/ox_inventory_items.lua` into:\n\n```text\nox_inventory/data/items.lua\n```\n\nThe ox entries must include `server = { export = 'peak-clothingitems.useClothingItem' }`.\nWithout that export, ox_inventory will show the items but will not call this resource when a player uses them.\n\nCopy the included icons from `images/` into the image path used by your `ox_inventory` build or theme.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "qbcore-qb-inventory-ps-inventory-5",
+        "title": "QBCore / qb-inventory / ps-inventory",
+        "content": "### QBCore / qb-inventory / ps-inventory\n\nCopy the entries from `install/qb_shared_items.lua` into:\n\n```text\nqb-core/shared/items.lua\n```\n\nThen copy the included icons from `images/` into your inventory image folder, for example:\n\n```text\nqb-inventory/html/images/\nps-inventory/html/images/\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "esx-6",
+        "title": "ESX",
+        "content": "### ESX\n\nRun the SQL from `install/esx_items.sql` against your database.\n\nIf your ESX inventory UI uses item icons, copy the included PNGs from `images/` into that inventory's image folder.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "3-configure-the-resource-7",
+        "title": "3. Configure The Resource",
+        "content": "## 3. Configure The Resource\n\nOpen `shared/config.lua`. The defaults use `auto` detection:\n\n```lua\nConfig.Framework = 'auto'\nConfig.Inventory = 'auto'\nConfig.Appearance = 'auto'\nConfig.Notify = 'auto'\nConfig.RadialMenu = 'auto'\n```\n\nIf auto-detection chooses the wrong resource, set the exact value documented in [CONFIGURATION.md](CONFIGURATION.md).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "4-permissions-8",
+        "title": "4. Permissions",
+        "content": "## 4. Permissions\n\nThe admin command is ACE-restricted and also checks framework admin groups:\n\n```cfg\nadd_ace group.admin command.clothingadmin allow\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "5-validation-checklist-9",
+        "title": "5. Validation Checklist",
+        "content": "## 5. Validation Checklist\n\nAfter restart, confirm the server logs show:\n\n```text\n[peak-clothingitems] Server initialized. Framework: <name> | Inventory: <name>\n[peak-clothingitems] Registered 15 usable clothing items\n```\n\nThen test in game:\n\n1. Wear a supported item, such as a hat.\n2. Run `/clothing list`.\n3. Run `/clothing remove hat`.\n4. Confirm the item appears in inventory with metadata.\n5. Use the item.\n6. Confirm it returns to the same clothing slot.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/INSTALLATION.md"
+      },
+      {
+        "id": "configuration-1",
+        "title": "Configuration",
+        "content": "# Configuration\n\nAll user-facing options live in `shared/config.lua`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/CONFIGURATION.md"
+      },
+      {
+        "id": "system-detection-2",
+        "title": "System Detection",
+        "content": "## System Detection\n\n| Option | Default | Values |\n| :--- | :--- | :--- |\n| `Config.Framework` | `'auto'` | `'auto'`, `'qbcore'`, `'qbox'`, `'esx'`, `'standalone'` |\n| `Config.Inventory` | `'auto'` | `'auto'`, `'ox_inventory'`, `'qb-inventory'`, `'qs-inventory'`, `'codem-inventory'`, `'ps-inventory'` |\n| `Config.Appearance` | `'auto'` | `'auto'`, `'illenium-appearance'`, `'rcore_clothing'`, `'fivem-appearance'`, `'skinchanger'` |\n| `Config.Notify` | `'auto'` | `'auto'`, `'ox_lib'`, `'qb-core'`, `'esx'`, `'native'` |\n| `Config.RadialMenu` | `'auto'` | `'auto'`, `'ox_lib'`, `'qb-radialmenu'`, `'none'` |\n\nUse `auto` unless your server has multiple compatible resources running.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/CONFIGURATION.md"
+      },
+      {
+        "id": "commands-3",
+        "title": "Commands",
+        "content": "## Commands\n\n| Option | Default | Description |\n| :--- | :--- | :--- |\n| `Config.Command` | `'clothing'` | Base player command. |\n| `Config.AllowRemoveAll` | `true` | Enables `/clothing remove all`. |",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/CONFIGURATION.md"
+      },
+      {
+        "id": "items-4",
+        "title": "Items",
+        "content": "## Items\n\n| Option | Default | Description |\n| :--- | :--- | :--- |\n| `Config.ItemPrefix` | `'clothing_'` | Naming convention for bundled item definitions. |\n| `Config.DefaultWeight` | `100` | Default weight reference for clothing definitions. |\n\nThe included slot definitions currently use explicit item names in `shared/items.lua`. If you rename items, update both `shared/items.lua` and the inventory definitions in `install/`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/CONFIGURATION.md"
+      },
+      {
+        "id": "behavior-5",
+        "title": "Behavior",
+        "content": "## Behavior\n\n| Option | Default | Description |\n| :--- | :--- | :--- |\n| `Config.Cooldown` | `2000` | Client and server cooldown in milliseconds between conversion actions. |\n| `Config.EnableRadialMenu` | `true` | Enables supported radial menu registration. |\n| `Config.Locale` | `'en'` | Active locale file. |\n| `Config.Debug` | `false` | Prints extra diagnostics to console. |",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/CONFIGURATION.md"
+      },
+      {
+        "id": "clothing-defaults-6",
+        "title": "Clothing Defaults",
+        "content": "## Clothing Defaults\n\nDefault bare values are defined in `shared/items.lua` under `ClothingItems.DefaultValues`. Adjust them if your server uses custom base clothing packs where the default bare drawable differs from the included freemode defaults.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/CONFIGURATION.md"
+      },
+      {
+        "id": "api-reference-1",
+        "title": "API Reference",
+        "content": "# API Reference",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "server-exports-2",
+        "title": "Server Exports",
+        "content": "## Server Exports\n\n```lua\nexports['peak-clothingitems']:GetFrameworkName()\nexports['peak-clothingitems']:IsReady()\nexports['peak-clothingitems']:AddItem(source, itemName, count, metadata)\nexports['peak-clothingitems']:RemoveItem(source, itemName, count, slot)\nexports['peak-clothingitems']:HasItem(source, itemName, count)\n```\n\nThese exports are thin wrappers around the active framework and inventory bridge.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "client-functions-3",
+        "title": "Client Functions",
+        "content": "## Client Functions\n\nThe resource exposes functions on the shared `Peak.Client` table for internal integrations:\n\n```lua\nPeak.Client.RemoveClothingPiece('prop', 0)\nPeak.Client.RemoveAllClothing()\nPeak.Client.WearClothingPiece(metadata)\nPeak.Client.GetWornClothing()\n```\n\nPrefer commands or inventory item usage for normal gameplay. Direct calls should only be used by trusted client-side integrations in your own resources.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "events-4",
+        "title": "Events",
+        "content": "## Events",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "client-events-5",
+        "title": "Client Events",
+        "content": "### Client Events\n\n```lua\nTriggerClientEvent('peak-clothingitems:client:wearItem', source, metadata)\nTriggerClientEvent('peak-clothingitems:client:adminNotify', source, message, type)\n```\n\n`wearItem` is intended for this resource's server flow after the inventory item has been removed.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "server-events-6",
+        "title": "Server Events",
+        "content": "### Server Events\n\n```lua\nTriggerServerEvent('peak-clothingitems:server:confirmWear', success, metadata)\n```\n\nThe server only honors this event when the player has a matching pending wear action that was created by item use. Forged confirmations are ignored and logged.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "metadata-shape-7",
+        "title": "Metadata Shape",
+        "content": "## Metadata Shape\n\nInventory items use this metadata:\n\n```lua\n{\n    description = 'Hat (mp_m_freemode_01^prop_0_12)',\n    type = 'prop', -- 'component' or 'prop'\n    componentId = 0,\n    drawableId = 12,\n    textureId = 0,\n    model = 'mp_m_freemode_01',\n    sex = 'male',\n    label = 'Hat'\n}\n```\n\n`componentId` is used for both GTA component IDs and prop IDs. The `type` field determines which native is used.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/API.md"
+      },
+      {
+        "id": "troubleshooting-1",
+        "title": "Troubleshooting",
+        "content": "# Troubleshooting",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      },
+      {
+        "id": "items-do-not-appear-in-inventory-2",
+        "title": "Items Do Not Appear In Inventory",
+        "content": "## Items Do Not Appear In Inventory\n\n- Confirm the item definitions were added to your inventory resource.\n- Confirm clothing items are unique or non-stacking.\n- Confirm the inventory resource starts before `peak-clothingitems`.\n- Enable `Config.Debug = true` and check the server console for bridge warnings.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      },
+      {
+        "id": "item-can-be-removed-but-not-worn-3",
+        "title": "Item Can Be Removed But Not Worn",
+        "content": "## Item Can Be Removed But Not Worn\n\n- Check that the item metadata exists in the inventory item.\n- For `ox_inventory`, confirm every clothing item definition has `server = { export = 'peak-clothingitems.useClothingItem' }`.\n- Make sure the player model matches the metadata model. Male and female freemode clothing is not interchangeable.\n- Remove clothing already occupying the target slot before using the item.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      },
+      {
+        "id": "clothing-does-not-persist-after-reconnect-4",
+        "title": "Clothing Does Not Persist After Reconnect",
+        "content": "## Clothing Does Not Persist After Reconnect\n\n- Confirm a supported appearance resource is running.\n- Set `Config.Appearance` explicitly if auto-detection finds the wrong resource.\n- Check the appearance resource logs for save errors.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      },
+      {
+        "id": "radial-menu-does-not-show-5",
+        "title": "Radial Menu Does Not Show",
+        "content": "## Radial Menu Does Not Show\n\n- Confirm `Config.EnableRadialMenu = true`.\n- Confirm `Config.RadialMenu` is set to `auto`, `ox_lib`, or `qb-radialmenu`.\n- Make sure the radial menu resource starts before `peak-clothingitems`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      },
+      {
+        "id": "admin-command-denied-6",
+        "title": "Admin Command Denied",
+        "content": "## Admin Command Denied\n\nAdd ACE permission:\n\n```cfg\nadd_ace group.admin command.clothingadmin allow\n```\n\nFramework admin and god groups are also accepted for QBCore, QBox, and ESX.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      },
+      {
+        "id": "custom-clothing-packs-use-different-bare-values-7",
+        "title": "Custom Clothing Packs Use Different Bare Values",
+        "content": "## Custom Clothing Packs Use Different Bare Values\n\nEdit `ClothingItems.DefaultValues` in `shared/items.lua`. If a default value is wrong, the script may think a bare slot is removable or may reset to the wrong drawable.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-clothingitems/blob/71c0bf8f8cf4597a267d8e02dacf024386607fe2/TROUBLESHOOTING.md"
+      }
+    ]
+  },
+  {
+    "id": "peak-sprays",
+    "name": "peak-sprays",
+    "description": "Premium open-source FiveM resource for persistent in-world spray painting.",
+    "repository": "https://github.com/Peak-Studios/peak-sprays",
+    "license": "MIT",
+    "defaultBranch": "main",
+    "sourceCommit": "ec960e6000aefe77ca763cdaef66d17e2d346e93",
+    "updatedAt": "2026-07-11T15:21:31Z",
+    "frameworks": [
+      "ESX",
+      "QBCore",
+      "Qbox"
+    ],
+    "dependencies": [
+      "ox_lib",
+      "oxmysql"
+    ],
+    "capabilities": [
+      "persistent graffiti",
+      "DUI rendering"
+    ],
+    "sections": [
+      {
+        "id": "peak-sprays-1",
+        "title": "Peak Sprays",
+        "content": "# Peak Sprays\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-0.2.3-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://discord.gg/gAqXUaVEMn)\n\nPeak Sprays is a premium open-source FiveM resource for persistent in-world spray painting, text scenes, and signs. Players can paint on DUI canvases or place styled text/sign surfaces that are saved to SQL and rendered back into the world for nearby players.\n\n![Peak Sprays preview](docs/spray-preview.gif)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "features-2",
+        "title": "Features",
+        "content": "## Features\n\n- Persistent spray paintings, text scenes, and signs stored in SQL\n- DUI-based in-world canvas rendering\n- Paint, erase, undo, redo, brush sizing, color presets, and optional color picker\n- Image-link sprays with allowlisted HTTPS hosts, placement, scale, rotate, undo, redo, and erase support\n- Scene/sign editor with fonts, colors, backgrounds, visibility modes, expiry, and live placement preview\n- Live preview while players are actively painting\n- Admin panel for listing, previewing, teleporting to, and deleting sprays, text scenes, and signs\n- Framework bridge for QBCore, Qbox, ESX, OX Core, vRP, and standalone setups\n- Usable item and command-based flows\n- Editable custom hooks for permissions, notifications, economy, and server integrations\n- Discord logging support with server-side webhook configuration",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "dependencies-3",
+        "title": "Dependencies",
+        "content": "## Dependencies\n\n- `ox_lib`\n- `oxmysql`\n- A supported framework and inventory if you want item-based usage",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "installation-4",
+        "title": "Installation",
+        "content": "## Installation",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "ai-first-setup-recommended-5",
+        "title": "🤖 AI-First Setup (Recommended)",
+        "content": "### 🤖 AI-First Setup (Recommended)\nIf you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you can set up this resource in seconds:\n1. Open [PROMPT.md](PROMPT.md).\n2. Copy the content and paste it into your AI assistant.\n3. Follow its instructions to automatically configure the framework, inventory, and items for your server.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "manual-setup-6",
+        "title": "Manual Setup",
+        "content": "### Manual Setup\n1. Place this resource in your server resources folder as `peak-sprays`.\n2. Import [install/install.sql](install/install.sql) into your database.\n   - If you already installed v0.2.2 before this schema fix, run [install/migration_0.2.2_spray_gang_status.sql](install/migration_0.2.2_spray_gang_status.sql) once instead of re-importing the full install file.\n3. Add the inventory items from [install](install) if you use item-based spray painting.\n4. Configure [shared/config.lua](shared/config.lua) and [server/server-config.lua](server/server-config.lua).\n5. Ensure dependencies before this resource:\n\n```cfg\nensure ox_lib\nensure oxmysql\nensure peak-sprays\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "commands-7",
+        "title": "Commands",
+        "content": "## Commands\n\n- `/spraypaint` starts spray placement when `Config.UseCommand` is enabled.\n- `/erasepaint` starts erase mode when `Config.UseCommand` is enabled.\n- `/scene [text]` opens the text scene editor when `Config.SceneUseCommand` is enabled.\n- `/sign [text]` opens the sign editor when `Config.SceneUseCommand` is enabled.\n- `/hidescenes` toggles local text scene/sign visibility.\n- `/deletescene` deletes the nearest owned text scene/sign, or any scene/sign for admins.\n- `/sprayadmin` opens the admin panel for permitted staff.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "configuration-8",
+        "title": "Configuration",
+        "content": "## Configuration\n\n- **[shared/config.lua](shared/config.lua)**: The main, simplified config for non-coders. Use this for basic framework, item, and command settings.\n- **[shared/internal_config.lua](shared/internal_config.lua)**: Advanced technical settings (DUI limits, render distances, brush presets, animations).\n- **[client/custom.lua](client/custom.lua)**: Client-side hooks for permissions, notifications, progress bars, and targets.\n- **[server/custom.lua](server/custom.lua)**: Server-side hooks for money overrides and lifecycle events.\n- **[server/server-config.lua](server/server-config.lua)**: Sensitive server-only values such as Discord webhooks.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "image-sprays-9",
+        "title": "Image Sprays",
+        "content": "### Image Sprays\n\nImage sprays are enabled with `Config.ImageSpraysEnabled` in [shared/internal_config.lua](shared/internal_config.lua). Players can paste an HTTPS image URL while painting, place it on the selected canvas, scale and rotate it, then save it as part of the spray.\n\nRemote images are restricted by `Config.ImageAllowedHosts`. Keep this list tight and only include hosts you trust. Images are stored as URLs in `stroke_data`, so a spray can render blank later if the remote file is deleted, moved, blocked by CORS, or blocked by the player's client.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "publishing-notes-10",
+        "title": "Publishing Notes",
+        "content": "## Publishing Notes\n\n- Do not publish live webhook URLs or credentials.\n- Build the NUI before release with `npm run build` from the `ui` folder.\n- Include `ui/dist`, `install`, `client`, `server`, `shared`, `fxmanifest.lua`, and this README in release archives.\n- Do not include `ui/node_modules` in release archives.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      },
+      {
+        "id": "contributing-11",
+        "title": "Contributing",
+        "content": "## Contributing\n\nContributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+      }
+    ]
+  },
+  {
+    "id": "peak-trucking",
+    "name": "peak-trucking",
+    "description": "Premium open-source FiveM trucking resource with driver progression, company trust, daily missions, leaderboards, and a React NUI dispatch tablet.",
+    "repository": "https://github.com/Peak-Studios/peak-trucking",
+    "license": "MIT",
+    "defaultBranch": "main",
+    "sourceCommit": "520f700bb2e75e265a318541081152bc2ed3ebc9",
+    "updatedAt": "2026-06-23T06:56:40Z",
+    "frameworks": [
+      "ESX",
+      "QBCore",
+      "Qbox"
+    ],
+    "dependencies": [
+      "ox_target",
+      "qb-target",
+      "ox_inventory",
+      "oxmysql"
+    ],
+    "capabilities": [
+      "trucking job",
+      "progression",
+      "missions",
+      "leaderboards"
+    ],
+    "sections": [
+      {
+        "id": "peak-trucking-1",
+        "title": "Peak Trucking",
+        "content": "# Peak Trucking\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-0.2.5-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://dsc.gg/peakstudios)\n\nPeak Trucking is a premium open-source FiveM trucking resource with persistent driver progression, company trust, daily missions, leaderboards, legal freight, optional illegal cargo, and a React-based NUI dispatch tablet.\n\n![Peak Trucking UI preview](docs/ui-preview.png)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "features-2",
+        "title": "Features",
+        "content": "## Features\n\n- Mission and route selection with truck level requirements\n- Company trust points and mission unlocks\n- Driver XP, levels, completed jobs, earnings, and recent work history\n- Daily mission progress and reset handling\n- Leaderboard data stored in SQL\n- Optional illegal cargo side job with target system integration (ox_target/qb-target)\n- Cancel active jobs from the dispatch UI or with `/canceltrucking`\n- Automatic job cancellation when the required truck, trailer, or attached cargo is destroyed\n- Movable Job HUD via `/truckhud` command with persistence\n- Framework support for QBCore and ESX (modern and legacy)\n- Inventory support for `ox_inventory`, `qb_inventory`, `esx_inventory`, and `qs_inventory`\n- Interaction support for `drawtext`, `ox_target`, `qb_target`, `qb_textui`, and `esx_textui`\n- Vite React + TypeScript NUI built into `ui/dist`",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "dependencies-3",
+        "title": "Dependencies",
+        "content": "## Dependencies\n\n- `oxmysql`\n- A supported framework: QBCore or ESX\n- Optional inventory/interaction resources based on your configuration",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "installation-4",
+        "title": "Installation",
+        "content": "## Installation",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "ai-first-setup-recommended-5",
+        "title": "🤖 AI-First Setup (Recommended)",
+        "content": "### 🤖 AI-First Setup (Recommended)\nIf you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you can set up this resource in seconds:\n1. Open [PROMPT.md](PROMPT.md).\n2. Copy the content and paste it into your AI assistant.\n3. Follow its instructions to automatically configure the framework, inventory, key system, and database for your server.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "manual-setup-6",
+        "title": "Manual Setup",
+        "content": "### Manual Setup\n1. Place this folder in your server resources as `peak-trucking`.\n2. Import [install/install.sql](install/install.sql) into your database.\n3. Configure [shared/config.lua](shared/config.lua) and [server/server-config.lua](server/server-config.lua).\n4. Ensure dependencies before this resource:\n\n```cfg\nensure oxmysql\nensure peak-trucking\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "ui-development-7",
+        "title": "UI Development",
+        "content": "## UI Development\n\nThe source NUI app is in [ui](ui). Build it before release:\n\n```powershell\ncd ui\nnpm install\nnpm run build\n```\n\nThe FiveM manifest loads `ui/dist/index.html`. Keep `ui/dist` in release archives and do not include `ui/node_modules`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "configuration-8",
+        "title": "Configuration",
+        "content": "## Configuration\n\n- **[shared/config.lua](shared/config.lua)**: Framework, SQL driver, inventory, interactions, vehicles, missions, fuel, keys, XP, and gameplay settings.\n- **[shared/language.lua](shared/language.lua)**: UI and gameplay text strings.\n- **[server/server-config.lua](server/server-config.lua)**: Server-only optional settings such as Discord bot token and version checks.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "changelog-9",
+        "title": "Changelog",
+        "content": "## Changelog",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "unreleased-10",
+        "title": "Unreleased",
+        "content": "### Unreleased\n\n- Added a configurable `/canceltrucking` command through `Config.CancelJobCommand`.\n- Improved the existing dispatch UI Cancel Job action so it clears truck, trailer, attached cargo, carried boxes, waypoints, blips, HUD state, and server job sessions.\n- Added automatic job cancellation when the active truck, required trailer, or attached cargo is destroyed.\n- Cleared server-side illegal cargo sessions when a job is canceled or the player disconnects.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "publishing-notes-11",
+        "title": "Publishing Notes",
+        "content": "## Publishing Notes\n\n- Do not publish live Discord bot tokens or credentials.\n- Keep `ui/dist` committed or packaged for server use.\n- Do not include `ui/node_modules` in releases.\n- Review mission coordinates and item names before publishing a server-specific fork.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      },
+      {
+        "id": "contributing-12",
+        "title": "Contributing",
+        "content": "## Contributing\n\nContributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+      }
+    ]
+  }
+]

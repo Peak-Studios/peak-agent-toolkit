@@ -1,0 +1,34 @@
+{
+  "name": "@peak-studios/agent-toolkit",
+  "version": "1.0.0",
+  "description": "Public MCP server and agent skills for Peak Studios FiveM scripts",
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist", "catalog", "skills", "adapters"],
+  "scripts": {
+    "build": "npm run generate && tsc -p tsconfig.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "dev": "tsx src/local.ts",
+    "generate": "tsx scripts/generate.ts",
+    "sync": "tsx scripts/sync-github.ts",
+    "sync:check": "tsx scripts/sync-github.ts --check",
+    "test": "npm run generate && vitest run",
+    "validate:skill": "tsx scripts/validate-skill.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "2.0.0-beta.4",
+    "@modelcontextprotocol/server": "2.0.0-beta.4",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  },
+  "engines": { "node": ">=20" },
+  "repository": { "type": "git", "url": "https://github.com/Peak-Studios/peak-agent-toolkit.git" },
+  "homepage": "https://github.com/Peak-Studios/peak-agent-toolkit#readme",
+  "bugs": "https://github.com/Peak-Studios/peak-agent-toolkit/issues",
+  "keywords": ["mcp", "fivem", "peak-studios", "ai", "codex", "claude", "cursor"]
+}

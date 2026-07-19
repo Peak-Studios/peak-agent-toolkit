@@ -1,0 +1,34 @@
+name: Sync public catalog
+
+on:
+  schedule:
+    - cron: "17 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run generate
+      - run: npm test
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/sync-public-catalog
+          delete-branch: true
+          commit-message: "docs: sync public Peak Studios catalog"
+          title: "docs: sync public Peak Studios catalog"
+          body: "Automated update from allowlisted public Peak Studios repositories. Review provenance and generated documentation before merging."
+          labels: documentation,automation
