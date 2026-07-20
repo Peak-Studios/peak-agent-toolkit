@@ -3,5 +3,7 @@
   "peak-chess": { "capabilities": ["PvP chess", "AI chess", "spectating", "wagers"], "frameworks": ["ESX", "QBCore", "Qbox", "standalone"] },
   "peak-clothingitems": { "capabilities": ["clothing items", "inventory metadata"], "frameworks": ["ESX", "QBCore", "Qbox"] },
   "peak-sprays": { "capabilities": ["persistent graffiti", "DUI rendering"], "frameworks": ["ESX", "QBCore", "Qbox"] },
-  "peak-trucking": { "capabilities": ["trucking job", "progression", "missions", "leaderboards"], "frameworks": ["ESX", "QBCore", "Qbox"] }
+  "peak-trucking": { "capabilities": ["trucking job", "progression", "missions", "leaderboards"], "frameworks": ["ESX", "QBCore", "Qbox"] },
+  "peak-readme-generator": { "capabilities": ["documentation generation", "resource scanning", "CLI tooling"], "frameworks": ["standalone"] },
+  "peak-police-report-writer": { "capabilities": ["AI-assisted reports", "voice dictation", "ps-mdt integration", "evidence summaries"], "frameworks": ["QBCore", "Qbox", "standalone ACE"] }
 }

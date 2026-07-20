@@ -6,7 +6,9 @@
     "peak-chess",
     "peak-clothingitems",
     "peak-sprays",
-    "peak-trucking"
+    "peak-trucking",
+    "peak-readme-generator",
+    "peak-police-report-writer"
   ],
   "approvedFiles": [
     "README.md",

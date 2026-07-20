@@ -4,7 +4,7 @@ import { createPeakServer } from "../src/mcp-server.js";
 
 describe("public catalog", () => {
   it("contains exactly the approved scripts", () => {
-    expect(catalog.scripts.map((script) => script.id).sort()).toEqual(["peak-barbers", "peak-bridge", "peak-chess", "peak-clothingitems", "peak-sprays", "peak-trucking"]);
+    expect(catalog.scripts.map((script) => script.id).sort()).toEqual(["peak-barbers", "peak-bridge", "peak-chess", "peak-clothingitems", "peak-police-report-writer", "peak-readme-generator", "peak-sprays", "peak-trucking"]);
   });
 
   it("records provenance for every section", () => {
