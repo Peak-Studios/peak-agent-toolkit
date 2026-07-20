@@ -81,7 +81,7 @@
     "license": "MIT",
     "defaultBranch": "main",
     "sourceCommit": "8e7a96923e36752e03b003e2b58de0d00f85512b",
-    "updatedAt": "2026-07-19T02:50:10Z",
+    "updatedAt": "2026-07-19T03:30:38Z",
     "frameworks": [],
     "dependencies": [
       "ox_target",
@@ -268,7 +268,7 @@
     "license": "MIT",
     "defaultBranch": "main",
     "sourceCommit": "2e2378d97f1ea9099494045ca98c849f1a4c333e",
-    "updatedAt": "2026-07-19T01:44:54Z",
+    "updatedAt": "2026-07-20T07:21:11Z",
     "frameworks": [
       "ESX",
       "QBCore",
