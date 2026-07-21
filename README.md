@@ -23,6 +23,8 @@ The production URL may change to a Peak-controlled domain. The Vercel URL remain
 | peak-clothingitems | https://github.com/Peak-Studios/peak-clothingitems |
 | peak-sprays | https://github.com/Peak-Studios/peak-sprays |
 | peak-trucking | https://github.com/Peak-Studios/peak-trucking |
+| peak-readme-generator | https://github.com/Peak-Studios/peak-readme-generator |
+| peak-police-report-writer | https://github.com/Peak-Studios/peak-police-report-writer |
 
 ## Development
 

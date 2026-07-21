@@ -1,4 +1,4 @@
-<!-- Source: https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md -->
+<!-- Source: https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md -->
 
 # Peak AI Police Report Writer
 
@@ -12,7 +12,7 @@ The officer remains in control. AI output is labeled as a draft, charges are sug
 - `oxmysql`
 - `ps-mdt` v3, with its SQL schema installed
 - Node/browser speech recognition support for voice dictation (typing always works)
-- Optional: an OpenAI-compatible chat completions endpoint
+- Optional: any OpenAI-compatible chat-completions endpoint, Ollama, or a local open-weight model server
 
 ## Install
 
@@ -30,7 +30,11 @@ ensure peak-police-report-writer
 3. Edit `shared/config.lua` for your endpoint, model, ACE, resource name, and policy.
 4. Use `/policereport` in game.
 
-Without an API key, the resource still creates a local draft from the dictated text. It will not invent charges or facts.
+Without an API key, the resource creates a local factual draft. Ollama and other local endpoints can run AI drafting without sending data to a hosted provider.
+
+### AI provider setup
+
+Use `Config.Ai.Provider = 'openai-compatible'` for hosted gateways, `'ollama'` for Ollama's OpenAI-compatible endpoint, `'ollama-native'` for `/api/chat`, or `'local'` for a local compatible server. Set `Config.Ai.Endpoint` and `Config.Ai.Model` accordingly. Set `Config.Ai.JsonMode = false` for providers that reject `response_format`. Custom auth is supported with `Config.Ai.ApiKeyHeader` and `Config.Ai.ApiKeyPrefix`.
 
 ## ps-mdt integration
 
@@ -41,7 +45,7 @@ The current upstream report flow requires a title, content, and at least one tag
 ## Configuration
 
 - `Config.Ace`: ACE permission required for opening and submitting reports.
-- `Config.Ai`: endpoint, model, server-only key convar, and timeout settings.
+- `Config.Ai`: provider, endpoint, model, optional server-only key convar, JSON mode, custom auth, and timeout settings.
 - `Config.Prompt`: strict JSON contract and no-invention policy.
 - `Config.PsMdt.Resource`: resource name and start-order guard.
 - `Config.PsMdt.RestrictToJobType`: adds the default `leo` visibility restriction. Change this only if your ps-mdt job type is different.

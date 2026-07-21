@@ -45,14 +45,15 @@ for (const name of allowlist.repositories) {
   const sections: CatalogSection[] = [];
   const markdownFiles: Array<{ path: string; content: string; htmlUrl: string }> = [];
   for (const path of allowlist.approvedFiles) {
-    const response = await fetch(`https://api.github.com/repos/${allowlist.organization}/${name}/contents/${path}?ref=${commit.sha}`, { headers });
+    // Use raw content for approved Markdown files. It avoids GitHub's low unauthenticated
+    // contents-API rate limit while keeping the commit-pinned source URL in the catalog.
+    const response = await fetch(`https://raw.githubusercontent.com/${allowlist.organization}/${name}/${commit.sha}/${path}`);
     if (response.status === 404) continue;
     if (!response.ok) throw new Error(`GitHub ${response.status}: ${name}/${path}`);
-    const file = await response.json() as { type: string; encoding: string; content: string; html_url: string };
-    if (file.type !== "file" || file.encoding !== "base64") throw new Error(`Refusing non-file content: ${name}/${path}`);
-    const content = Buffer.from(file.content.replace(/\n/g, ""), "base64").toString("utf8");
-    markdownFiles.push({ path, content, htmlUrl: file.html_url });
-    sections.push(...sectionsFromMarkdown(content, file.html_url, path));
+    const content = await response.text();
+    const htmlUrl = `https://github.com/${allowlist.organization}/${name}/blob/${commit.sha}/${path}`;
+    markdownFiles.push({ path, content, htmlUrl });
+    sections.push(...sectionsFromMarkdown(content, htmlUrl, path));
   }
   if (!sections.length) throw new Error(`No approved documentation found for ${name}`);
   const text = sections.map((section) => section.content).join("\n").toLowerCase();

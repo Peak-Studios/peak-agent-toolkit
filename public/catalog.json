@@ -1096,7 +1096,7 @@
       "repository": "https://github.com/Peak-Studios/peak-readme-generator",
       "license": "MIT",
       "defaultBranch": "main",
-      "sourceCommit": "e6aca30f77c72bd9b2e7bf49615cbde3c6c98a6a",
+      "sourceCommit": "b70fd9d331653b661d774dc2974f48bafa7698d7",
       "updatedAt": "2026-07-20T23:55:11Z",
       "frameworks": [
         "standalone"
@@ -1111,26 +1111,26 @@
         {
           "id": "peak-resource-readme-generator-1",
           "title": "Peak Resource README Generator",
-          "content": "# Peak Resource README Generator\n\nPeak Resource README Generator scans a FiveM resource and drafts the documentation server owners usually need: installation, dependencies, configuration files, permissions, commands, events, exports, troubleshooting, and a release checklist.\n\nIt is intentionally local-first. Source code stays on the machine running the command; the generator does not upload a resource or call an AI service.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/e6aca30f77c72bd9b2e7bf49615cbde3c6c98a6a/README.md"
+          "content": "# Peak Resource README Generator\n\nPeak Resource README Generator scans a FiveM resource and drafts the documentation server owners usually need: installation, dependencies, configuration files, permissions, commands, events, exports, troubleshooting, and a release checklist.\n\nIt is intentionally local-first. Source code stays on the machine running the command. Optional AI polishing supports hosted OpenAI-compatible endpoints, Ollama, and local servers; it never runs unless `--ai` is selected.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         },
         {
           "id": "quick-start-2",
           "title": "Quick start",
-          "content": "## Quick start\n\nRequires Node.js 20+.\n\n```bash\nnpm test\nnode bin/peak-readme.js --resource ./resources/[peak]/my-resource --out ./README.generated.md\n```\n\nUse `--include-source` to print the detected metadata as JSON for a review pipeline. The result is a draft: verify behavior, defaults, framework compatibility, and permissions before shipping it.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/e6aca30f77c72bd9b2e7bf49615cbde3c6c98a6a/README.md"
+          "content": "## Quick start\n\nRequires Node.js 20+.\n\n```bash\nnpm test\nnode bin/peak-readme.js --resource \"./resources/[peak]/my-resource\" --out ./README.generated.md\n```\n\nUse `--include-source` to print the detected metadata as JSON for a review pipeline. Add `--ai` for optional provider-backed polishing. For Ollama, set `PEAK_README_AI_PROVIDER=ollama`, point `PEAK_README_AI_ENDPOINT` at `http://127.0.0.1:11434/v1/chat/completions`, and set `PEAK_README_AI_MODEL` to a pulled model. Hosted providers use `PEAK_README_AI_KEY`.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         },
         {
           "id": "what-it-detects-3",
           "title": "What it detects",
           "content": "## What it detects\n\n- `fxmanifest.lua` or legacy `__resource.lua` metadata\n- `dependency`/`dependencies` declarations and common load-order hints\n- likely config files under `config` or `shared`\n- `RegisterCommand`, `RegisterNetEvent`, `AddEventHandler`, and `exports`\n- permission-related references such as ACE checks, groups, jobs, and permissions\n- source files while skipping `.git`, `node_modules`, build output, and symlinks",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/e6aca30f77c72bd9b2e7bf49615cbde3c6c98a6a/README.md"
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         },
         {
           "id": "release-notes-4",
           "title": "Release notes",
           "content": "## Release notes\n\nThe generated file is not a security audit and does not infer undocumented runtime behavior. Keep secrets out of resource source before sharing scans.\n\nMIT © Peak Studios",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/e6aca30f77c72bd9b2e7bf49615cbde3c6c98a6a/README.md"
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         }
       ]
     },
@@ -1141,7 +1141,7 @@
       "repository": "https://github.com/Peak-Studios/peak-police-report-writer",
       "license": "MIT",
       "defaultBranch": "main",
-      "sourceCommit": "b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562",
+      "sourceCommit": "742494731329cd09552406ed20d7e17d131fee54",
       "updatedAt": "2026-07-20T23:55:20Z",
       "frameworks": [
         "QBCore",
@@ -1162,43 +1162,43 @@
           "id": "peak-ai-police-report-writer-1",
           "title": "Peak AI Police Report Writer",
           "content": "# Peak AI Police Report Writer\n\nPeak AI Police Report Writer gives officers a focused field-notes workflow: dictate or type incident details, generate a structured draft, review it, and save the approved report into `ps-mdt` v3.\n\nThe officer remains in control. AI output is labeled as a draft, charges are suggestions, and the server never accepts a report from a player without the configured ACE permission.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
           "id": "requirements-2",
           "title": "Requirements",
-          "content": "## Requirements\n\n- FiveM artifact with Lua 5.4\n- `oxmysql`\n- `ps-mdt` v3, with its SQL schema installed\n- Node/browser speech recognition support for voice dictation (typing always works)\n- Optional: an OpenAI-compatible chat completions endpoint",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "content": "## Requirements\n\n- FiveM artifact with Lua 5.4\n- `oxmysql`\n- `ps-mdt` v3, with its SQL schema installed\n- Node/browser speech recognition support for voice dictation (typing always works)\n- Optional: any OpenAI-compatible chat-completions endpoint, Ollama, or a local open-weight model server",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
           "id": "install-3",
           "title": "Install",
-          "content": "## Install\n\n1. Place this folder at `resources/[peak]/peak-police-report-writer`.\n2. Add an API key as a server convar; never put it in Lua or NUI files:\n\n```cfg\nset peak_police_openai_key \"YOUR_SERVER_SIDE_KEY\"\nadd_ace group.police peak.police.report allow\nensure oxmysql\nensure ps-mdt\nensure peak-police-report-writer\n```\n\n3. Edit `shared/config.lua` for your endpoint, model, ACE, resource name, and policy.\n4. Use `/policereport` in game.\n\nWithout an API key, the resource still creates a local draft from the dictated text. It will not invent charges or facts.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "content": "## Install\n\n1. Place this folder at `resources/[peak]/peak-police-report-writer`.\n2. Add an API key as a server convar; never put it in Lua or NUI files:\n\n```cfg\nset peak_police_openai_key \"YOUR_SERVER_SIDE_KEY\"\nadd_ace group.police peak.police.report allow\nensure oxmysql\nensure ps-mdt\nensure peak-police-report-writer\n```\n\n3. Edit `shared/config.lua` for your provider, endpoint, model, ACE, resource name, and policy. Use `ollama`, `ollama-native`, or `local` for local/open-weight models without a hosted key.\n4. Use `/policereport` in game.\n\nWithout an API key, the resource creates a local factual draft. Ollama and other local endpoints can run AI drafting without sending data to a hosted provider.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
           "id": "ps-mdt-integration-4",
           "title": "ps-mdt integration",
           "content": "## ps-mdt integration\n\nThe adapter targets the current `ps-mdt` v3 normalized schema: `mdt_reports`, `mdt_reports_involved`, `mdt_reports_charges`, `mdt_reports_evidence`, `mdt_reports_tags`, and `mdt_reports_restrictions`. It creates the report only after the officer submits the reviewed draft. The resource does not call private ps-mdt callbacks or patch ps-mdt files.\n\nThe current upstream report flow requires a title, content, and at least one tag; this resource supplies the configured `Config.PsMdt.DefaultTag`. Verify the schema and permissions after upgrading ps-mdt.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
           "id": "configuration-5",
           "title": "Configuration",
-          "content": "## Configuration\n\n- `Config.Ace`: ACE permission required for opening and submitting reports.\n- `Config.Ai`: endpoint, model, server-only key convar, and timeout settings.\n- `Config.Prompt`: strict JSON contract and no-invention policy.\n- `Config.PsMdt.Resource`: resource name and start-order guard.\n- `Config.PsMdt.RestrictToJobType`: adds the default `leo` visibility restriction. Change this only if your ps-mdt job type is different.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "content": "## Configuration\n\n- `Config.Ace`: ACE permission required for opening and submitting reports.\n- `Config.Ai`: provider, endpoint, model, optional server-only key convar, JSON mode, custom auth, and timeout settings.\n- `Config.Prompt`: strict JSON contract and no-invention policy.\n- `Config.PsMdt.Resource`: resource name and start-order guard.\n- `Config.PsMdt.RestrictToJobType`: adds the configured job-type visibility restriction.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
           "id": "security-and-privacy-6",
           "title": "Security and privacy",
           "content": "## Security and privacy\n\nDictation is sent to the configured AI endpoint only when AI drafting is enabled. Avoid sending unnecessary personally identifying information, configure an approved provider, and follow your server’s retention policy. API keys stay in server convars. The client can request drafts, but only an ACE-authorized server can submit them.",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
           "id": "api-events-7",
           "title": "API/events",
           "content": "## API/events\n\n- `peak-police-report-writer:server:draft` — internal server event for draft generation.\n- `peak-police-report-writer:server:submit` — internal server event for reviewed report submission.\n- `/policereport` — opens the officer UI.\n\nMIT © Peak Studios",
-          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/b1ddb0259a1b0d76fe99c674b0296ebf5cfc3562/README.md"
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         }
       ]
     }
