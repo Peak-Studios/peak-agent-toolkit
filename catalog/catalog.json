@@ -87,13 +87,21 @@
       "defaultBranch": "main",
       "sourceCommit": "8e7a96923e36752e03b003e2b58de0d00f85512b",
       "updatedAt": "2026-07-19T03:30:38Z",
-      "frameworks": [],
+      "frameworks": [
+        "ESX",
+        "QBCore",
+        "Qbox"
+      ],
       "dependencies": [
         "ox_target",
         "qb-target",
         "peak-bridge"
       ],
-      "capabilities": [],
+      "capabilities": [
+        "appearance customization",
+        "barbershop",
+        "nui docking"
+      ],
       "sections": [
         {
           "id": "peak-barbers-1",
@@ -905,7 +913,7 @@
       "license": "MIT",
       "defaultBranch": "main",
       "sourceCommit": "ec960e6000aefe77ca763cdaef66d17e2d346e93",
-      "updatedAt": "2026-07-20T20:06:53Z",
+      "updatedAt": "2026-07-21T14:45:14Z",
       "frameworks": [
         "ESX",
         "QBCore",
@@ -1097,7 +1105,7 @@
       "license": "MIT",
       "defaultBranch": "main",
       "sourceCommit": "b70fd9d331653b661d774dc2974f48bafa7698d7",
-      "updatedAt": "2026-07-20T23:55:11Z",
+      "updatedAt": "2026-07-21T01:48:00Z",
       "frameworks": [
         "standalone"
       ],
@@ -1111,23 +1119,41 @@
         {
           "id": "peak-resource-readme-generator-1",
           "title": "Peak Resource README Generator",
-          "content": "# Peak Resource README Generator\n\nPeak Resource README Generator scans a FiveM resource and drafts the documentation server owners usually need: installation, dependencies, configuration files, permissions, commands, events, exports, troubleshooting, and a release checklist.\n\nIt is intentionally local-first. Source code stays on the machine running the command. Optional AI polishing supports hosted OpenAI-compatible endpoints, Ollama, and local servers; it never runs unless `--ai` is selected.",
+          "content": "# Peak Resource README Generator\n\nPeak Resource README Generator scans a FiveM resource and drafts the documentation server owners usually need: installation, dependencies, configuration files, permissions, commands, events, exports, troubleshooting, and a release checklist.\n\nIt is intentionally local-first. Source code stays on the machine running the command; the generator does not upload a resource or call an AI service.",
           "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         },
         {
           "id": "quick-start-2",
           "title": "Quick start",
-          "content": "## Quick start\n\nRequires Node.js 20+.\n\n```bash\nnpm test\nnode bin/peak-readme.js --resource \"./resources/[peak]/my-resource\" --out ./README.generated.md\n```\n\nUse `--include-source` to print the detected metadata as JSON for a review pipeline. Add `--ai` for optional provider-backed polishing. For Ollama, set `PEAK_README_AI_PROVIDER=ollama`, point `PEAK_README_AI_ENDPOINT` at `http://127.0.0.1:11434/v1/chat/completions`, and set `PEAK_README_AI_MODEL` to a pulled model. Hosted providers use `PEAK_README_AI_KEY`.",
+          "content": "## Quick start\n\nRequires Node.js 20+.\n\n```bash\nnpm test\nnode bin/peak-readme.js --resource \"./resources/[peak]/my-resource\" --out ./README.generated.md\n```\n\nUse `--include-source` to print the detected metadata as JSON for a review pipeline. Add `--ai` for an optional polish pass. Hosted providers use `PEAK_README_AI_KEY`; Ollama needs no key:\n\n```powershell",
           "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         },
         {
-          "id": "what-it-detects-3",
+          "id": "hosted-openai-compatible-provider-3",
+          "title": "Hosted OpenAI-compatible provider",
+          "content": "# Hosted OpenAI-compatible provider\n$env:PEAK_README_AI_PROVIDER = \"openai-compatible\"\n$env:PEAK_README_AI_KEY = \"your-key\"\n$env:PEAK_README_AI_MODEL = \"your-model\"",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
+        },
+        {
+          "id": "local-ollama-start-ollama-serve-first-4",
+          "title": "Local Ollama (start `ollama serve` first)",
+          "content": "# Local Ollama (start `ollama serve` first)\n$env:PEAK_README_AI_PROVIDER = \"ollama\"\n$env:PEAK_README_AI_ENDPOINT = \"http://127.0.0.1:11434/v1/chat/completions\"\n$env:PEAK_README_AI_MODEL = \"llama3.2\"\n```\n\nAny service implementing OpenAI-compatible chat completions works by setting `PEAK_README_AI_ENDPOINT`, `PEAK_README_AI_MODEL`, and (if required) `PEAK_README_AI_KEY`. Non-Bearer services can set `PEAK_README_AI_KEY_HEADER` and `PEAK_README_AI_KEY_PREFIX` (for example `api-key` and an empty prefix). The scan and deterministic draft work without AI, and an AI failure automatically keeps the local draft. Never send a resource containing secrets.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
+        },
+        {
+          "id": "what-it-detects-5",
           "title": "What it detects",
           "content": "## What it detects\n\n- `fxmanifest.lua` or legacy `__resource.lua` metadata\n- `dependency`/`dependencies` declarations and common load-order hints\n- likely config files under `config` or `shared`\n- `RegisterCommand`, `RegisterNetEvent`, `AddEventHandler`, and `exports`\n- permission-related references such as ACE checks, groups, jobs, and permissions\n- source files while skipping `.git`, `node_modules`, build output, and symlinks",
           "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
         },
         {
-          "id": "release-notes-4",
+          "id": "non-coder-workflow-6",
+          "title": "Non-coder workflow",
+          "content": "## Non-coder workflow\n\n1. Install Node.js 20 or newer.\n2. Open a terminal in this project folder.\n3. Run the command above, replacing the resource path with the folder that contains `fxmanifest.lua`.\n4. Open `README.generated.md` and replace every “detected” item with the real server-owner instruction.\n5. If you use `--ai`, treat its result as editing assistance—not as proof of permissions or compatibility.\n\nIf the command says no manifest was found, select the resource's actual folder rather than its parent `[category]` folder.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
+        },
+        {
+          "id": "release-notes-7",
           "title": "Release notes",
           "content": "## Release notes\n\nThe generated file is not a security audit and does not infer undocumented runtime behavior. Keep secrets out of resource source before sharing scans.\n\nMIT © Peak Studios",
           "sourceUrl": "https://github.com/Peak-Studios/peak-readme-generator/blob/b70fd9d331653b661d774dc2974f48bafa7698d7/README.md"
@@ -1142,7 +1168,7 @@
       "license": "MIT",
       "defaultBranch": "main",
       "sourceCommit": "742494731329cd09552406ed20d7e17d131fee54",
-      "updatedAt": "2026-07-20T23:55:20Z",
+      "updatedAt": "2026-07-21T01:01:15Z",
       "frameworks": [
         "QBCore",
         "Qbox",
@@ -1167,37 +1193,55 @@
         {
           "id": "requirements-2",
           "title": "Requirements",
-          "content": "## Requirements\n\n- FiveM artifact with Lua 5.4\n- `oxmysql`\n- `ps-mdt` v3, with its SQL schema installed\n- Node/browser speech recognition support for voice dictation (typing always works)\n- Optional: any OpenAI-compatible chat-completions endpoint, Ollama, or a local open-weight model server",
+          "content": "## Requirements\n\n- FiveM artifact with Lua 5.4\n- `oxmysql`\n- `ps-mdt` v3, with its SQL schema installed\n- Node/browser speech recognition support for voice dictation (typing always works)\n- Optional: any OpenAI-compatible chat-completions endpoint, or Ollama",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
-          "id": "install-3",
-          "title": "Install",
-          "content": "## Install\n\n1. Place this folder at `resources/[peak]/peak-police-report-writer`.\n2. Add an API key as a server convar; never put it in Lua or NUI files:\n\n```cfg\nset peak_police_openai_key \"YOUR_SERVER_SIDE_KEY\"\nadd_ace group.police peak.police.report allow\nensure oxmysql\nensure ps-mdt\nensure peak-police-report-writer\n```\n\n3. Edit `shared/config.lua` for your provider, endpoint, model, ACE, resource name, and policy. Use `ollama`, `ollama-native`, or `local` for local/open-weight models without a hosted key.\n4. Use `/policereport` in game.\n\nWithout an API key, the resource creates a local factual draft. Ollama and other local endpoints can run AI drafting without sending data to a hosted provider.",
+          "id": "install-server-owner-checklist-3",
+          "title": "Install (server-owner checklist)",
+          "content": "## Install (server-owner checklist)\n\n1. Place this folder at `resources/[peak]/peak-police-report-writer`.\n2. Add an API key as a server convar; never put it in Lua or NUI files. The key is read only on the server:\n\n```cfg\nset peak_police_openai_key \"YOUR_SERVER_SIDE_KEY\"\nadd_ace group.police peak.police.report allow\nensure oxmysql\nensure ps-mdt\nensure peak-police-report-writer\n```\n\n3. Edit `shared/config.lua` for your endpoint, model, ACE, resource name, and policy.\n4. Use `/policereport` in game.\n\n5. Give the officer group access. ACE names are case-sensitive:\n\n```cfg\nadd_principal identifier.license:YOUR_LICENSE group.police\n```\n\nWithout an API key, the resource creates a local factual draft. With Ollama or another local endpoint configured, it can still use an AI model without sending data to a hosted provider.",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
-          "id": "ps-mdt-integration-4",
+          "id": "ai-provider-setup-4",
+          "title": "AI provider setup",
+          "content": "### AI provider setup\n\nThe writer speaks the widely supported OpenAI-compatible chat-completions format. This covers OpenAI, Azure OpenAI gateways, OpenRouter, Together, Groq, LM Studio, vLLM, llama.cpp servers, LiteLLM, and other compatible services. Set `Config.Ai.Endpoint` to that provider's `/v1/chat/completions` URL, set `Config.Ai.Model`, and keep `ApiKeyConvar` pointed at a server convar. For non-Bearer authentication, change `Config.Ai.ApiKeyHeader` and `Config.Ai.ApiKeyPrefix` (Azure commonly uses `api-key` and an empty prefix).\n\nFor Ollama, start `ollama serve`, pull a model, and use its local OpenAI-compatible endpoint:\n\n```cfg",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
+        },
+        {
+          "id": "shared-config-lua-5",
+          "title": "shared/config.lua",
+          "content": "# shared/config.lua\nConfig.Ai.Provider = 'ollama'\nConfig.Ai.Endpoint = 'http://127.0.0.1:11434/v1/chat/completions'\nConfig.Ai.Model = 'llama3.2'\nConfig.Ai.ApiKeyConvar = ''\n```\n\nFor Ollama's native API instead, set `Provider = 'ollama-native'`, use an `/api/chat` endpoint, and leave `ApiKeyConvar` empty. For local OpenAI-compatible servers, use `Provider = 'local'` or `openai-compatible`, set the local endpoint, and leave the key empty. Set `Config.Ai.JsonMode = false` for providers that reject `response_format`; the prompt still requires JSON and the server validates the result.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
+        },
+        {
+          "id": "ps-mdt-integration-6",
           "title": "ps-mdt integration",
-          "content": "## ps-mdt integration\n\nThe adapter targets the current `ps-mdt` v3 normalized schema: `mdt_reports`, `mdt_reports_involved`, `mdt_reports_charges`, `mdt_reports_evidence`, `mdt_reports_tags`, and `mdt_reports_restrictions`. It creates the report only after the officer submits the reviewed draft. The resource does not call private ps-mdt callbacks or patch ps-mdt files.\n\nThe current upstream report flow requires a title, content, and at least one tag; this resource supplies the configured `Config.PsMdt.DefaultTag`. Verify the schema and permissions after upgrading ps-mdt.",
+          "content": "## ps-mdt integration\n\nThe adapter targets the current `ps-mdt` v3 normalized schema: `mdt_reports`, `mdt_reports_involved`, `mdt_reports_charges`, `mdt_reports_evidence`, `mdt_reports_tags`, and `mdt_reports_restrictions`. It creates the report only after the officer submits the reviewed draft. The resource does not call private ps-mdt callbacks or patch ps-mdt files.\n\nThe current upstream report flow requires a title, content, and at least one tag; this resource supplies the configured `Config.PsMdt.DefaultTag`. Charge labels are foreign-keyed to `mdt_penal_codes`, so AI suggestions are checked against your installed Penal Codes and unknown charges stop the save. Verify the schema and permissions after upgrading ps-mdt.",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
-          "id": "configuration-5",
+          "id": "configuration-7",
           "title": "Configuration",
-          "content": "## Configuration\n\n- `Config.Ace`: ACE permission required for opening and submitting reports.\n- `Config.Ai`: provider, endpoint, model, optional server-only key convar, JSON mode, custom auth, and timeout settings.\n- `Config.Prompt`: strict JSON contract and no-invention policy.\n- `Config.PsMdt.Resource`: resource name and start-order guard.\n- `Config.PsMdt.RestrictToJobType`: adds the configured job-type visibility restriction.",
+          "content": "## Configuration\n\n- `Config.Ace`: ACE permission required for opening and submitting reports.\n- `Config.Ai`: endpoint, model, server-only key convar, and timeout settings.\n- `Config.Ai.Provider`: `openai-compatible`, `ollama`, `ollama-native`, or `local`.\n- `Config.Ai.JsonMode`: enables provider JSON mode when supported; disable it for incompatible gateways.\n- `Config.Prompt`: strict JSON contract and no-invention policy.\n- `Config.PsMdt.Resource`: resource name and start-order guard.\n- `Config.PsMdt.RestrictToJobType`: adds the default `leo` visibility restriction. Change this only if your ps-mdt job type is different.\n- `Config.PsMdt.RestrictionIdentifier`: the exact ps-mdt job type written to report visibility restrictions (default `leo`).\n- `Config.MaxItemsPerSection`: prevents oversized client payloads; increase cautiously.",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
-          "id": "security-and-privacy-6",
+          "id": "first-test-8",
+          "title": "First test",
+          "content": "### First test\n\n1. Start `oxmysql`, then `ps-mdt`, then this resource.\n2. Confirm the officer can open `/policereport` and receives no ACE error.\n3. Type a short incident and click **Draft report**. With no key, the local fallback should appear.\n4. Review/edit the JSON, use a charge label that exists in ps-mdt Penal Codes, then click **Save to ps-mdt**.\n5. Open the report in ps-mdt and verify the title, summary, people, charges, evidence, tag, and visibility.",
+          "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
+        },
+        {
+          "id": "security-and-privacy-9",
           "title": "Security and privacy",
           "content": "## Security and privacy\n\nDictation is sent to the configured AI endpoint only when AI drafting is enabled. Avoid sending unnecessary personally identifying information, configure an approved provider, and follow your server’s retention policy. API keys stay in server convars. The client can request drafts, but only an ACE-authorized server can submit them.",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         },
         {
-          "id": "api-events-7",
+          "id": "api-events-10",
           "title": "API/events",
-          "content": "## API/events\n\n- `peak-police-report-writer:server:draft` — internal server event for draft generation.\n- `peak-police-report-writer:server:submit` — internal server event for reviewed report submission.\n- `/policereport` — opens the officer UI.\n\nMIT © Peak Studios",
+          "content": "## API/events\n\n- `peak-police-report-writer:server:draft` — internal server event for draft generation.\n- `peak-police-report-writer:server:submit` — internal server event for reviewed report submission.\n- `/policereport` — opens the officer UI.\n\nThe UI is intentionally a review workflow: AI output never saves automatically, and the server validates the submitted draft again. This resource does not create warrants, arrests, images, or chain-of-custody records; add those in ps-mdt.\n\nMIT © Peak Studios",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
         }
       ]
