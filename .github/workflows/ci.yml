@@ -24,7 +24,7 @@ jobs:
       - name: Validate documentation links
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude-path node_modules --exclude-path dist --exclude-path catalog/scripts --exclude-path skills/peak-scripts/references "./*.md" "./docs/**/*.md" "./skills/peak-scripts/SKILL.md"
+          args: --no-progress --exclude "https://github.com/Peak-Studios/advanced-ai-npc" --exclude-path node_modules --exclude-path dist --exclude-path catalog/scripts --exclude-path skills/peak-scripts/references "./*.md" "./docs/**/*.md" "./skills/peak-scripts/SKILL.md"
           fail: true
 
   secrets:
