@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "toolkitVersion": "1.1.0",
-  "generatedAt": "2026-07-20T23:55:20Z",
+  "generatedAt": "2026-07-24T12:00:00Z",
   "organization": "Peak-Studios",
   "scripts": [
     {
@@ -1199,6 +1199,63 @@
           "title": "API/events",
           "content": "## API/events\n\n- `peak-police-report-writer:server:draft` — internal server event for draft generation.\n- `peak-police-report-writer:server:submit` — internal server event for reviewed report submission.\n- `/policereport` — opens the officer UI.\n\nMIT © Peak Studios",
           "sourceUrl": "https://github.com/Peak-Studios/peak-police-report-writer/blob/742494731329cd09552406ed20d7e17d131fee54/README.md"
+        }
+      ]
+    },
+    {
+      "id": "peak-ai-npc",
+      "name": "peak-ai-npc",
+      "description": "Server-authoritative conversational AI NPCs with an optional gateway service",
+      "repository": "https://github.com/Peak-Studios/advanced-ai-npc",
+      "license": "MIT",
+      "defaultBranch": "main",
+      "sourceCommit": "a1b2c3d4e5f67890123456789abcdef012345678",
+      "updatedAt": "2026-07-24T12:00:00Z",
+      "frameworks": [
+        "ESX",
+        "QBCore",
+        "Qbox",
+        "standalone"
+      ],
+      "dependencies": [
+        "screenshot-basic",
+        "ox_target",
+        "qb-target",
+        "peak-bridge"
+      ],
+      "capabilities": [
+        "conversational AI NPCs",
+        "server-authoritative peds",
+        "voice dictation STT",
+        "3D diegetic TTS subtitles",
+        "vision screenshot analysis",
+        "memory persistence",
+        "custom tools"
+      ],
+      "sections": [
+        {
+          "id": "peak-ai-npc-1",
+          "title": "Peak AI NPC",
+          "content": "# Peak AI NPC\n\nPeak AI NPC adds server-authoritative conversational AI characters to FiveM servers with an optional AI gateway service.\n\n- `peak-ai-npc/`: FiveM resource with ped management, NUI, voice dictation, 3D subtitles, targets, and open edit configuration.\n- `gateway/`: TypeScript HTTP gateway for LLM providers (Ollama, OpenAI, Groq, Anthropic, Gemini), TTS/STT, PostgreSQL memory, and vision.\n\n## Open-for-Edit Files (`escrow_ignore`)\n\nPer release rules, core runtime modules are escrowed while customization files remain completely open for editing:\n\n- `shared/config.lua`: Lore, interaction distance, framework, target system, voice, subtitles, vision\n- `npcs/examples.lua`: NPC peds, spawn coords, prompts, identities, knowledge, tool permissions\n- `client/targets.lua`: `ox_target`, `qb-target`, and native interaction logic\n- `locales/*.lua`: Subtitle and NUI notification strings\n- `shared/constants.lua`: Shared event names and state keys",
+          "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md"
+        },
+        {
+          "id": "configuration-2",
+          "title": "Configuration",
+          "content": "## Configuration\n\nEdit `shared/config.lua` in your `peak-ai-npc` resource folder:\n\n- `Config.ServerLore`: Server-specific background lore for NPC prompts.\n- `Config.Framework`: Framework mode (`auto`, `qbcore`, `esx`, `qbox`, `standalone`).\n- `Config.Inventory`: Inventory provider (`auto`, `ox_inventory`, `qb-inventory`, `qs-inventory`, `esx_inventory`, `none`).\n- `Config.Target`: Target handler (`native`, `ox_target`, `qb-target`, `auto`).\n- `Config.Conversations`: Distance limits, turn bounds, idle timeouts, and rate limits.\n- `Config.Security`: Purchase confirmation toggles and audit options.\n- `Config.Subtitles`: 3D subtitle styling, line lengths, and accessibility modes.\n- `Config.Vision`: Screenshot basic integration settings.",
+          "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/CONFIGURATION_GUIDE.md"
+        },
+        {
+          "id": "npc-authoring-3",
+          "title": "NPC Authoring",
+          "content": "## NPC Authoring\n\nDefine custom NPCs in `npcs/*.lua` using `AINPCDefinitions`:\n\n```lua\nAINPCDefinitions.shopkeeper = {\n    id = 'shopkeeper',\n    model = 'mp_m_shopkeep_01',\n    coords = vec4(24.4, -1345.2, 29.5, 266.0),\n    identity = { name = 'Martha', occupation = 'shopkeeper' },\n    personality = 'Patient, observant, and concise. Never invents stock or prices.',\n    knowledge = 'Only knows the shop catalog, public server lore, and facts returned by tools.',\n    allowedTools = { 'get_shop_catalog', 'get_shop_stock', 'create_purchase_quote', 'confirm_purchase' },\n    interactionDistance = 3.0\n}\n```",
+          "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/NPC_AUTHORING_GUIDE.md"
+        },
+        {
+          "id": "gateway-convars-4",
+          "title": "Gateway Convars",
+          "content": "## Gateway Convars\n\nConfigure FXServer convars in `server.cfg`:\n\n```cfg\nset peak_ai_npc_gateway_url \"http://127.0.0.1:8787\"\nset peak_ai_npc_gateway_secret \"your-gateway-secret\"\nset peak_ai_npc_server_id \"my-server-id\"\nensure peak-ai-npc\n```",
+          "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md"
         }
       ]
     }

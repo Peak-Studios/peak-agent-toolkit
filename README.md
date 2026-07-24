@@ -2,7 +2,7 @@
 
 Official, open-source AI documentation for public [Peak Studios](https://github.com/Peak-Studios) FiveM scripts.
 
-The project exposes a read-only Model Context Protocol server, a reusable agent skill, and a static JSON catalog. Every answer is grounded in approved public repository documentation; private or unpublished source is never indexed.
+The project exposes a read-only Model Context Protocol server, a reusable agent skill, and a static JSON catalog. Every answer is grounded in approved public repository documentation; private or escrowed source is never indexed.
 
 ## Public interfaces
 
@@ -25,6 +25,7 @@ The production URL may change to a Peak-controlled domain. The Vercel URL remain
 | peak-trucking | https://github.com/Peak-Studios/peak-trucking |
 | peak-readme-generator | https://github.com/Peak-Studios/peak-readme-generator |
 | peak-police-report-writer | https://github.com/Peak-Studios/peak-police-report-writer |
+| peak-ai-npc | https://github.com/Peak-Studios/advanced-ai-npc |
 
 ## Development
 
