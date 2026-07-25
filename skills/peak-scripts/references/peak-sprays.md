@@ -3,7 +3,7 @@
 Premium open-source FiveM resource for persistent in-world spray painting.
 
 Repository: https://github.com/Peak-Studios/peak-sprays
-Source commit: ec960e6000aefe77ca763cdaef66d17e2d346e93
+Source commit: 8d34ba5e849096a6a25d2ea12167a0aab979501e
 
 ## Peak Sprays
 
@@ -17,7 +17,7 @@ Peak Sprays is a premium open-source FiveM resource for persistent in-world spra
 
 ![Peak Sprays preview](docs/spray-preview.gif)
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Features
 
@@ -35,7 +35,7 @@ Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cd
 - Editable custom hooks for permissions, notifications, economy, and server integrations
 - Discord logging support with server-side webhook configuration
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Dependencies
 
@@ -45,13 +45,13 @@ Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cd
 - `oxmysql`
 - A supported framework and inventory if you want item-based usage
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Installation
 
 ## Installation
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## 🤖 AI-First Setup (Recommended)
 
@@ -61,7 +61,7 @@ If you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you c
 2. Copy the content and paste it into your AI assistant.
 3. Follow its instructions to automatically configure the framework, inventory, and items for your server.
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Manual Setup
 
@@ -79,7 +79,7 @@ ensure oxmysql
 ensure peak-sprays
 ```
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Commands
 
@@ -93,7 +93,7 @@ Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cd
 - `/deletescene` deletes the nearest owned text scene/sign, or any scene/sign for admins.
 - `/sprayadmin` opens the admin panel for permitted staff.
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Configuration
 
@@ -105,7 +105,7 @@ Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cd
 - **[server/custom.lua](server/custom.lua)**: Server-side hooks for money overrides and lifecycle events.
 - **[server/server-config.lua](server/server-config.lua)**: Sensitive server-only values such as Discord webhooks.
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Image Sprays
 
@@ -115,7 +115,7 @@ Image sprays are enabled with `Config.ImageSpraysEnabled` in [shared/internal_co
 
 Remote images are restricted by `Config.ImageAllowedHosts`. Keep this list tight and only include hosts you trust. Images are stored as URLs in `stroke_data`, so a spray can render blank later if the remote file is deleted, moved, blocked by CORS, or blocked by the player's client.
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Publishing Notes
 
@@ -126,7 +126,7 @@ Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cd
 - Include `ui/dist`, `install`, `client`, `server`, `shared`, `fxmanifest.lua`, and this README in release archives.
 - Do not include `ui/node_modules` in release archives.
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md
 
 ## Contributing
 
@@ -134,4 +134,4 @@ Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cd
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.
 
-Source: https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md
+Source: https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md

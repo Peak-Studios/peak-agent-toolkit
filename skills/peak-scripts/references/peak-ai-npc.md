@@ -1,9 +1,9 @@
 # peak-ai-npc
 
-Server-authoritative conversational AI NPCs with an optional gateway service
+Server-authoritative configured-role and ambient-ped AI conversations for FiveM
 
 Repository: https://github.com/Peak-Studios/advanced-ai-npc
-Source commit: a1b2c3d4e5f67890123456789abcdef012345678
+Source commit: 414b5f2b01ef26ebe8370cedd541b8abe7be0c4b
 
 ## Peak AI NPC
 
@@ -63,6 +63,16 @@ AINPCDefinitions.shopkeeper = {
 ```
 
 Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/NPC_AUTHORING_GUIDE.md
+
+## Ambient NPCs and local TTS
+
+# Ambient NPCs and local TTS
+
+Configured definitions are the privileged store, mission, and action roles. Eligible networked ambient peds can be spoken to by aiming at one and using `/ainpc`, or through `ox_target`/`qb-target`; they are server-resolved, distance and routing-bucket checked, and always have an empty tool allowlist. Their prompt gets model, live location, zone, and lifecycle identity context.
+
+For same-computer testing, use `http://127.0.0.1:8787` for both `AI_NPC_PUBLIC_BASE_URL` and `peak_ai_npc_gateway_url`. `/health` must report a speech provider other than `none`; a configured provider can still require account terms before synthesis works. Remote players need a client-reachable HTTPS URL.
+
+Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/414b5f2/docs/AMBIENT_NPCS_AND_LOCAL_TTS.md
 
 ## Gateway Convars
 

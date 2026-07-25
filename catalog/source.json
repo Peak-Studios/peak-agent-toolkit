@@ -907,8 +907,8 @@
     "repository": "https://github.com/Peak-Studios/peak-sprays",
     "license": "MIT",
     "defaultBranch": "main",
-    "sourceCommit": "ec960e6000aefe77ca763cdaef66d17e2d346e93",
-    "updatedAt": "2026-07-21T14:45:14Z",
+    "sourceCommit": "8d34ba5e849096a6a25d2ea12167a0aab979501e",
+    "updatedAt": "2026-07-25T02:00:47Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -927,67 +927,67 @@
         "id": "peak-sprays-1",
         "title": "Peak Sprays",
         "content": "# Peak Sprays\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-0.2.3-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://discord.gg/gAqXUaVEMn)\n\nPeak Sprays is a premium open-source FiveM resource for persistent in-world spray painting, text scenes, and signs. Players can paint on DUI canvases or place styled text/sign surfaces that are saved to SQL and rendered back into the world for nearby players.\n\n![Peak Sprays preview](docs/spray-preview.gif)",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "features-2",
         "title": "Features",
         "content": "## Features\n\n- Persistent spray paintings, text scenes, and signs stored in SQL\n- DUI-based in-world canvas rendering\n- Paint, erase, undo, redo, brush sizing, color presets, and optional color picker\n- Image-link sprays with allowlisted HTTPS hosts, placement, scale, rotate, undo, redo, and erase support\n- Scene/sign editor with fonts, colors, backgrounds, visibility modes, expiry, and live placement preview\n- Live preview while players are actively painting\n- Admin panel for listing, previewing, teleporting to, and deleting sprays, text scenes, and signs\n- Framework bridge for QBCore, Qbox, ESX, OX Core, vRP, and standalone setups\n- Usable item and command-based flows\n- Editable custom hooks for permissions, notifications, economy, and server integrations\n- Discord logging support with server-side webhook configuration",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "dependencies-3",
         "title": "Dependencies",
         "content": "## Dependencies\n\n- `ox_lib`\n- `oxmysql`\n- A supported framework and inventory if you want item-based usage",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "installation-4",
         "title": "Installation",
         "content": "## Installation",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "ai-first-setup-recommended-5",
         "title": "🤖 AI-First Setup (Recommended)",
         "content": "### 🤖 AI-First Setup (Recommended)\nIf you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you can set up this resource in seconds:\n1. Open [PROMPT.md](PROMPT.md).\n2. Copy the content and paste it into your AI assistant.\n3. Follow its instructions to automatically configure the framework, inventory, and items for your server.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "manual-setup-6",
         "title": "Manual Setup",
         "content": "### Manual Setup\n1. Place this resource in your server resources folder as `peak-sprays`.\n2. Import [install/install.sql](install/install.sql) into your database.\n   - If you already installed v0.2.2 before this schema fix, run [install/migration_0.2.2_spray_gang_status.sql](install/migration_0.2.2_spray_gang_status.sql) once instead of re-importing the full install file.\n3. Add the inventory items from [install](install) if you use item-based spray painting.\n4. Configure [shared/config.lua](shared/config.lua) and [server/server-config.lua](server/server-config.lua).\n5. Ensure dependencies before this resource:\n\n```cfg\nensure ox_lib\nensure oxmysql\nensure peak-sprays\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "commands-7",
         "title": "Commands",
         "content": "## Commands\n\n- `/spraypaint` starts spray placement when `Config.UseCommand` is enabled.\n- `/erasepaint` starts erase mode when `Config.UseCommand` is enabled.\n- `/scene [text]` opens the text scene editor when `Config.SceneUseCommand` is enabled.\n- `/sign [text]` opens the sign editor when `Config.SceneUseCommand` is enabled.\n- `/hidescenes` toggles local text scene/sign visibility.\n- `/deletescene` deletes the nearest owned text scene/sign, or any scene/sign for admins.\n- `/sprayadmin` opens the admin panel for permitted staff.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "configuration-8",
         "title": "Configuration",
         "content": "## Configuration\n\n- **[shared/config.lua](shared/config.lua)**: The main, simplified config for non-coders. Use this for basic framework, item, and command settings.\n- **[shared/internal_config.lua](shared/internal_config.lua)**: Advanced technical settings (DUI limits, render distances, brush presets, animations).\n- **[client/custom.lua](client/custom.lua)**: Client-side hooks for permissions, notifications, progress bars, and targets.\n- **[server/custom.lua](server/custom.lua)**: Server-side hooks for money overrides and lifecycle events.\n- **[server/server-config.lua](server/server-config.lua)**: Sensitive server-only values such as Discord webhooks.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "image-sprays-9",
         "title": "Image Sprays",
         "content": "### Image Sprays\n\nImage sprays are enabled with `Config.ImageSpraysEnabled` in [shared/internal_config.lua](shared/internal_config.lua). Players can paste an HTTPS image URL while painting, place it on the selected canvas, scale and rotate it, then save it as part of the spray.\n\nRemote images are restricted by `Config.ImageAllowedHosts`. Keep this list tight and only include hosts you trust. Images are stored as URLs in `stroke_data`, so a spray can render blank later if the remote file is deleted, moved, blocked by CORS, or blocked by the player's client.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "publishing-notes-10",
         "title": "Publishing Notes",
         "content": "## Publishing Notes\n\n- Do not publish live webhook URLs or credentials.\n- Build the NUI before release with `npm run build` from the `ui` folder.\n- Include `ui/dist`, `install`, `client`, `server`, `shared`, `fxmanifest.lua`, and this README in release archives.\n- Do not include `ui/node_modules` in release archives.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       },
       {
         "id": "contributing-11",
         "title": "Contributing",
         "content": "## Contributing\n\nContributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/ec960e6000aefe77ca763cdaef66d17e2d346e93/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
       }
     ]
   },
@@ -1244,12 +1244,12 @@
   {
     "id": "peak-ai-npc",
     "name": "peak-ai-npc",
-    "description": "Server-authoritative conversational AI NPCs with an optional gateway service",
+    "description": "Server-authoritative configured-role and ambient-ped AI conversations for FiveM",
     "repository": "https://github.com/Peak-Studios/advanced-ai-npc",
     "license": "MIT",
     "defaultBranch": "main",
-    "sourceCommit": "a1b2c3d4e5f67890123456789abcdef012345678",
-    "updatedAt": "2026-07-24T12:00:00Z",
+    "sourceCommit": "414b5f2b01ef26ebe8370cedd541b8abe7be0c4b",
+    "updatedAt": "2026-07-25T21:30:00Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -1269,6 +1269,7 @@
       "3D diegetic TTS subtitles",
       "vision screenshot analysis",
       "memory persistence",
+      "ambient ped conversations",
       "custom tools"
     ],
     "sections": [
@@ -1291,7 +1292,13 @@
         "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/NPC_AUTHORING_GUIDE.md"
       },
       {
-        "id": "gateway-convars-4",
+        "id": "ambient-npcs-and-local-tts-4",
+        "title": "Ambient NPCs and local TTS",
+        "content": "# Ambient NPCs and local TTS\n\nConfigured definitions are the privileged store, mission, and action roles. Eligible networked ambient peds can be spoken to by aiming at one and using `/ainpc`, or through `ox_target`/`qb-target`; they are server-resolved, distance and routing-bucket checked, and always have an empty tool allowlist. Their prompt gets model, live location, zone, and lifecycle identity context.\n\nFor same-computer testing, use `http://127.0.0.1:8787` for both `AI_NPC_PUBLIC_BASE_URL` and `peak_ai_npc_gateway_url`. `/health` must report a speech provider other than `none`; a configured provider can still require account terms before synthesis works. Remote players need a client-reachable HTTPS URL.",
+        "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/414b5f2/docs/AMBIENT_NPCS_AND_LOCAL_TTS.md"
+      },
+      {
+        "id": "gateway-convars-5",
         "title": "Gateway Convars",
         "content": "## Gateway Convars\n\nConfigure FXServer convars in `server.cfg`:\n\n```cfg\nset peak_ai_npc_gateway_url \"http://127.0.0.1:8787\"\nset peak_ai_npc_gateway_secret \"your-gateway-secret\"\nset peak_ai_npc_server_id \"my-server-id\"\nensure peak-ai-npc\n```",
         "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md"
