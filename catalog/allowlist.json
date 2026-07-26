@@ -9,7 +9,8 @@
     "peak-trucking",
     "peak-readme-generator",
     "peak-police-report-writer",
-    "peak-ai-npc"
+    "peak-ai-npc",
+    "peak-pedmanager"
   ],
   "approvedFiles": [
     "README.md",

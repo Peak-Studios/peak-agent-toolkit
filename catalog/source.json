@@ -1304,5 +1304,48 @@
         "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md"
       }
     ]
+  },
+  {
+    "id": "peak-pedmanager",
+    "name": "peak-pedmanager",
+    "description": "Standalone FiveM ped management resource with live UI, GTAV scenario & animation presets, ox_target hooks, and SQL persistence",
+    "repository": "https://github.com/Peak-Studios/peak-pedmanager",
+    "license": "MIT",
+    "defaultBranch": "main",
+    "sourceCommit": "1.0.0",
+    "updatedAt": "2026-07-26T00:00:00Z",
+    "frameworks": [
+      "ESX",
+      "QBCore",
+      "Qbox",
+      "standalone"
+    ],
+    "dependencies": [
+      "oxmysql",
+      "ox_target",
+      "qb-target"
+    ],
+    "capabilities": [
+      "ped management",
+      "scenario presets",
+      "animations",
+      "3d placement",
+      "target interaction",
+      "sql persistence"
+    ],
+    "sections": [
+      {
+        "id": "peak-pedmanager-1",
+        "title": "peak-pedmanager Overview",
+        "content": "# peak-pedmanager\n\n`peak-pedmanager` is a standalone, production-ready FiveM resource featuring a modern React + TypeScript NUI dashboard allowing server owners and developers to spawn static or animated peds, configure GTAV scenarios, set animations, attach props, set interaction target hooks, and save them directly to SQL.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/main/README.md"
+      },
+      {
+        "id": "peak-pedmanager-features-2",
+        "title": "Features & Architecture",
+        "content": "- **Modern React + Tailwind NUI**: High-performance glassmorphism dashboard with search and tabs.\n- **Live 3D Placement & Gizmo**: Position and align peds in real-time in the world.\n- **GTAV Scenarios & Animations**: Built-in library of leaning, coffee, clipboard, guarding, sitting, and custom animations.\n- **Multi-Target System**: `ox_target`, `qb-target`, `qtarget`, and 3D Text fallback.\n- **SQL Persistence**: Automatic schema creation and oxmysql database integration.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/main/README.md"
+      }
+    ]
   }
 ]
