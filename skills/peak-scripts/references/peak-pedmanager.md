@@ -3,7 +3,7 @@
 Standalone FiveM ped management resource with live UI, GTAV scenario & animation presets, ox_target hooks, and SQL persistence
 
 Repository: https://github.com/Peak-Studios/peak-pedmanager
-Source commit: 1.0.0
+Source commit: aa7b0595725c572122adca0105b4062f37f1758d
 
 ## peak-pedmanager Overview
 
@@ -11,7 +11,7 @@ Source commit: 1.0.0
 
 `peak-pedmanager` is a standalone, production-ready FiveM resource featuring a modern React + TypeScript NUI dashboard allowing server owners and developers to spawn static or animated peds, configure GTAV scenarios, set animations, attach props, set interaction target hooks, and save them directly to SQL.
 
-Source: https://github.com/Peak-Studios/peak-pedmanager/blob/main/README.md
+Source: https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md
 
 ## Features & Architecture
 
@@ -21,4 +21,4 @@ Source: https://github.com/Peak-Studios/peak-pedmanager/blob/main/README.md
 - **Multi-Target System**: `ox_target`, `qb-target`, `qtarget`, and 3D Text fallback.
 - **SQL Persistence**: Automatic schema creation and oxmysql database integration.
 
-Source: https://github.com/Peak-Studios/peak-pedmanager/blob/main/README.md
+Source: https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md
