@@ -3,7 +3,7 @@
 Premium open-source FiveM trucking resource with driver progression, company trust, daily missions, leaderboards, and a React NUI dispatch tablet.
 
 Repository: https://github.com/Peak-Studios/peak-trucking
-Source commit: 520f700bb2e75e265a318541081152bc2ed3ebc9
+Source commit: cb56ce784a1a89f51f4083c5681c4abd5c45e56b
 
 ## Peak Trucking
 
@@ -17,7 +17,7 @@ Peak Trucking is a premium open-source FiveM trucking resource with persistent d
 
 ![Peak Trucking UI preview](docs/ui-preview.png)
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Features
 
@@ -37,7 +37,7 @@ Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318
 - Interaction support for `drawtext`, `ox_target`, `qb_target`, `qb_textui`, and `esx_textui`
 - Vite React + TypeScript NUI built into `ui/dist`
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Dependencies
 
@@ -47,13 +47,13 @@ Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318
 - A supported framework: QBCore or ESX
 - Optional inventory/interaction resources based on your configuration
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Installation
 
 ## Installation
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## 🤖 AI-First Setup (Recommended)
 
@@ -63,7 +63,7 @@ If you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you c
 2. Copy the content and paste it into your AI assistant.
 3. Follow its instructions to automatically configure the framework, inventory, key system, and database for your server.
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Manual Setup
 
@@ -78,7 +78,7 @@ ensure oxmysql
 ensure peak-trucking
 ```
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## UI Development
 
@@ -94,7 +94,7 @@ npm run build
 
 The FiveM manifest loads `ui/dist/index.html`. Keep `ui/dist` in release archives and do not include `ui/node_modules`.
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Configuration
 
@@ -104,13 +104,13 @@ Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318
 - **[shared/language.lua](shared/language.lua)**: UI and gameplay text strings.
 - **[server/server-config.lua](server/server-config.lua)**: Server-only optional settings such as Discord bot token and version checks.
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Changelog
 
 ## Changelog
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Unreleased
 
@@ -121,7 +121,7 @@ Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318
 - Added automatic job cancellation when the active truck, required trailer, or attached cargo is destroyed.
 - Cleared server-side illegal cargo sessions when a job is canceled or the player disconnects.
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Publishing Notes
 
@@ -132,7 +132,7 @@ Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318
 - Do not include `ui/node_modules` in releases.
 - Review mission coordinates and item names before publishing a server-specific fork.
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md
 
 ## Contributing
 
@@ -140,4 +140,4 @@ Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318
 
 Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.
 
-Source: https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md
+Source: https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md

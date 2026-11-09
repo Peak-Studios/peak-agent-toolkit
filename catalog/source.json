@@ -6,8 +6,8 @@
     "repository": "https://github.com/Peak-Studios/peak-bridge",
     "license": "MIT",
     "defaultBranch": "main",
-    "sourceCommit": "f581b7a1f8e55678d19025d346627f71aa79764c",
-    "updatedAt": "2026-05-24T01:00:24Z",
+    "sourceCommit": "5c6fe75eb16c081d09a014106ef39493ca30bb0d",
+    "updatedAt": "2026-09-18T06:33:23Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -33,43 +33,43 @@
         "id": "peak-bridge-1",
         "title": "peak-bridge",
         "content": "# peak-bridge\n\n`peak-bridge` is the shared integration layer for future Peak resources. It centralizes framework, inventory, SQL, callback, money, notification, progress, text UI, and appearance bridge logic so new scripts do not copy the same code.\n\n`peak-barbers` now depends on this bridge, and new Peak resources should use it instead of copying local framework bridge logic.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       },
       {
         "id": "load-order-2",
         "title": "Load Order",
         "content": "## Load Order\n\n```cfg\nensure ox_lib       # required by peak-bridge for lib.notify/progress/text UI support\nensure oxmysql      # optional, needed only when SQL is oxmysql\nensure peak-bridge\nensure peak-your-resource\n```\n\nFuture Peak resources should add:\n\n```lua\ndependency 'peak-bridge'\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       },
       {
         "id": "configuration-3",
         "title": "Configuration",
         "content": "## Configuration\n\nEdit `shared/config.lua`.\n\n- `PeakBridgeConfig.Framework`: `auto`, `qbox`, `qbx`, `qbcore`, `esx`, `ox`, `vrp`, `standalone`\n- `PeakBridgeConfig.Inventory`: `auto`, `ox_inventory`, `qb-inventory`, `qb_inventory`, `ps-inventory`, `qs-inventory`, `qs_inventory`, `codem-inventory`, `gfx-inventory`, `esx_inventory`, `none`\n- `PeakBridgeConfig.SQL`: `auto`, `oxmysql`, `ghmattimysql`, `mysql-async`, `none`\n- `PeakBridgeConfig.Notify`: `auto`, `ox_lib`, `qb-core`, `esx`, `native`\n- `PeakBridgeConfig.Target`: `auto`, `ox_target`, `qb-target`, `none`\n- `PeakBridgeConfig.Progress`: `auto`, `ox_lib`, `progressbar`, `wait`\n- `PeakBridgeConfig.Appearance`: `auto`, `illenium-appearance`, `fivem-appearance`, `qb-clothing`, `rcore_clothing`, `rcore_clothes`, `skinchanger`, `none`\n\nAliases are normalized internally, so `qbx` becomes `qbox`, `qb_inventory` becomes `qb-inventory`, `qs_inventory` becomes `qs-inventory`, and `rcore_clothes` becomes `rcore_clothing`.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       },
       {
         "id": "server-exports-4",
         "title": "Server Exports",
         "content": "## Server Exports\n\n```lua\nlocal bridge = exports['peak-bridge']\n\nlocal ready = bridge:IsReady()\nlocal frameworkName = bridge:GetFrameworkName()\nlocal framework = bridge:GetFramework()\nlocal inventoryName = bridge:GetInventoryName()\nlocal sqlDriver = bridge:GetSQLDriver()\n\nlocal player = bridge:GetPlayer(source)\nlocal identifier = bridge:GetIdentifier(source)\nlocal name = bridge:GetPlayerName(source)\n\nbridge:AddMoney(source, 500, 'cash', 'job payout')\nbridge:RemoveMoney(source, 75, 'cash', 'purchase')\nlocal cash = bridge:GetMoney(source, 'cash')\n\nbridge:AddItem(source, 'water', 1, { quality = 100 })\nbridge:RemoveItem(source, 'water', 1)\nlocal count = bridge:GetItemCount(source, 'water')\nlocal hasItem = bridge:HasItem(source, 'water', 1)\n\nbridge:RegisterUsableItem('water', function(source, item, itemData)\n    -- handle item use\nend)\n\nbridge:RegisterCallback('my-resource:getData', function(source, id)\n    return { id = id }\nend)\n\nlocal isAdmin = bridge:IsAdmin(source, {\n    ace = 'command.myadmin',\n    groups = { 'admin', 'god' },\n})\n\nlocal rows = bridge:ExecuteSql('SELECT * FROM users WHERE identifier = ?', { identifier })\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       },
       {
         "id": "client-exports-5",
         "title": "Client Exports",
         "content": "## Client Exports\n\n```lua\nlocal bridge = exports['peak-bridge']\n\nlocal ready = bridge:IsReady()\nlocal frameworkName = bridge:GetFrameworkName()\nlocal framework = bridge:GetFramework()\n\nlocal data = bridge:GetPlayerData()\nlocal job = bridge:GetPlayerJob()\n\nlocal result = bridge:TriggerCallback('my-resource:getData', 123)\n\nbridge:Notify('Saved', 'success', 5000, 'Peak')\nlocal completed = bridge:ProgressBar('Working...', 5000, {\n    dict = 'amb@world_human_hammering@male@base',\n    anim = 'base',\n    disableMove = true,\n    disableCombat = true,\n})\n\nbridge:ShowTextUI('[E] Interact', 'right-center')\nbridge:HideTextUI()\n\nlocal appearance = bridge:GetAppearance()\nbridge:SaveAppearance()\nbridge:ReloadAppearance()\n\nlocal model = bridge:LoadModel('s_m_m_trucker_01')\nbridge:LoadAnimDict('missheistdockssetup1clipboard@base')\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       },
       {
         "id": "callback-transport-6",
         "title": "Callback Transport",
         "content": "## Callback Transport\n\nCallbacks use `peak-bridge` events:\n\n- `peak-bridge:server:triggerCallback`\n- `peak-bridge:client:callbackResponse`\n\nNew scripts only need `RegisterCallback` on the server and `TriggerCallback` on the client.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       },
       {
         "id": "requirements-7",
         "title": "Requirements",
         "content": "## Requirements\n\n- FiveM artifact with Lua 5.4 enabled.\n- `ox_lib` started before `peak-bridge`.\n- A supported framework/inventory/SQL resource only if the matching feature is used.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md"
       }
     ]
   },
@@ -276,7 +276,7 @@
     "license": "MIT",
     "defaultBranch": "main",
     "sourceCommit": "2e2378d97f1ea9099494045ca98c849f1a4c333e",
-    "updatedAt": "2026-07-20T07:21:11Z",
+    "updatedAt": "2026-10-24T15:55:22Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -655,7 +655,7 @@
     "license": "MIT",
     "defaultBranch": "main",
     "sourceCommit": "71c0bf8f8cf4597a267d8e02dacf024386607fe2",
-    "updatedAt": "2026-06-23T06:57:28Z",
+    "updatedAt": "2026-09-29T05:16:03Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -907,8 +907,8 @@
     "repository": "https://github.com/Peak-Studios/peak-sprays",
     "license": "MIT",
     "defaultBranch": "main",
-    "sourceCommit": "8d34ba5e849096a6a25d2ea12167a0aab979501e",
-    "updatedAt": "2026-07-25T02:00:47Z",
+    "sourceCommit": "d4668f076f3be26d96d10a21288fca1e158d4c0f",
+    "updatedAt": "2026-11-03T23:30:49Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -926,68 +926,68 @@
       {
         "id": "peak-sprays-1",
         "title": "Peak Sprays",
-        "content": "# Peak Sprays\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-0.2.3-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://discord.gg/gAqXUaVEMn)\n\nPeak Sprays is a premium open-source FiveM resource for persistent in-world spray painting, text scenes, and signs. Players can paint on DUI canvases or place styled text/sign surfaces that are saved to SQL and rendered back into the world for nearby players.\n\n![Peak Sprays preview](docs/spray-preview.gif)",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "content": "# Peak Sprays\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://discord.gg/gAqXUaVEMn)\n\nPeak Sprays is a premium open-source FiveM resource for persistent in-world spray painting, text scenes, and signs. Players can paint on DUI canvases or place styled text/sign surfaces that are saved to SQL and rendered back into the world for nearby players.\n\n![Peak Sprays preview](docs/spray-preview.gif)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "features-2",
         "title": "Features",
-        "content": "## Features\n\n- Persistent spray paintings, text scenes, and signs stored in SQL\n- DUI-based in-world canvas rendering\n- Paint, erase, undo, redo, brush sizing, color presets, and optional color picker\n- Image-link sprays with allowlisted HTTPS hosts, placement, scale, rotate, undo, redo, and erase support\n- Scene/sign editor with fonts, colors, backgrounds, visibility modes, expiry, and live placement preview\n- Live preview while players are actively painting\n- Admin panel for listing, previewing, teleporting to, and deleting sprays, text scenes, and signs\n- Framework bridge for QBCore, Qbox, ESX, OX Core, vRP, and standalone setups\n- Usable item and command-based flows\n- Editable custom hooks for permissions, notifications, economy, and server integrations\n- Discord logging support with server-side webhook configuration",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "content": "## Features\n\n- **Layered Graffiti Studio**: Professional typography controls, independent move/scale/rotate, custom fonts, letter spacing, chisel outlines, drip runs, splatter spray, neon glow, and distress weathering\n- **My Designs Library**: Dedicated tabs for Drafts, Saved Designs, Recent history, Server Templates, and Gang/Crew shared designs\n- **Advanced Image Importer**: Paste directly from clipboard (`Ctrl+V`), drag & drop, URL import, brightness, contrast, monochrome, blur, and automatic background removal\n- **Textured Brush Presets**: Sidewalk chalk, street crayon, marker bleed, stipple dots, rough spray, paint roller, scratched paint, airbrush, and drip runs unified with Peak physics\n- **Non-Destructive Layers**: Reorder, hide, lock, duplicate, and delete freehand, text, image, and stencil layers\n- **Gang & Crew Templates**: Official gang tag publishing with auto-generated variants (small tag, large mural, territory mark, monochrome)\n- **100% WYSIWYG Wall Preview**: Real wall textures (brick, concrete, metal, wood, tile), 3D perspective tilt, and street lighting simulator matching world DUI rendering\n- **Smart Placement Tools**: Surface normal snapping, alignment guides, rotation snapping (45°), sizing presets (small to mural), fit-to-wall auto boundary detection, and duplicate placement mode\n- **JSON Design Import/Export**: Portable composition format for sharing and server presets\n- **Polished Creation UX**: Complete flow: Choose Type → Create Design → Preview → Save Draft → Place → Paint → Publish\n- Persistent spray paintings, text scenes, and signs stored in SQL\n- DUI-based in-world canvas rendering with memory recycling pool\n- Paint, erase, undo, redo, brush sizing, color presets, and optional color picker\n- Admin panel for listing, previewing, teleporting to, and deleting sprays, text scenes, and signs\n- Framework bridge for QBCore, Qbox, ESX, OX Core, vRP, and standalone setups\n- Usable item and command-based flows\n- Editable custom hooks for permissions, notifications, economy, and server integrations\n- Discord logging support with server-side webhook configuration",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "dependencies-3",
         "title": "Dependencies",
         "content": "## Dependencies\n\n- `ox_lib`\n- `oxmysql`\n- A supported framework and inventory if you want item-based usage",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "installation-4",
         "title": "Installation",
         "content": "## Installation",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "ai-first-setup-recommended-5",
         "title": "🤖 AI-First Setup (Recommended)",
         "content": "### 🤖 AI-First Setup (Recommended)\nIf you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you can set up this resource in seconds:\n1. Open [PROMPT.md](PROMPT.md).\n2. Copy the content and paste it into your AI assistant.\n3. Follow its instructions to automatically configure the framework, inventory, and items for your server.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "manual-setup-6",
         "title": "Manual Setup",
         "content": "### Manual Setup\n1. Place this resource in your server resources folder as `peak-sprays`.\n2. Import [install/install.sql](install/install.sql) into your database.\n   - If you already installed v0.2.2 before this schema fix, run [install/migration_0.2.2_spray_gang_status.sql](install/migration_0.2.2_spray_gang_status.sql) once instead of re-importing the full install file.\n3. Add the inventory items from [install](install) if you use item-based spray painting.\n4. Configure [shared/config.lua](shared/config.lua) and [server/server-config.lua](server/server-config.lua).\n5. Ensure dependencies before this resource:\n\n```cfg\nensure ox_lib\nensure oxmysql\nensure peak-sprays\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "commands-7",
         "title": "Commands",
         "content": "## Commands\n\n- `/spraypaint` starts spray placement when `Config.UseCommand` is enabled.\n- `/erasepaint` starts erase mode when `Config.UseCommand` is enabled.\n- `/scene [text]` opens the text scene editor when `Config.SceneUseCommand` is enabled.\n- `/sign [text]` opens the sign editor when `Config.SceneUseCommand` is enabled.\n- `/hidescenes` toggles local text scene/sign visibility.\n- `/deletescene` deletes the nearest owned text scene/sign, or any scene/sign for admins.\n- `/sprayadmin` opens the admin panel for permitted staff.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "configuration-8",
         "title": "Configuration",
         "content": "## Configuration\n\n- **[shared/config.lua](shared/config.lua)**: The main, simplified config for non-coders. Use this for basic framework, item, and command settings.\n- **[shared/internal_config.lua](shared/internal_config.lua)**: Advanced technical settings (DUI limits, render distances, brush presets, animations).\n- **[client/custom.lua](client/custom.lua)**: Client-side hooks for permissions, notifications, progress bars, and targets.\n- **[server/custom.lua](server/custom.lua)**: Server-side hooks for money overrides and lifecycle events.\n- **[server/server-config.lua](server/server-config.lua)**: Sensitive server-only values such as Discord webhooks.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "image-sprays-9",
         "title": "Image Sprays",
         "content": "### Image Sprays\n\nImage sprays are enabled with `Config.ImageSpraysEnabled` in [shared/internal_config.lua](shared/internal_config.lua). Players can paste an HTTPS image URL while painting, place it on the selected canvas, scale and rotate it, then save it as part of the spray.\n\nRemote images are restricted by `Config.ImageAllowedHosts`. Keep this list tight and only include hosts you trust. Images are stored as URLs in `stroke_data`, so a spray can render blank later if the remote file is deleted, moved, blocked by CORS, or blocked by the player's client.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "publishing-notes-10",
         "title": "Publishing Notes",
         "content": "## Publishing Notes\n\n- Do not publish live webhook URLs or credentials.\n- Build the NUI before release with `npm run build` from the `ui` folder.\n- Include `ui/dist`, `install`, `client`, `server`, `shared`, `fxmanifest.lua`, and this README in release archives.\n- Do not include `ui/node_modules` in release archives.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       },
       {
         "id": "contributing-11",
         "title": "Contributing",
         "content": "## Contributing\n\nContributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/8d34ba5e849096a6a25d2ea12167a0aab979501e/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-sprays/blob/d4668f076f3be26d96d10a21288fca1e158d4c0f/README.md"
       }
     ]
   },
@@ -998,8 +998,8 @@
     "repository": "https://github.com/Peak-Studios/peak-trucking",
     "license": "MIT",
     "defaultBranch": "main",
-    "sourceCommit": "520f700bb2e75e265a318541081152bc2ed3ebc9",
-    "updatedAt": "2026-07-20T12:29:13Z",
+    "sourceCommit": "cb56ce784a1a89f51f4083c5681c4abd5c45e56b",
+    "updatedAt": "2026-08-23T06:18:32Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -1022,73 +1022,73 @@
         "id": "peak-trucking-1",
         "title": "Peak Trucking",
         "content": "# Peak Trucking\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-0.2.5-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://dsc.gg/peakstudios)\n\nPeak Trucking is a premium open-source FiveM trucking resource with persistent driver progression, company trust, daily missions, leaderboards, legal freight, optional illegal cargo, and a React-based NUI dispatch tablet.\n\n![Peak Trucking UI preview](docs/ui-preview.png)",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "features-2",
         "title": "Features",
         "content": "## Features\n\n- Mission and route selection with truck level requirements\n- Company trust points and mission unlocks\n- Driver XP, levels, completed jobs, earnings, and recent work history\n- Daily mission progress and reset handling\n- Leaderboard data stored in SQL\n- Optional illegal cargo side job with target system integration (ox_target/qb-target)\n- Cancel active jobs from the dispatch UI or with `/canceltrucking`\n- Automatic job cancellation when the required truck, trailer, or attached cargo is destroyed\n- Movable Job HUD via `/truckhud` command with persistence\n- Framework support for QBCore and ESX (modern and legacy)\n- Inventory support for `ox_inventory`, `qb_inventory`, `esx_inventory`, and `qs_inventory`\n- Interaction support for `drawtext`, `ox_target`, `qb_target`, `qb_textui`, and `esx_textui`\n- Vite React + TypeScript NUI built into `ui/dist`",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "dependencies-3",
         "title": "Dependencies",
         "content": "## Dependencies\n\n- `oxmysql`\n- A supported framework: QBCore or ESX\n- Optional inventory/interaction resources based on your configuration",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "installation-4",
         "title": "Installation",
         "content": "## Installation",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "ai-first-setup-recommended-5",
         "title": "🤖 AI-First Setup (Recommended)",
         "content": "### 🤖 AI-First Setup (Recommended)\nIf you are using an AI coding assistant (like Claude, ChatGPT, or Cursor), you can set up this resource in seconds:\n1. Open [PROMPT.md](PROMPT.md).\n2. Copy the content and paste it into your AI assistant.\n3. Follow its instructions to automatically configure the framework, inventory, key system, and database for your server.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "manual-setup-6",
         "title": "Manual Setup",
         "content": "### Manual Setup\n1. Place this folder in your server resources as `peak-trucking`.\n2. Import [install/install.sql](install/install.sql) into your database.\n3. Configure [shared/config.lua](shared/config.lua) and [server/server-config.lua](server/server-config.lua).\n4. Ensure dependencies before this resource:\n\n```cfg\nensure oxmysql\nensure peak-trucking\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "ui-development-7",
         "title": "UI Development",
         "content": "## UI Development\n\nThe source NUI app is in [ui](ui). Build it before release:\n\n```powershell\ncd ui\nnpm install\nnpm run build\n```\n\nThe FiveM manifest loads `ui/dist/index.html`. Keep `ui/dist` in release archives and do not include `ui/node_modules`.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "configuration-8",
         "title": "Configuration",
         "content": "## Configuration\n\n- **[shared/config.lua](shared/config.lua)**: Framework, SQL driver, inventory, interactions, vehicles, missions, fuel, keys, XP, and gameplay settings.\n- **[shared/language.lua](shared/language.lua)**: UI and gameplay text strings.\n- **[server/server-config.lua](server/server-config.lua)**: Server-only optional settings such as Discord bot token and version checks.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "changelog-9",
         "title": "Changelog",
         "content": "## Changelog",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "unreleased-10",
         "title": "Unreleased",
         "content": "### Unreleased\n\n- Added a configurable `/canceltrucking` command through `Config.CancelJobCommand`.\n- Improved the existing dispatch UI Cancel Job action so it clears truck, trailer, attached cargo, carried boxes, waypoints, blips, HUD state, and server job sessions.\n- Added automatic job cancellation when the active truck, required trailer, or attached cargo is destroyed.\n- Cleared server-side illegal cargo sessions when a job is canceled or the player disconnects.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "publishing-notes-11",
         "title": "Publishing Notes",
         "content": "## Publishing Notes\n\n- Do not publish live Discord bot tokens or credentials.\n- Keep `ui/dist` committed or packaged for server use.\n- Do not include `ui/node_modules` in releases.\n- Review mission coordinates and item names before publishing a server-specific fork.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       },
       {
         "id": "contributing-12",
         "title": "Contributing",
         "content": "## Contributing\n\nContributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before opening issues or pull requests.",
-        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/520f700bb2e75e265a318541081152bc2ed3ebc9/README.md"
+        "sourceUrl": "https://github.com/Peak-Studios/peak-trucking/blob/cb56ce784a1a89f51f4083c5681c4abd5c45e56b/README.md"
       }
     ]
   },
@@ -1244,12 +1244,12 @@
   {
     "id": "peak-ai-npc",
     "name": "peak-ai-npc",
-    "description": "Server-authoritative configured-role and ambient-ped AI conversations for FiveM",
-    "repository": "https://github.com/Peak-Studios/advanced-ai-npc",
+    "description": "# Peak AI NPC  A self-hosted AI NPC system for FiveM. Give your NPCs real conversations, voice, memory, and tools — powered by your own AI API keys.",
+    "repository": "https://github.com/Peak-Studios/peak-ai-npc",
     "license": "MIT",
-    "defaultBranch": "main",
-    "sourceCommit": "414b5f2b01ef26ebe8370cedd541b8abe7be0c4b",
-    "updatedAt": "2026-07-25T21:30:00Z",
+    "defaultBranch": "master",
+    "sourceCommit": "4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e",
+    "updatedAt": "2026-10-02T22:28:00Z",
     "frameworks": [
       "ESX",
       "QBCore",
@@ -1257,10 +1257,8 @@
       "standalone"
     ],
     "dependencies": [
-      "screenshot-basic",
       "ox_target",
-      "qb-target",
-      "peak-bridge"
+      "qb-target"
     ],
     "capabilities": [
       "conversational AI NPCs",
@@ -1269,82 +1267,333 @@
       "3D diegetic TTS subtitles",
       "vision screenshot analysis",
       "memory persistence",
-      "ambient ped conversations",
       "custom tools"
     ],
     "sections": [
       {
         "id": "peak-ai-npc-1",
         "title": "Peak AI NPC",
-        "content": "# Peak AI NPC\n\nPeak AI NPC adds server-authoritative conversational AI characters to FiveM servers with an optional AI gateway service.\n\n- `peak-ai-npc/`: FiveM resource with ped management, NUI, voice dictation, 3D subtitles, targets, and open edit configuration.\n- `gateway/`: TypeScript HTTP gateway for LLM providers (Ollama, OpenAI, Groq, Anthropic, Gemini), TTS/STT, PostgreSQL memory, and vision.\n\n## Open-for-Edit Files (`escrow_ignore`)\n\nPer release rules, core runtime modules are escrowed while customization files remain completely open for editing:\n\n- `shared/config.lua`: Lore, interaction distance, framework, target system, voice, subtitles, vision\n- `npcs/examples.lua`: NPC peds, spawn coords, prompts, identities, knowledge, tool permissions\n- `client/targets.lua`: `ox_target`, `qb-target`, and native interaction logic\n- `locales/*.lua`: Subtitle and NUI notification strings\n- `shared/constants.lua`: Shared event names and state keys",
-        "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md"
+        "content": "# Peak AI NPC\n\nA self-hosted AI NPC system for FiveM. Give your NPCs real conversations, voice, memory, and tools — powered by your own AI API keys.\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://discord.gg/gAqXUaVEMn)\n[![Organization](https://img.shields.io/badge/GitHub-Peak--Studios-blue.svg)](https://github.com/Peak-Studios/peak-ai-npc)\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
       },
       {
-        "id": "configuration-2",
+        "id": "what-it-does-2",
+        "title": "What it does",
+        "content": "## What it does\n\n- **Talk to any NPC** — Players can walk up to a configured NPC or any eligible ambient ped and have a real conversation.\n- **Typed and voice input** — Keyboard text or hold-to-talk microphone (PTT). Text fallback is always available when voice isn't.\n- **Realistic voice output** — NPC responses are spoken aloud via ElevenLabs TTS with per-character voice profiles, spatial audio, and lip sync.\n- **Memory** — NPCs remember players across sessions using file-backed or PostgreSQL memory stores.\n- **NPC tools** — NPCs can take game actions: give items, start missions, open shops, run framework commands.\n- **Vision** — Optional: NPCs can see what's happening in the game via screenshot context.\n- **Residents** — Ambient NPCs with simulated personalities that evolve over time.\n- **Framework support** — QBCore, ESX, Ox, custom. Gracefully degrades when optional dependencies aren't present.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "architecture-3",
+        "title": "Architecture",
+        "content": "## Architecture\n\n![How Peak AI NPC Works](docs/assets/peak-ai-npc-how-it-works.svg)\n\n```\nFiveM server (peak-ai-npc/)\n       │  HTTP (shared secret)\n       ▼\nGateway (gateway/)  ──── LLM provider (Groq, OpenAI, Ollama, Anthropic, Gemini…)\n       │                ── TTS provider (ElevenLabs, Cartesia, OpenAI…)\n       │                ── STT provider (Whisper-compatible)\n       ▼\n  PostgreSQL (optional memory persistence)\n```\n\nThe FiveM resource never holds API keys. All provider credentials stay in the gateway's `.env`.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "requirements-4",
+        "title": "Requirements",
+        "content": "## Requirements\n\nYou need:\n\n- A FiveM server (with a valid FiveM license)\n- Node.js 20+ for the gateway\n- **At least one AI text provider** — any OpenAI-compatible API works (Groq, OpenRouter, Together, Mistral, local Ollama, etc.)\n- **Optional**: ElevenLabs or Cartesia for voiced NPC speech\n- **Optional**: A Whisper-compatible STT endpoint for player voice input\n- **Optional**: PostgreSQL for persistent NPC memory\n\nSee [Providers Guide](docs/PROVIDERS.md) for the full list of supported providers and free/cheap options.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "quick-start-5",
+        "title": "Quick Start",
+        "content": "## Quick Start",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "1-set-up-the-gateway-6",
+        "title": "1. Set up the gateway",
+        "content": "### 1. Set up the gateway\n\n```powershell\ncd gateway\nCopy-Item ../．env.example .env",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "edit-env-add-your-provider-keys-and-set-ai-npc-gateway-secret-7",
+        "title": "Edit .env — add your provider keys and set AI_NPC_GATEWAY_SECRET",
+        "content": "# Edit .env — add your provider keys and set AI_NPC_GATEWAY_SECRET\nnpm ci\nnpm run build\nnpm start\n```\n\nThe gateway listens on `http://127.0.0.1:8787` by default.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "2-install-the-fivem-resource-8",
+        "title": "2. Install the FiveM resource",
+        "content": "### 2. Install the FiveM resource\n\nCopy `peak-ai-npc/` into your server's `resources/` directory.\n\nAdd to `server.cfg`:\n\n```cfg\nset peak_ai_npc_gateway_url \"http://127.0.0.1:8787\"\nset peak_ai_npc_gateway_secret \"your-AI_NPC_GATEWAY_SECRET-value\"\nensure peak-ai-npc\n```\n\n> For a production gateway on a separate host, set `peak_ai_npc_gateway_url` to your HTTPS gateway URL and set `AI_NPC_LOCAL_DEVELOPMENT=false` in the gateway `.env`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "3-configure-your-first-npc-9",
+        "title": "3. Configure your first NPC",
+        "content": "### 3. Configure your first NPC\n\nEdit [`peak-ai-npc/npcs/examples.lua`](peak-ai-npc/npcs/examples.lua) — it has ready-to-use example NPCs with full comments. See [NPC Authoring Guide](docs/NPC_AUTHORING_GUIDE.md) for all options.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "4-optional-docker-10",
+        "title": "4. (Optional) Docker",
+        "content": "### 4. (Optional) Docker\n\n```powershell\nCopy-Item .env.example gateway/.env",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "edit-gateway-env-11",
+        "title": "Edit gateway/.env",
+        "content": "# Edit gateway/.env\ndocker compose up --build\n```\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "in-game-commands-12",
+        "title": "In-Game Commands",
+        "content": "## In-Game Commands\n\n| Command / Key | Description |\n| :--- | :--- |\n| `/ainpc` | Talk to the aimed configured NPC or eligible ambient ped |\n| `G` (hold) | Hold to speak with voice; remap in FiveM key bindings |\n| `/ainpcvision [prompt]` | Request screenshot analysis (requires vision provider + `screenshot-basic`) |\n| `/ainpc_subtitles [mode]` | Set subtitle mode: `always`, `never`, `audio_failed`, `accessibility` |\n| `/ainpc_accessibility [on\\|off]` | Toggle high-contrast subtitle overlay |\n| `ainpc_status` | Server console diagnostic status report (ACE admin) |\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "configuration-13",
         "title": "Configuration",
-        "content": "## Configuration\n\nEdit `shared/config.lua` in your `peak-ai-npc` resource folder:\n\n- `Config.ServerLore`: Server-specific background lore for NPC prompts.\n- `Config.Framework`: Framework mode (`auto`, `qbcore`, `esx`, `qbox`, `standalone`).\n- `Config.Inventory`: Inventory provider (`auto`, `ox_inventory`, `qb-inventory`, `qs-inventory`, `esx_inventory`, `none`).\n- `Config.Target`: Target handler (`native`, `ox_target`, `qb-target`, `auto`).\n- `Config.Conversations`: Distance limits, turn bounds, idle timeouts, and rate limits.\n- `Config.Security`: Purchase confirmation toggles and audit options.\n- `Config.Subtitles`: 3D subtitle styling, line lengths, and accessibility modes.\n- `Config.Vision`: Screenshot basic integration settings.",
-        "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/CONFIGURATION_GUIDE.md"
+        "content": "## Configuration",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
       },
       {
-        "id": "npc-authoring-3",
-        "title": "NPC Authoring",
-        "content": "## NPC Authoring\n\nDefine custom NPCs in `npcs/*.lua` using `AINPCDefinitions`:\n\n```lua\nAINPCDefinitions.shopkeeper = {\n    id = 'shopkeeper',\n    model = 'mp_m_shopkeep_01',\n    coords = vec4(24.4, -1345.2, 29.5, 266.0),\n    identity = { name = 'Martha', occupation = 'shopkeeper' },\n    personality = 'Patient, observant, and concise. Never invents stock or prices.',\n    knowledge = 'Only knows the shop catalog, public server lore, and facts returned by tools.',\n    allowedTools = { 'get_shop_catalog', 'get_shop_stock', 'create_purchase_quote', 'confirm_purchase' },\n    interactionDistance = 3.0\n}\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/NPC_AUTHORING_GUIDE.md"
+        "id": "gateway-gateway-env-14",
+        "title": "Gateway (`gateway/.env`)",
+        "content": "### Gateway (`gateway/.env`)\n\nCopy `.env.example` to `gateway/.env` and fill in your values:\n\n```env",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
       },
       {
-        "id": "ambient-npcs-and-local-tts-4",
-        "title": "Ambient NPCs and local TTS",
-        "content": "# Ambient NPCs and local TTS\n\nConfigured definitions are the privileged store, mission, and action roles. Eligible networked ambient peds can be spoken to by aiming at one and using `/ainpc`, or through `ox_target`/`qb-target`; they are server-resolved, distance and routing-bucket checked, and always have an empty tool allowlist. Their prompt gets model, live location, zone, and lifecycle identity context.\n\nFor same-computer testing, use `http://127.0.0.1:8787` for both `AI_NPC_PUBLIC_BASE_URL` and `peak_ai_npc_gateway_url`. `/health` must report a speech provider other than `none`; a configured provider can still require account terms before synthesis works. Remote players need a client-reachable HTTPS URL.",
-        "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/414b5f2/docs/AMBIENT_NPCS_AND_LOCAL_TTS.md"
+        "id": "shared-secret-must-match-peak-ai-npc-gateway-secret-in-server-cfg-15",
+        "title": "Shared secret — must match peak_ai_npc_gateway_secret in server.cfg",
+        "content": "# Shared secret — must match peak_ai_npc_gateway_secret in server.cfg\nAI_NPC_GATEWAY_SECRET=replace-with-a-long-random-secret",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
       },
       {
-        "id": "gateway-convars-5",
-        "title": "Gateway Convars",
-        "content": "## Gateway Convars\n\nConfigure FXServer convars in `server.cfg`:\n\n```cfg\nset peak_ai_npc_gateway_url \"http://127.0.0.1:8787\"\nset peak_ai_npc_gateway_secret \"your-gateway-secret\"\nset peak_ai_npc_server_id \"my-server-id\"\nensure peak-ai-npc\n```",
-        "sourceUrl": "https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md"
+        "id": "text-provider-any-openai-compatible-api-or-ollama-anthropic-gemini-16",
+        "title": "Text provider (any OpenAI-compatible API, or ollama/anthropic/gemini)",
+        "content": "# Text provider (any OpenAI-compatible API, or ollama/anthropic/gemini)\nAI_NPC_PROVIDER=openai-compatible\nAI_NPC_PROVIDER_KEY=your-api-key\nAI_NPC_PROVIDER_ENDPOINT=https://api.groq.com/openai/v1\nAI_NPC_PROVIDER_MODEL=llama-3.1-8b-instant",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "tts-provider-optional-text-subtitles-always-work-without-this-17",
+        "title": "TTS provider (optional — text subtitles always work without this)",
+        "content": "# TTS provider (optional — text subtitles always work without this)\nAI_NPC_TTS_PROVIDER=elevenlabs\nAI_NPC_TTS_KEY=your-elevenlabs-api-key\nAI_NPC_TTS_MODEL=eleven_flash_v2_5",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "stt-provider-optional-keyboard-text-always-works-without-this-18",
+        "title": "STT provider (optional — keyboard text always works without this)",
+        "content": "# STT provider (optional — keyboard text always works without this)\nAI_NPC_STT_PROVIDER=openai-compatible\nAI_NPC_STT_KEY=your-api-key\nAI_NPC_STT_ENDPOINT=https://api.groq.com/openai/v1\nAI_NPC_STT_MODEL=whisper-large-v3-turbo",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "url-players-connect-to-for-audio-use-https-in-production-19",
+        "title": "URL players connect to for audio (use HTTPS in production)",
+        "content": "# URL players connect to for audio (use HTTPS in production)\nAI_NPC_PUBLIC_BASE_URL=http://127.0.0.1:8787\nAI_NPC_LOCAL_DEVELOPMENT=true\n```\n\nFull reference: [`.env.example`](.env.example) | [Configuration Guide](docs/CONFIGURATION_GUIDE.md) | [Providers Guide](docs/PROVIDERS.md)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "fivem-resource-peak-ai-npc-shared-config-lua-20",
+        "title": "FiveM resource (`peak-ai-npc/shared/config.lua`)",
+        "content": "### FiveM resource (`peak-ai-npc/shared/config.lua`)\n\nConfigure interaction distance, framework, target system, subtitles, and voice options. See [Configuration Guide](docs/CONFIGURATION_GUIDE.md).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "open-for-edit-files-21",
+        "title": "Open-for-edit files",
+        "content": "### Open-for-edit files\n\nThese files are designed to be customized and are safe to edit:\n\n| File | Purpose |\n| :--- | :--- |\n| [`shared/config.lua`](peak-ai-npc/shared/config.lua) | Interaction distance, framework, voice, subtitles |\n| [`shared/voice_casting.lua`](peak-ai-npc/shared/voice_casting.lua) | Voice profile assignments per NPC |\n| [`npcs/examples.lua`](peak-ai-npc/npcs/examples.lua) | Your NPC definitions |\n| [`client/targets.lua`](peak-ai-npc/client/targets.lua) | ox_target / qb-target / native interaction logic |\n| [`locales/*.lua`](peak-ai-npc/locales/en.lua) | UI strings |\n| [`shared/constants.lua`](peak-ai-npc/shared/constants.lua) | Shared event names (for integrations) |\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "documentation-22",
+        "title": "Documentation",
+        "content": "## Documentation\n\n- [Getting Started](docs/GETTING_STARTED.md)\n- [Configuration Guide](docs/CONFIGURATION_GUIDE.md)\n- [NPC Authoring Guide](docs/NPC_AUTHORING_GUIDE.md)\n- [Providers Overview](docs/PROVIDERS.md)\n- [Deployment](docs/DEPLOYMENT.md)\n- [Targets & Locales](docs/TARGETS_AND_LOCALES.md)\n- [Integration & Server Exports](docs/INTEGRATION.md)\n- [Compatibility Matrix](docs/COMPATIBILITY_MATRIX.md)\n- [Ambient NPCs & Local TTS](docs/AMBIENT_NPCS_AND_LOCAL_TTS.md)\n- [Privacy & Operations](docs/PRIVACY_AND_OPERATIONS.md)\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "supported-providers-23",
+        "title": "Supported Providers",
+        "content": "## Supported Providers\n\n| Category | Providers |\n| :--- | :--- |\n| **Text (LLM)** | OpenAI, Groq, Ollama, Anthropic, Gemini, OpenRouter, Together, Mistral, LiteLLM, and any OpenAI-compatible endpoint |\n| **TTS (Voice)** | ElevenLabs, Cartesia, OpenAI TTS, and any OpenAI-compatible TTS |\n| **STT (Speech)** | Whisper (via Groq, OpenAI, or local) |\n| **Vision** | OpenAI Vision, Gemini Vision, Ollama Vision |\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "contributing-24",
+        "title": "Contributing",
+        "content": "## Contributing\n\nPull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
+      },
+      {
+        "id": "license-25",
+        "title": "License",
+        "content": "## License\n\n[MIT](LICENSE) — free to use, modify, and distribute. Attribution appreciated but not required.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md"
       }
     ]
   },
   {
     "id": "peak-pedmanager",
     "name": "peak-pedmanager",
-    "description": "Standalone FiveM ped management resource with live UI, GTAV scenario & animation presets, ox_target hooks, and SQL persistence",
+    "description": "# Peak Ped Manager  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)",
     "repository": "https://github.com/Peak-Studios/peak-pedmanager",
-    "license": "MIT",
+    "license": "NOASSERTION",
     "defaultBranch": "main",
     "sourceCommit": "aa7b0595725c572122adca0105b4062f37f1758d",
     "updatedAt": "2026-07-26T06:52:25Z",
-    "frameworks": [
-      "ESX",
-      "QBCore",
-      "Qbox",
-      "standalone"
-    ],
+    "frameworks": [],
     "dependencies": [
-      "oxmysql",
       "ox_target",
-      "qb-target"
+      "qb-target",
+      "oxmysql"
     ],
-    "capabilities": [
-      "ped management",
-      "scenario presets",
-      "animations",
-      "3d placement",
-      "target interaction",
-      "sql persistence"
-    ],
+    "capabilities": [],
     "sections": [
       {
-        "id": "peak-pedmanager-1",
-        "title": "peak-pedmanager Overview",
-        "content": "# peak-pedmanager\n\n`peak-pedmanager` is a standalone, production-ready FiveM resource featuring a modern React + TypeScript NUI dashboard allowing server owners and developers to spawn static or animated peds, configure GTAV scenarios, set animations, attach props, set interaction target hooks, and save them directly to SQL.",
+        "id": "peak-ped-manager-1",
+        "title": "Peak Ped Manager",
+        "content": "# Peak Ped Manager\n\n[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)\n[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](version.json)\n[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://dsc.gg/peakstudios)\n\n**Peak Ped Manager** is a standalone, production-ready FiveM resource featuring a modern React + TypeScript NUI dashboard that allows server owners and developers to spawn static or animated peds, configure scenarios, set animations, attach props, set interaction target hooks, and save them directly to SQL.\n\n---",
         "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
       },
       {
-        "id": "peak-pedmanager-features-2",
-        "title": "Features & Architecture",
-        "content": "- **Modern React + Tailwind NUI**: High-performance glassmorphism dashboard with search and tabs.\n- **Live 3D Placement & Gizmo**: Position and align peds in real-time in the world.\n- **GTAV Scenarios & Animations**: Built-in library of leaning, coffee, clipboard, guarding, sitting, and custom animations.\n- **Multi-Target System**: `ox_target`, `qb-target`, `qtarget`, and 3D Text fallback.\n- **SQL Persistence**: Automatic schema creation and oxmysql database integration.",
+        "id": "key-features-2",
+        "title": "🌟 Key Features",
+        "content": "## 🌟 Key Features\n\n- **🎨 Modern React + Tailwind NUI**: High-performance glassmorphism UI dashboard with search, filtering, and tabbed organization.\n- **📍 Live 3D Placement & Gizmo Sliders**: Position, ground-align, and rotate peds in real-time in the world with instant visual feedback.\n- **🎭 Native GTAV Scenarios & Animations Library**: Built-in library of GTAV native scenarios (leaning, drinking coffee, inspecting clipboards, guarding, sitting) and custom animation dictionary support.\n- **📦 Prop Attachment System**: Attach props (clipboard, coffee cup, notepad, pen, phone) to peds with bone index customization.\n- **⚡ Distance Culling & Dynamic Streaming**: Authoritative server state syncing that dynamically spawns/despawns peds based on player proximity to keep client FPS high and network traffic minimal.\n- **🎯 Multi-Target System**: Seamless integration with `ox_target`, `qb-target`, `qtarget`, or 3D Text / E-key fallback prompts.\n- **💾 SQL Persistence**: Saves ped configurations directly to MySQL via `oxmysql` with zero data loss on server restarts.\n- **⚙️ Framework Agnostic**: Native support for QBCore, ESX, Qbox, and Standalone servers.\n- **📤 Import & Export JSON**: Share or backup ped placement configurations across multiple servers with ease.\n\n---",
         "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "requirements-dependencies-3",
+        "title": "📦 Requirements & Dependencies",
+        "content": "## 📦 Requirements & Dependencies\n\n- [oxmysql](https://github.com/overextended/oxmysql) (Required)\n- Optional Target Systems: `ox_target`, `qb-target`, or `qtarget`\n- Optional Frameworks: `qb-core`, `es_extended`, or `qbx_core`\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "quick-setup-installation-4",
+        "title": "🚀 Quick Setup & Installation",
+        "content": "## 🚀 Quick Setup & Installation\n\nFor a step-by-step setup guide, see [INSTALL.md](INSTALL.md).",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "ai-first-setup-recommended-5",
+        "title": "🤖 AI-First Setup (Recommended)",
+        "content": "### 🤖 AI-First Setup (Recommended)\n1. Open [PROMPT.md](PROMPT.md).\n2. Copy its contents into your AI coding assistant (Cursor, Claude, or ChatGPT).\n3. Let it automatically verify dependencies and configure `shared/config.lua`.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "manual-setup-6",
+        "title": "Manual Setup",
+        "content": "### Manual Setup\n1. Download or clone this repository into your FiveM `resources/` folder as `peak-pedmanager`.\n2. Import `install/schema.sql` into your database.\n3. Configure `shared/config.lua` (set permissions, default target system, command name).\n4. Add `ensure peak-pedmanager` in your `server.cfg` **after** `oxmysql`.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "controls-commands-7",
+        "title": "⌨️ Controls & Commands",
+        "content": "## ⌨️ Controls & Commands\n\n| Command | Description | Default Key | Permission Required |\n| :--- | :--- | :--- | :--- |\n| `/pedmanager` | Opens the Ped Manager UI Dashboard | `F6` | Admin / ACE `command.pedmanager` |\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "repository-structure-8",
+        "title": "📁 Repository Structure",
+        "content": "## 📁 Repository Structure\n\n- [shared/config.lua](shared/config.lua): Main resource configuration file.\n- [shared/scenarios.lua](shared/scenarios.lua): Catalog of scenarios, animations, models, and prop attachments.\n- [client/main.lua](client/main.lua): Entity spawning, streaming distance loop, and placement raycasting.\n- [client/nui.lua](client/nui.lua): NUI message dispatches and callback handlers.\n- [client/target.lua](client/target.lua): `ox_target`, `qb-target`, and 3D Text interaction hooks.\n- [server/main.lua](server/main.lua): Database queries (`oxmysql`), client state broadcasting, and admin verification.\n- [install/schema.sql](install/schema.sql): Database table schema for `peak_peds`.\n- [ui](ui): Source React + Vite + TypeScript NUI code (Pre-built production files included in `ui/dist`).\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "nui-development-9",
+        "title": "🛠️ NUI Development",
+        "content": "## 🛠️ NUI Development\n\nTo modify the frontend UI:\n\n```bash\ncd ui\nnpm install\nnpm run build\n```\n\nKeep `ui/dist` in production releases. Server owners do not need Node.js or npm to run this script.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "license-community-10",
+        "title": "📜 License & Community",
+        "content": "## 📜 License & Community\n\nThis project is released under the [MIT License](LICENSE).\n\nFor support, updates, and community resources:\n- **Discord**: [https://dsc.gg/peakstudios](https://dsc.gg/peakstudios)\n- **GitHub**: [https://github.com/peak-studios](https://github.com/peak-studios)",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/README.md"
+      },
+      {
+        "id": "installation-guide-peak-ped-manager-1",
+        "title": "Installation Guide — Peak Ped Manager",
+        "content": "# Installation Guide — Peak Ped Manager\n\nThis guide walks you through installing and configuring `peak-pedmanager` on your FiveM server.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "prerequisites-2",
+        "title": "Prerequisites",
+        "content": "## Prerequisites\n\nMake sure the following required resources are installed and started on your server:\n\n1. **`oxmysql`**: Standard MySQL library for FiveM.\n2. *(Optional)* **Target Resource**: `ox_target`, `qb-target`, or `qtarget`. If none is installed, the resource automatically uses in-world 3D Text prompts.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "step-1-database-setup-3",
+        "title": "Step 1: Database Setup",
+        "content": "## Step 1: Database Setup\n\nRun the SQL script located in `install/schema.sql` on your database using HeidiSQL, phpMyAdmin, or your database GUI.\n\n```sql\nCREATE TABLE IF NOT EXISTS `peak_peds` (\n  `id` INT AUTO_INCREMENT PRIMARY KEY,\n  `title` VARCHAR(100) NOT NULL DEFAULT 'Static Ped',\n  `model` VARCHAR(100) NOT NULL DEFAULT 'a_m_y_business_01',\n  `x` FLOAT NOT NULL DEFAULT 0.0,\n  `y` FLOAT NOT NULL DEFAULT 0.0,\n  `z` FLOAT NOT NULL DEFAULT 0.0,\n  `h` FLOAT NOT NULL DEFAULT 0.0,\n  `scenario` VARCHAR(100) DEFAULT NULL,\n  `anim_dict` VARCHAR(100) DEFAULT NULL,\n  `anim_name` VARCHAR(100) DEFAULT NULL,\n  `prop_model` VARCHAR(100) DEFAULT NULL,\n  `prop_bone` INT DEFAULT 60309,\n  `freeze` TINYINT(1) NOT NULL DEFAULT 1,\n  `invincible` TINYINT(1) NOT NULL DEFAULT 1,\n  `block_events` TINYINT(1) NOT NULL DEFAULT 1,\n  `collision` TINYINT(1) NOT NULL DEFAULT 1,\n  `interaction_type` VARCHAR(50) DEFAULT 'none',\n  `interaction_label` VARCHAR(100) DEFAULT 'Talk to NPC',\n  `interaction_icon` VARCHAR(50) DEFAULT 'fas fa-comments',\n  `interaction_payload` TEXT DEFAULT NULL,\n  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n```\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "step-2-configuration-4",
+        "title": "Step 2: Configuration",
+        "content": "## Step 2: Configuration\n\nOpen `shared/config.lua` and adjust settings for your server framework and permission rules:\n\n```lua\nConfig.Framework = 'auto'      -- 'auto', 'qbcore', 'esx', 'qbox', or 'standalone'\nConfig.TargetSystem = 'auto'   -- 'auto', 'ox_target', 'qb-target', 'qtarget', or '3dtext'\nConfig.CommandName = 'pedmanager'\nConfig.OpenKey = 'F6'\n\nConfig.RequireAdmin = true\nConfig.AdminGroups = {\n    ['admin'] = true,\n    ['god'] = true,\n    ['superadmin'] = true\n}\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "granting-ace-permissions-standalone-esx-qbcore-5",
+        "title": "Granting ACE Permissions (Standalone / ESX / QBCore)",
+        "content": "### Granting ACE Permissions (Standalone / ESX / QBCore)\nIn your `server.cfg`, add ACE permission for admin groups or specific Steam/license IDs:\n\n```cfg\nadd_ace group.admin command.pedmanager allow\n```\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "step-3-server-configuration-6",
+        "title": "Step 3: Server Configuration",
+        "content": "## Step 3: Server Configuration\n\nAdd `ensure peak-pedmanager` to your `server.cfg`:\n\n```cfg\nensure oxmysql\nensure ox_target      # Optional\nensure peak-pedmanager\n```\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "step-4-verification-7",
+        "title": "Step 4: Verification",
+        "content": "## Step 4: Verification\n\n1. Start your server and join in-game.\n2. Execute `/pedmanager` or press `F6`.\n3. The Peak Ped Manager NUI dashboard should open.\n4. Click **Create Ped**, select a model and scenario (e.g. `WORLD_HUMAN_CLIPBOARD`), click **Live 3D Placement**, position the ped, and click **Save Ped**.\n5. The ped will spawn instantly and persist across server restarts.",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/INSTALL.md"
+      },
+      {
+        "id": "peak-ped-manager-official-documentation-1",
+        "title": "Peak Ped Manager — Official Documentation",
+        "content": "# Peak Ped Manager — Official Documentation\n\nWelcome to the full technical documentation for **Peak Ped Manager**, a standalone FiveM resource for managing static and animated peds with real-time UI, target interactions, and SQL persistence.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "table-of-contents-2",
+        "title": "Table of Contents",
+        "content": "## Table of Contents\n1. [Overview & System Architecture](#overview--system-architecture)\n2. [Installation & Setup](#installation--setup)\n3. [Configuration Reference](#configuration-reference)\n4. [Client & Server API Exports](#client--server-api-exports)\n5. [Target Interactions & Event Payloads](#target-interactions--event-payloads)\n6. [NUI Architecture & Live Placement Gizmo](#nui-architecture--live-placement-gizmo)\n7. [Database Schema & Performance Culling](#database-schema--performance-culling)\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "overview-system-architecture-3",
+        "title": "Overview & System Architecture",
+        "content": "## Overview & System Architecture\n\nPeak Ped Manager operates using a server-authoritative state model combined with client-side distance culling:\n\n1. **Server Database (`oxmysql`)**: Stores all ped records in `peak_peds`. On resource start, the server queries all peds into memory cache.\n2. **Client Streaming Thread**: Each client calculates distance to all registered peds. Peds within `Config.RenderDistance` (default 80.0 units) are spawned locally as GTAV ped entities.\n3. **Target Binding**: When a ped entity spawns on client, the target layer automatically attaches target options (`ox_target`, `qb-target`, or 3D Text).\n4. **NUI Dashboard**: React 18 interface allowing real-time CRUD operations, live placement raycasting, scenario catalog browsing, and JSON import/export.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "configuration-reference-4",
+        "title": "Configuration Reference",
+        "content": "## Configuration Reference\n\nThe main configuration file is [shared/config.lua](file:///c:/Users/abdel/clean-code/peak-pedmanager/shared/config.lua):\n\n| Setting | Type | Default | Description |\n| :--- | :--- | :--- | :--- |\n| `Config.Framework` | `string` | `'auto'` | `'auto'`, `'qbcore'`, `'esx'`, `'qbox'`, or `'standalone'` |\n| `Config.TargetSystem` | `string` | `'auto'` | `'auto'`, `'ox_target'`, `'qb-target'`, `'qtarget'`, or `'3dtext'` |\n| `Config.CommandName` | `string` | `'pedmanager'` | Command to open NUI dashboard |\n| `Config.OpenKey` | `string` | `'F6'` | Keyboard shortcut mapping |\n| `Config.RequireAdmin` | `boolean` | `true` | Enforce admin permissions |\n| `Config.AcePermission` | `string` | `'command.pedmanager'` | ACE permission node |\n| `Config.RenderDistance` | `number` | `80.0` | Ped spawn distance in units |\n| `Config.UnloadDistance` | `number` | `100.0` | Ped despawn distance in units |\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "client-server-api-exports-5",
+        "title": "Client & Server API Exports",
+        "content": "## Client & Server API Exports",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "server-exports-6",
+        "title": "Server Exports",
+        "content": "### Server Exports\n\n```lua\n-- Retrieve all cached ped configurations\nlocal allPeds = exports['peak-pedmanager']:GetAllPeds()\n\n-- Retrieve a specific ped by database ID\nlocal pedData = exports['peak-pedmanager']:GetPedById(12)\n```\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "target-interactions-event-payloads-7",
+        "title": "Target Interactions & Event Payloads",
+        "content": "## Target Interactions & Event Payloads\n\nWhen creating or editing a ped, server owners can assign interaction actions:\n\n- **Client Event**: Triggers a client event when player selects target option.\n  - Payload format: `{\"event\":\"qb-clothing:client:openMenu\"}`\n- **Server Event**: Triggers a server-side event.\n  - Payload format: `{\"event\":\"bank:server:openBank\"}`\n- **Command**: Executes a client command.\n  - Payload format: `{\"command\":\"e wave\"}`\n- **Dialogue**: Displays a notification dialogue to the player.\n  - Payload format: `{\"text\":\"Welcome to Los Santos Medical Center!\"}`\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "nui-architecture-live-placement-gizmo-8",
+        "title": "NUI Architecture & Live Placement Gizmo",
+        "content": "## NUI Architecture & Live Placement Gizmo\n\nThe frontend is built with React 18, TypeScript, Tailwind CSS, and Lucide Icons.\n\n- Source directory: `ui/src/`\n- Build output: `ui/dist/`\n- Live placement gizmo sends real-time coordinates to `client/main.lua` via `updatePlacement` NUI callback.\n\n---",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
+      },
+      {
+        "id": "database-schema-performance-culling-9",
+        "title": "Database Schema & Performance Culling",
+        "content": "## Database Schema & Performance Culling\n\n```sql\nCREATE TABLE IF NOT EXISTS `peak_peds` (\n  `id` INT AUTO_INCREMENT PRIMARY KEY,\n  `title` VARCHAR(100) NOT NULL DEFAULT 'Static Ped',\n  `model` VARCHAR(100) NOT NULL DEFAULT 'a_m_y_business_01',\n  `x` FLOAT NOT NULL DEFAULT 0.0,\n  `y` FLOAT NOT NULL DEFAULT 0.0,\n  `z` FLOAT NOT NULL DEFAULT 0.0,\n  `h` FLOAT NOT NULL DEFAULT 0.0,\n  `scenario` VARCHAR(100) DEFAULT NULL,\n  `anim_dict` VARCHAR(100) DEFAULT NULL,\n  `anim_name` VARCHAR(100) DEFAULT NULL,\n  `prop_model` VARCHAR(100) DEFAULT NULL,\n  `prop_bone` INT DEFAULT 60309,\n  `freeze` TINYINT(1) NOT NULL DEFAULT 1,\n  `invincible` TINYINT(1) NOT NULL DEFAULT 1,\n  `block_events` TINYINT(1) NOT NULL DEFAULT 1,\n  `collision` TINYINT(1) NOT NULL DEFAULT 1,\n  `interaction_type` VARCHAR(50) DEFAULT 'none',\n  `interaction_label` VARCHAR(100) DEFAULT 'Talk to NPC',\n  `interaction_icon` VARCHAR(50) DEFAULT 'fas fa-comments',\n  `interaction_payload` TEXT DEFAULT NULL,\n  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;\n```",
+        "sourceUrl": "https://github.com/Peak-Studios/peak-pedmanager/blob/aa7b0595725c572122adca0105b4062f37f1758d/docs/documentation.md"
       }
     ]
   }

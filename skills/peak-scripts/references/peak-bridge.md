@@ -3,7 +3,7 @@
 Shared FiveM bridge for Peak resources
 
 Repository: https://github.com/Peak-Studios/peak-bridge
-Source commit: f581b7a1f8e55678d19025d346627f71aa79764c
+Source commit: 5c6fe75eb16c081d09a014106ef39493ca30bb0d
 
 ## peak-bridge
 
@@ -13,7 +13,7 @@ Source commit: f581b7a1f8e55678d19025d346627f71aa79764c
 
 `peak-barbers` now depends on this bridge, and new Peak resources should use it instead of copying local framework bridge logic.
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
 
 ## Load Order
 
@@ -32,7 +32,7 @@ Future Peak resources should add:
 dependency 'peak-bridge'
 ```
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
 
 ## Configuration
 
@@ -50,7 +50,7 @@ Edit `shared/config.lua`.
 
 Aliases are normalized internally, so `qbx` becomes `qbox`, `qb_inventory` becomes `qb-inventory`, `qs_inventory` becomes `qs-inventory`, and `rcore_clothes` becomes `rcore_clothing`.
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
 
 ## Server Exports
 
@@ -94,7 +94,7 @@ local isAdmin = bridge:IsAdmin(source, {
 local rows = bridge:ExecuteSql('SELECT * FROM users WHERE identifier = ?', { identifier })
 ```
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
 
 ## Client Exports
 
@@ -131,7 +131,7 @@ local model = bridge:LoadModel('s_m_m_trucker_01')
 bridge:LoadAnimDict('missheistdockssetup1clipboard@base')
 ```
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
 
 ## Callback Transport
 
@@ -144,7 +144,7 @@ Callbacks use `peak-bridge` events:
 
 New scripts only need `RegisterCallback` on the server and `TriggerCallback` on the client.
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
 
 ## Requirements
 
@@ -154,4 +154,4 @@ Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d
 - `ox_lib` started before `peak-bridge`.
 - A supported framework/inventory/SQL resource only if the matching feature is used.
 
-Source: https://github.com/Peak-Studios/peak-bridge/blob/f581b7a1f8e55678d19025d346627f71aa79764c/README.md
+Source: https://github.com/Peak-Studios/peak-bridge/blob/5c6fe75eb16c081d09a014106ef39493ca30bb0d/README.md
