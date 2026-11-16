@@ -1,90 +1,311 @@
 # peak-ai-npc
 
-Server-authoritative configured-role and ambient-ped AI conversations for FiveM
+# Peak AI NPC  A self-hosted AI NPC system for FiveM. Give your NPCs real conversations, voice, memory, and tools — powered by your own AI API keys.
 
-Repository: https://github.com/Peak-Studios/advanced-ai-npc
-Source commit: 414b5f2b01ef26ebe8370cedd541b8abe7be0c4b
+Repository: https://github.com/Peak-Studios/peak-ai-npc
+Source commit: 4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e
 
 ## Peak AI NPC
 
 # Peak AI NPC
 
-Peak AI NPC adds server-authoritative conversational AI characters to FiveM servers with an optional AI gateway service.
+A self-hosted AI NPC system for FiveM. Give your NPCs real conversations, voice, memory, and tools — powered by your own AI API keys.
 
-- `peak-ai-npc/`: FiveM resource with ped management, NUI, voice dictation, 3D subtitles, targets, and open edit configuration.
-- `gateway/`: TypeScript HTTP gateway for LLM providers (Ollama, OpenAI, Groq, Anthropic, Gemini), TTS/STT, PostgreSQL memory, and vision.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Discord](https://img.shields.io/badge/Discord-Peak_Studios-7289DA.svg)](https://discord.gg/gAqXUaVEMn)
+[![Organization](https://img.shields.io/badge/GitHub-Peak--Studios-blue.svg)](https://github.com/Peak-Studios/peak-ai-npc)
 
-## Open-for-Edit Files (`escrow_ignore`)
+---
 
-Per release rules, core runtime modules are escrowed while customization files remain completely open for editing:
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
 
-- `shared/config.lua`: Lore, interaction distance, framework, target system, voice, subtitles, vision
-- `npcs/examples.lua`: NPC peds, spawn coords, prompts, identities, knowledge, tool permissions
-- `client/targets.lua`: `ox_target`, `qb-target`, and native interaction logic
-- `locales/*.lua`: Subtitle and NUI notification strings
-- `shared/constants.lua`: Shared event names and state keys
+## What it does
 
-Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md
+## What it does
 
-## Configuration
+- **Talk to any NPC** — Players can walk up to a configured NPC or any eligible ambient ped and have a real conversation.
+- **Typed and voice input** — Keyboard text or hold-to-talk microphone (PTT). Text fallback is always available when voice isn't.
+- **Realistic voice output** — NPC responses are spoken aloud via ElevenLabs TTS with per-character voice profiles, spatial audio, and lip sync.
+- **Memory** — NPCs remember players across sessions using file-backed or PostgreSQL memory stores.
+- **NPC tools** — NPCs can take game actions: give items, start missions, open shops, run framework commands.
+- **Vision** — Optional: NPCs can see what's happening in the game via screenshot context.
+- **Residents** — Ambient NPCs with simulated personalities that evolve over time.
+- **Framework support** — QBCore, ESX, Ox, custom. Gracefully degrades when optional dependencies aren't present.
 
-## Configuration
+---
 
-Edit `shared/config.lua` in your `peak-ai-npc` resource folder:
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
 
-- `Config.ServerLore`: Server-specific background lore for NPC prompts.
-- `Config.Framework`: Framework mode (`auto`, `qbcore`, `esx`, `qbox`, `standalone`).
-- `Config.Inventory`: Inventory provider (`auto`, `ox_inventory`, `qb-inventory`, `qs-inventory`, `esx_inventory`, `none`).
-- `Config.Target`: Target handler (`native`, `ox_target`, `qb-target`, `auto`).
-- `Config.Conversations`: Distance limits, turn bounds, idle timeouts, and rate limits.
-- `Config.Security`: Purchase confirmation toggles and audit options.
-- `Config.Subtitles`: 3D subtitle styling, line lengths, and accessibility modes.
-- `Config.Vision`: Screenshot basic integration settings.
+## Architecture
 
-Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/CONFIGURATION_GUIDE.md
+## Architecture
 
-## NPC Authoring
+![How Peak AI NPC Works](docs/assets/peak-ai-npc-how-it-works.svg)
 
-## NPC Authoring
-
-Define custom NPCs in `npcs/*.lua` using `AINPCDefinitions`:
-
-```lua
-AINPCDefinitions.shopkeeper = {
-    id = 'shopkeeper',
-    model = 'mp_m_shopkeep_01',
-    coords = vec4(24.4, -1345.2, 29.5, 266.0),
-    identity = { name = 'Martha', occupation = 'shopkeeper' },
-    personality = 'Patient, observant, and concise. Never invents stock or prices.',
-    knowledge = 'Only knows the shop catalog, public server lore, and facts returned by tools.',
-    allowedTools = { 'get_shop_catalog', 'get_shop_stock', 'create_purchase_quote', 'confirm_purchase' },
-    interactionDistance = 3.0
-}
+```
+FiveM server (peak-ai-npc/)
+       │  HTTP (shared secret)
+       ▼
+Gateway (gateway/)  ──── LLM provider (Groq, OpenAI, Ollama, Anthropic, Gemini…)
+       │                ── TTS provider (ElevenLabs, Cartesia, OpenAI…)
+       │                ── STT provider (Whisper-compatible)
+       ▼
+  PostgreSQL (optional memory persistence)
 ```
 
-Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/main/docs/NPC_AUTHORING_GUIDE.md
+The FiveM resource never holds API keys. All provider credentials stay in the gateway's `.env`.
 
-## Ambient NPCs and local TTS
+---
 
-# Ambient NPCs and local TTS
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
 
-Configured definitions are the privileged store, mission, and action roles. Eligible networked ambient peds can be spoken to by aiming at one and using `/ainpc`, or through `ox_target`/`qb-target`; they are server-resolved, distance and routing-bucket checked, and always have an empty tool allowlist. Their prompt gets model, live location, zone, and lifecycle identity context.
+## Requirements
 
-For same-computer testing, use `http://127.0.0.1:8787` for both `AI_NPC_PUBLIC_BASE_URL` and `peak_ai_npc_gateway_url`. `/health` must report a speech provider other than `none`; a configured provider can still require account terms before synthesis works. Remote players need a client-reachable HTTPS URL.
+## Requirements
 
-Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/414b5f2/docs/AMBIENT_NPCS_AND_LOCAL_TTS.md
+You need:
 
-## Gateway Convars
+- A FiveM server (with a valid FiveM license)
+- Node.js 20+ for the gateway
+- **At least one AI text provider** — any OpenAI-compatible API works (Groq, OpenRouter, Together, Mistral, local Ollama, etc.)
+- **Optional**: ElevenLabs or Cartesia for voiced NPC speech
+- **Optional**: A Whisper-compatible STT endpoint for player voice input
+- **Optional**: PostgreSQL for persistent NPC memory
 
-## Gateway Convars
+See [Providers Guide](docs/PROVIDERS.md) for the full list of supported providers and free/cheap options.
 
-Configure FXServer convars in `server.cfg`:
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Quick Start
+
+## Quick Start
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## 1. Set up the gateway
+
+### 1. Set up the gateway
+
+```powershell
+cd gateway
+Copy-Item ../．env.example .env
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Edit .env — add your provider keys and set AI_NPC_GATEWAY_SECRET
+
+# Edit .env — add your provider keys and set AI_NPC_GATEWAY_SECRET
+npm ci
+npm run build
+npm start
+```
+
+The gateway listens on `http://127.0.0.1:8787` by default.
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## 2. Install the FiveM resource
+
+### 2. Install the FiveM resource
+
+Copy `peak-ai-npc/` into your server's `resources/` directory.
+
+Add to `server.cfg`:
 
 ```cfg
 set peak_ai_npc_gateway_url "http://127.0.0.1:8787"
-set peak_ai_npc_gateway_secret "your-gateway-secret"
-set peak_ai_npc_server_id "my-server-id"
+set peak_ai_npc_gateway_secret "your-AI_NPC_GATEWAY_SECRET-value"
 ensure peak-ai-npc
 ```
 
-Source: https://github.com/Peak-Studios/advanced-ai-npc/blob/main/README.md
+> For a production gateway on a separate host, set `peak_ai_npc_gateway_url` to your HTTPS gateway URL and set `AI_NPC_LOCAL_DEVELOPMENT=false` in the gateway `.env`.
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## 3. Configure your first NPC
+
+### 3. Configure your first NPC
+
+Edit [`peak-ai-npc/npcs/examples.lua`](peak-ai-npc/npcs/examples.lua) — it has ready-to-use example NPCs with full comments. See [NPC Authoring Guide](docs/NPC_AUTHORING_GUIDE.md) for all options.
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## 4. (Optional) Docker
+
+### 4. (Optional) Docker
+
+```powershell
+Copy-Item .env.example gateway/.env
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Edit gateway/.env
+
+# Edit gateway/.env
+docker compose up --build
+```
+
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## In-Game Commands
+
+## In-Game Commands
+
+| Command / Key | Description |
+| :--- | :--- |
+| `/ainpc` | Talk to the aimed configured NPC or eligible ambient ped |
+| `G` (hold) | Hold to speak with voice; remap in FiveM key bindings |
+| `/ainpcvision [prompt]` | Request screenshot analysis (requires vision provider + `screenshot-basic`) |
+| `/ainpc_subtitles [mode]` | Set subtitle mode: `always`, `never`, `audio_failed`, `accessibility` |
+| `/ainpc_accessibility [on\|off]` | Toggle high-contrast subtitle overlay |
+| `ainpc_status` | Server console diagnostic status report (ACE admin) |
+
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Configuration
+
+## Configuration
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Gateway (`gateway/.env`)
+
+### Gateway (`gateway/.env`)
+
+Copy `.env.example` to `gateway/.env` and fill in your values:
+
+```env
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Shared secret — must match peak_ai_npc_gateway_secret in server.cfg
+
+# Shared secret — must match peak_ai_npc_gateway_secret in server.cfg
+AI_NPC_GATEWAY_SECRET=replace-with-a-long-random-secret
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Text provider (any OpenAI-compatible API, or ollama/anthropic/gemini)
+
+# Text provider (any OpenAI-compatible API, or ollama/anthropic/gemini)
+AI_NPC_PROVIDER=openai-compatible
+AI_NPC_PROVIDER_KEY=your-api-key
+AI_NPC_PROVIDER_ENDPOINT=https://api.groq.com/openai/v1
+AI_NPC_PROVIDER_MODEL=llama-3.1-8b-instant
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## TTS provider (optional — text subtitles always work without this)
+
+# TTS provider (optional — text subtitles always work without this)
+AI_NPC_TTS_PROVIDER=elevenlabs
+AI_NPC_TTS_KEY=your-elevenlabs-api-key
+AI_NPC_TTS_MODEL=eleven_flash_v2_5
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## STT provider (optional — keyboard text always works without this)
+
+# STT provider (optional — keyboard text always works without this)
+AI_NPC_STT_PROVIDER=openai-compatible
+AI_NPC_STT_KEY=your-api-key
+AI_NPC_STT_ENDPOINT=https://api.groq.com/openai/v1
+AI_NPC_STT_MODEL=whisper-large-v3-turbo
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## URL players connect to for audio (use HTTPS in production)
+
+# URL players connect to for audio (use HTTPS in production)
+AI_NPC_PUBLIC_BASE_URL=http://127.0.0.1:8787
+AI_NPC_LOCAL_DEVELOPMENT=true
+```
+
+Full reference: [`.env.example`](.env.example) | [Configuration Guide](docs/CONFIGURATION_GUIDE.md) | [Providers Guide](docs/PROVIDERS.md)
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## FiveM resource (`peak-ai-npc/shared/config.lua`)
+
+### FiveM resource (`peak-ai-npc/shared/config.lua`)
+
+Configure interaction distance, framework, target system, subtitles, and voice options. See [Configuration Guide](docs/CONFIGURATION_GUIDE.md).
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Open-for-edit files
+
+### Open-for-edit files
+
+These files are designed to be customized and are safe to edit:
+
+| File | Purpose |
+| :--- | :--- |
+| [`shared/config.lua`](peak-ai-npc/shared/config.lua) | Interaction distance, framework, voice, subtitles |
+| [`shared/voice_casting.lua`](peak-ai-npc/shared/voice_casting.lua) | Voice profile assignments per NPC |
+| [`npcs/examples.lua`](peak-ai-npc/npcs/examples.lua) | Your NPC definitions |
+| [`client/targets.lua`](peak-ai-npc/client/targets.lua) | ox_target / qb-target / native interaction logic |
+| [`locales/*.lua`](peak-ai-npc/locales/en.lua) | UI strings |
+| [`shared/constants.lua`](peak-ai-npc/shared/constants.lua) | Shared event names (for integrations) |
+
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Documentation
+
+## Documentation
+
+- [Getting Started](docs/GETTING_STARTED.md)
+- [Configuration Guide](docs/CONFIGURATION_GUIDE.md)
+- [NPC Authoring Guide](docs/NPC_AUTHORING_GUIDE.md)
+- [Providers Overview](docs/PROVIDERS.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Targets & Locales](docs/TARGETS_AND_LOCALES.md)
+- [Integration & Server Exports](docs/INTEGRATION.md)
+- [Compatibility Matrix](docs/COMPATIBILITY_MATRIX.md)
+- [Ambient NPCs & Local TTS](docs/AMBIENT_NPCS_AND_LOCAL_TTS.md)
+- [Privacy & Operations](docs/PRIVACY_AND_OPERATIONS.md)
+
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Supported Providers
+
+## Supported Providers
+
+| Category | Providers |
+| :--- | :--- |
+| **Text (LLM)** | OpenAI, Groq, Ollama, Anthropic, Gemini, OpenRouter, Together, Mistral, LiteLLM, and any OpenAI-compatible endpoint |
+| **TTS (Voice)** | ElevenLabs, Cartesia, OpenAI TTS, and any OpenAI-compatible TTS |
+| **STT (Speech)** | Whisper (via Groq, OpenAI, or local) |
+| **Vision** | OpenAI Vision, Gemini Vision, Ollama Vision |
+
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## Contributing
+
+## Contributing
+
+Pull requests are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
+
+---
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
+
+## License
+
+## License
+
+[MIT](LICENSE) — free to use, modify, and distribute. Attribution appreciated but not required.
+
+Source: https://github.com/Peak-Studios/peak-ai-npc/blob/4fa4ebb1d22fe5e9a79c4c76f9cdac7a4152616e/README.md
